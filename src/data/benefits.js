@@ -12,7 +12,7 @@ export const benefits = [
   {
     short: 'Sabores',
     title: 'Mais de 10 recheios.',
-    text: 'Frango com Catupiry®, costela com requeijão, carne seca com queijo, caipira, palmito e outros.',
+    text: 'Frango com Catupiry®, costela com requeijão, carne seca com queijo, calabresa, palmito e outros.',
     image: '/assets/produtos/coxinha-meia.webp',
     alt: 'Metade de uma coxinha com recheio cremoso',
   },
@@ -34,10 +34,8 @@ export const benefits = [
     short: 'Na loja',
     title: 'No iFood ou na loja.',
     text: 'Av. Ten. Marques, 4511, Portal dos Ipês, Cajamar.',
-    image: null,
-    placeholder: {
-      label: 'FOTO DA FACHADA OU DO BALCÃO DA LOJA',
-      spec: 'Vertical 4:5, mínimo 1200×1500px, com a marca visível',
-    },
+    image: '/assets/loja/fachada.webp',
+    alt: 'Fachada amarela da loja Sua Coxinha em Cajamar, com o letreiro iluminado',
+    photo: true,
   },
 ]

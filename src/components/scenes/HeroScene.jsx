@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+﻿import { useRef } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { useStoryContext } from '../../context/StoryContext.js'
@@ -30,7 +30,7 @@ export default function HeroScene() {
   )
 
   return (
-    <section ref={ref} id="inicio" className="scene scene--hero" aria-labelledby="hero-title">
+    <section ref={ref} id="inicio" className="scene scene--hero" data-theme="dark" aria-labelledby="hero-title">
       <div className="hero__glow" aria-hidden="true" />
 
       <div className="scene__inner hero">
@@ -67,14 +67,14 @@ export default function HeroScene() {
 
         <div className="hero__copy">
           <p className="hero__lead lead">
-            Da coxinha G de 250g ao copo de mini churros com cobertura. Na loja em {store.unit} ou no iFood.
+            Da coxinha G de 250g ao copo de mini churros com cobertura. Na loja em {store.unit}, no iFood ou no 99Food.
           </p>
           <div className="hero__actions">
             <Button href="#cardapio" magnetic onClick={linkTo('cardapio')}>
               Ver cardápio
             </Button>
-            <Button href={store.links.order} variant="ghost" external>
-              Quero pedir
+            <Button href="#pedido" variant="ghost" onClick={linkTo('pedido')}>
+              Fazer pedido
             </Button>
           </div>
         </div>

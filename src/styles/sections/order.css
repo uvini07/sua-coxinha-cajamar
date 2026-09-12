@@ -1,0 +1,125 @@
+.order {
+  position: relative;
+  z-index: 5;
+  overflow: hidden;
+  background:
+    radial-gradient(60vmax 50vmax at 30% 20%, rgba(255, 235, 74, 0.85), transparent 70%),
+    var(--amarelo);
+  color: var(--marrom);
+}
+
+.order__inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: clamp(3.5rem, 8vw, 6.5rem) var(--pad-x) 2rem;
+  display: grid;
+  gap: clamp(2rem, 5vw, 3.5rem);
+}
+
+.order__main {
+  display: grid;
+  justify-items: start;
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+  max-width: 640px;
+}
+
+.order__title {
+  font-size: clamp(3.5rem, 1.5rem + 9vw, 11rem);
+  line-height: 0.85;
+}
+
+.order__sub {
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.order__buttons {
+  width: 100%;
+}
+
+.order__map {
+  width: 100%;
+  min-height: 56px;
+  border-radius: 18px;
+  font-size: 1.125rem;
+}
+
+.order__info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 1.5rem clamp(1.5rem, 5vw, 4rem);
+  margin: 0;
+  padding-top: 1.75rem;
+  border-top: 2px solid rgba(70, 35, 2, 0.25);
+  font-size: 1.125rem;
+  line-height: 1.55;
+}
+
+.order__info dt {
+  margin-bottom: 0.25rem;
+  font-weight: 900;
+}
+
+.order__info dd {
+  margin: 0;
+}
+
+.order__info a {
+  display: inline-block;
+  padding: 0.25rem 0;
+  font-weight: 700;
+  text-underline-offset: 4px;
+}
+
+.order__hours {
+  display: block;
+}
+
+.order__footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(70, 35, 2, 0.2);
+  font-size: 0.9375rem;
+}
+
+.order__footer a {
+  font-weight: 700;
+  text-underline-offset: 4px;
+}
+
+.order__photo {
+  margin: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.order__photo img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 22px;
+  box-shadow: 0 24px 40px -24px rgba(70, 35, 2, 0.6);
+}
+
+.order__photo figcaption {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+@media (min-width: 900px) {
+  .order__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    align-items: center;
+  }
+
+  .order__info,
+  .order__footer {
+    grid-column: 1 / -1;
+  }
+}

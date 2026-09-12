@@ -1,4 +1,6 @@
+import { useStoryContext } from '../../context/StoryContext.js'
 import { churrosSteps } from '../../data/products.js'
+import Button from '../Button.jsx'
 import Price from '../Price.jsx'
 import '../../styles/scenes/churros.css'
 
@@ -9,8 +11,10 @@ const floats = [
 ]
 
 export default function ChurrosScene() {
+  const { linkTo } = useStoryContext()
+
   return (
-    <section id="churros" className="scene scene--churros" aria-labelledby="churros-title">
+    <section id="churros" className="scene scene--churros" data-theme="light" aria-labelledby="churros-title">
       <div className="ch__floats" aria-hidden="true">
         {floats.map((f) => (
           <img key={f.className} className={`ch__float ${f.className}`} src={f.src} alt="" loading="lazy" decoding="async" />
@@ -18,7 +22,7 @@ export default function ChurrosScene() {
       </div>
 
       <div className="scene__inner ch">
-        <div className="ch__visual">
+        <div className="ch__visual" data-reveal>
           <div className="ch__product">
             <img
               src="/assets/produtos/churros-gourmet.webp"
@@ -29,7 +33,7 @@ export default function ChurrosScene() {
           </div>
         </div>
 
-        <div className="ch__copy">
+        <div className="ch__copy" data-reveal>
           <h2 id="churros-title" className="ch__title display h2">
             <span className="line">
               <span>Churros</span>
@@ -59,6 +63,12 @@ export default function ChurrosScene() {
               </li>
             ))}
           </ol>
+
+          <div className="ch__cta">
+            <Button href="#cardapio" variant="dark" onClick={linkTo('cardapio')}>
+              Ver cardápio completo
+            </Button>
+          </div>
         </div>
       </div>
     </section>

@@ -1,0 +1,318 @@
+/* Cardápio: rolagem normal, texto grande, botões grandes. Pensado para todas as idades. */
+.catalog {
+  --tone: var(--amarelo);
+  position: relative;
+  z-index: 5;
+  background: var(--creme);
+  color: var(--marrom);
+  font-size: 1.125rem;
+}
+
+/* Borda serrilhada do cardápio no topo da seção */
+.catalog::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -15px;
+  height: 16px;
+  background: var(--creme);
+  -webkit-mask: conic-gradient(from 135deg at top, #000 90deg, #0000 0) 50% / 30px 100%;
+  mask: conic-gradient(from 135deg at top, #000 90deg, #0000 0) 50% / 30px 100%;
+}
+
+.catalog__inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: clamp(3rem, 8vw, 6rem) var(--pad-x) clamp(3rem, 6vw, 5rem);
+}
+
+.catalog__head {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.catalog__title {
+  font-size: clamp(3.25rem, 2rem + 6vw, 7rem);
+}
+
+.catalog__intro {
+  max-width: 44ch;
+  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  line-height: 1.5;
+}
+
+/* ---------- Categorias ---------- */
+
+.catalog__nav {
+  scroll-margin-top: calc(var(--nav-h) + 12px);
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+
+.catalog__nav ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.catalog__nav a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0.6em 1em;
+  border: 2px solid var(--marrom);
+  border-radius: 14px;
+  background: #fffaf0;
+  font-size: 1.125rem;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    background-color 0.2s var(--ease-out),
+    color 0.2s var(--ease-out);
+}
+
+.catalog__nav a:hover,
+.catalog__nav a:active {
+  background: var(--marrom);
+  color: var(--creme);
+}
+
+@media (min-width: 700px) {
+  .catalog__nav ul {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* No computador as categorias ficam presas abaixo da navbar */
+@media (min-width: 1024px) {
+  .catalog__nav {
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 10;
+    margin-inline: calc(var(--pad-x) * -1);
+    padding: 0.75rem var(--pad-x);
+    background: rgba(247, 239, 210, 0.94);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+
+  .catalog__nav ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .catalog__nav a {
+    min-height: 48px;
+    padding: 0.5em 1.3em;
+    border-radius: var(--radius-pill);
+  }
+}
+
+/* ---------- Grupos ---------- */
+
+.catalog__group {
+  scroll-margin-top: calc(var(--nav-h) + 12px);
+  padding-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+@media (min-width: 1024px) {
+  .catalog__group {
+    scroll-margin-top: calc(var(--nav-h) + 84px);
+  }
+}
+
+.catalog__group-title {
+  margin-bottom: 1.25rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 1.5rem + 3vw, 3.75rem);
+  font-weight: 800;
+  font-stretch: 75%;
+  line-height: 1;
+}
+
+.catalog__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.catalog__back {
+  display: inline-block;
+  margin-top: 1.25rem;
+  padding: 0.5rem 0;
+  font-weight: 700;
+  text-underline-offset: 4px;
+}
+
+@media (min-width: 1024px) {
+  .catalog__back {
+    display: none;
+  }
+}
+
+/* ---------- Card de produto ---------- */
+
+.product--coxinhas {
+  --tone: var(--amarelo);
+}
+
+.product--churros {
+  --tone: var(--laranja);
+}
+
+.product--festa,
+.product--combos {
+  --tone: var(--amarelo-claro);
+}
+
+.product--casa {
+  --tone: #f7b7a3;
+}
+
+.product__card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: 22px;
+  background: #fffaf0;
+  box-shadow: 0 0 0 1px rgba(70, 35, 2, 0.1);
+  overflow: hidden;
+}
+
+.product__photo {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  background: var(--tone);
+}
+
+.product__photo img {
+  position: absolute;
+  inset: 8%;
+  width: 84%;
+  height: 84%;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 14px rgba(70, 35, 2, 0.25));
+}
+
+.product__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.25rem 1.25rem 1.4rem;
+}
+
+.product__name {
+  font-size: 1.5rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.product__desc {
+  font-size: 1.125rem;
+  line-height: 1.45;
+}
+
+.product__price {
+  font-size: 1.75rem;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.product__variants {
+  display: grid;
+  margin: 0.2rem 0;
+}
+
+.product__variant {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(70, 35, 2, 0.15);
+  font-size: 1.0625rem;
+}
+
+.product__variant dd {
+  margin: 0;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.product__options,
+.product__extra {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.product__extra {
+  font-weight: 700;
+}
+
+.product__order {
+  margin-top: auto;
+  padding-top: 0.6rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product__card {
+    transition:
+      transform 0.3s var(--ease-out),
+      box-shadow 0.3s var(--ease-out);
+  }
+
+  .product__card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 0 0 1px rgba(70, 35, 2, 0.1),
+      0 20px 36px -22px rgba(70, 35, 2, 0.45);
+  }
+}
+
+/* ---------- Bebidas ---------- */
+
+.drinks {
+  display: grid;
+  gap: 1.5rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border-radius: 22px;
+  background: #fffaf0;
+  box-shadow: 0 0 0 1px rgba(70, 35, 2, 0.1);
+}
+
+.drinks__list {
+  display: grid;
+  column-gap: 3rem;
+}
+
+@media (min-width: 800px) {
+  .drinks__list {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .drinks__order {
+    max-width: 520px;
+  }
+}
+
+.drinks__item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(70, 35, 2, 0.15);
+  font-size: 1.125rem;
+}
+
+.drinks__price {
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.catalog__note {
+  font-size: 0.9375rem;
+  opacity: 0.8;
+}

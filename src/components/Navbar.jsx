@@ -1,16 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { useStoryContext } from '../context/StoryContext.js'
-import { navLinks, scenes } from '../data/scenes.js'
+import { navLinks } from '../data/scenes.js'
 import { store } from '../data/store.js'
 import Logo from './Logo.jsx'
 import '../styles/navbar.css'
 
 export default function Navbar() {
-  const { active, linkTo, goTo } = useStoryContext()
+  const { current, linkTo, goTo } = useStoryContext()
   const [open, setOpen] = useState(false)
   const burgerRef = useRef(null)
   const menuRef = useRef(null)
-  const current = scenes[active]
 
   useEffect(() => {
     if (!open) return
@@ -32,16 +31,20 @@ export default function Navbar() {
   const goFromMenu = (id) => (e) => {
     e.preventDefault()
     setOpen(false)
-    // Espera o menu fechar antes de percorrer a narrativa.
-    setTimeout(() => goTo(id), 350)
+    // Espera o menu fechar antes de rolar.
+    setTimeout(() => goTo(id), 300)
   }
+
+  const isActive = (id) => current.id === id || (id === 'cardapio' && current.id?.startsWith('cat-'))
 
   return (
     <>
-      <header className="nav" data-theme={open ? 'dark' : current.theme} data-top={active === 0 && !open}>
+      <header className="nav" data-theme={open ? 'dark' : current.theme} data-top={current.id === 'inicio' && !open}>
         <a className="nav__logo" href="#inicio" onClick={linkTo('inicio')}>
           <Logo />
-          <span className="sr-only">{store.brand} {store.unit}, voltar ao início</span>
+          <span className="sr-only">
+            {store.brand} {store.unit}, voltar ao início
+          </span>
         </a>
 
         <nav className="nav__links" aria-label="Principal">
@@ -51,7 +54,7 @@ export default function Navbar() {
                 <a
                   href={`#${link.id}`}
                   className="link-underline"
-                  aria-current={current.id === link.id ? 'true' : undefined}
+                  aria-current={isActive(link.id) ? 'true' : undefined}
                   onClick={linkTo(link.id)}
                 >
                   {link.label}
@@ -61,8 +64,8 @@ export default function Navbar() {
           </ul>
         </nav>
 
-        <a className="btn btn--small nav__order" href={store.links.order} target="_blank" rel="noopener noreferrer">
-          <span className="btn__label">Pedir no iFood</span>
+        <a className="btn btn--small nav__order" href="#pedido" onClick={linkTo('pedido')}>
+          <span className="btn__label">Fazer pedido</span>
         </a>
 
         <button
@@ -73,16 +76,18 @@ export default function Navbar() {
           aria-controls="menu-mobile"
           onClick={() => setOpen((v) => !v)}
         >
-          <span className="sr-only">{open ? 'Fechar menu' : 'Abrir menu'}</span>
-          <span className="nav__burger-line" aria-hidden="true" />
-          <span className="nav__burger-line" aria-hidden="true" />
+          <span className="nav__burger-text">{open ? 'Fechar' : 'Menu'}</span>
+          <span className="nav__burger-icon" aria-hidden="true">
+            <span className="nav__burger-line" />
+            <span className="nav__burger-line" />
+          </span>
         </button>
       </header>
 
       <div id="menu-mobile" ref={menuRef} className="mmenu" data-open={open} inert={!open}>
         <nav aria-label="Menu">
           <ul className="mmenu__list">
-            {navLinks.map((link, i) => (
+            {[{ id: 'inicio', label: 'Início' }, ...navLinks].map((link, i) => (
               <li key={link.id} style={{ '--i': i }}>
                 <a href={`#${link.id}`} className="mmenu__link" onClick={goFromMenu(link.id)}>
                   {link.label}
@@ -91,10 +96,7 @@ export default function Navbar() {
             ))}
           </ul>
         </nav>
-        <div className="mmenu__footer" style={{ '--i': navLinks.length }}>
-          <a className="btn btn--big" href={store.links.order} target="_blank" rel="noopener noreferrer">
-            <span className="btn__label">Pedir no iFood</span>
-          </a>
+        <div className="mmenu__footer" style={{ '--i': navLinks.length + 1 }}>
           <p>
             {store.address.street}, {store.address.city}
           </p>

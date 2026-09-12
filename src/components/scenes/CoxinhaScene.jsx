@@ -1,4 +1,4 @@
-import { coxinhaFlavors, coxinhaMExtras } from '../../data/products.js'
+﻿import { coxinhaFlavors, coxinhaMExtras } from '../../data/products.js'
 import Price from '../Price.jsx'
 import '../../styles/scenes/coxinha.css'
 
@@ -12,7 +12,7 @@ const CRUMBS = Array.from({ length: 9 }, (_, i) => ({
 
 export default function CoxinhaScene() {
   return (
-    <section id="coxinha" className="scene scene--coxinha" aria-labelledby="coxinha-title">
+    <section id="coxinha" className="scene scene--coxinha" data-theme="dark" aria-labelledby="coxinha-title">
       <div className="cx__light" aria-hidden="true" />
       <p className="cx__word display" aria-hidden="true">
         coxinha
@@ -24,7 +24,7 @@ export default function CoxinhaScene() {
       </div>
 
       <div className="scene__inner cx">
-        <div className="cx__copy">
+        <div className="cx__copy" data-reveal>
           <h2 id="coxinha-title" className="cx__title display h2">
             <span className="line">
               <span>Crocante por fora,</span>
@@ -54,7 +54,7 @@ export default function CoxinhaScene() {
           </div>
         </div>
 
-        <div className="cx__stage">
+        <div className="cx__stage" data-reveal>
           <div className="cx__product">
             <img
               className="cx__img cx__img--m"
@@ -74,7 +74,7 @@ export default function CoxinhaScene() {
           <span className="cx__shadow" aria-hidden="true" />
         </div>
 
-        <div className="cx__flavors">
+        <div className="cx__flavors" data-reveal>
           <h3 className="cx__flavors-title">Sabores</h3>
           <ul className="cx__flavor-list">
             {coxinhaFlavors.map((flavor) => (

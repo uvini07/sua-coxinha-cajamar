@@ -3,3 +3,5 @@ dist
 .playwright-cli
 .vercel
 .env*
+# fotos originais enviadas (versões otimizadas ficam em public/assets/loja)
+frenteLoja*.jpeg

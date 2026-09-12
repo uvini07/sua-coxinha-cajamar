@@ -13,9 +13,10 @@
   --font-display: 'Bricolage Grotesque', 'Arial Narrow', Impact, sans-serif;
   --font-body: 'Satoshi', 'Segoe UI', system-ui, sans-serif;
 
-  --step--1: clamp(0.8rem, 0.78rem + 0.1vw, 0.875rem);
-  --step-0: clamp(0.95rem, 0.9rem + 0.25vw, 1.125rem);
-  --step-1: clamp(1.15rem, 1.05rem + 0.5vw, 1.5rem);
+  /* Tamanhos mínimos altos: o público inclui pessoas com pouca visão */
+  --step--1: clamp(0.9375rem, 0.9rem + 0.1vw, 1rem);
+  --step-0: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-1: clamp(1.2rem, 1.1rem + 0.5vw, 1.5rem);
   --step-2: clamp(1.5rem, 1.25rem + 1.2vw, 2.25rem);
   --step-h2: clamp(2.5rem, 1.4rem + 5vw, 6.25rem);
   --step-h1: clamp(4.25rem, 1rem + 15vw, 17rem);

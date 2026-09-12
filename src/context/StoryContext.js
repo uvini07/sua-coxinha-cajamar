@@ -1,7 +1,9 @@
 import { createContext, useContext } from 'react'
 
 export const StoryContext = createContext({
-  active: 0,
+  current: { id: 'inicio', theme: 'dark', inStory: false },
+  storyIndex: 0,
+  isStory: false,
   goTo: () => {},
   linkTo: () => () => {},
   progressRef: { current: null },

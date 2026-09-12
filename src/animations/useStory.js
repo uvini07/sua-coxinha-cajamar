@@ -1,32 +1,27 @@
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import Lenis from 'lenis'
-import { scenes } from '../data/scenes.js'
+import { storyScenes } from '../data/scenes.js'
 import { buildStory } from './timelines.js'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 ScrollTrigger.config({ ignoreMobileResize: true })
 
-const sceneIndex = (id) => scenes.findIndex((s) => s.id === id)
+// A abertura animada só roda em computador (mouse, tela larga) e sem "reduzir movimento".
+// No celular e no tablet a página rola normalmente do início ao fim.
+const STORY_QUERY = '(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)'
 
-/**
- * Controla a experiência inteira:
- * - modo narrativa: palco fixado + timeline mestre ligada ao scroll (com Lenis no desktop);
- * - modo estático: cenas empilhadas, usado com prefers-reduced-motion.
- */
+const navOffset = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72
+
 export function useStory(rootRef) {
-  const [active, setActive] = useState(0)
-  const activeRef = useRef(0)
+  const [storyIndex, setStoryIndex] = useState(0)
+  const [section, setSection] = useState({ id: 'inicio', theme: 'dark' })
+  const [isStory, setIsStory] = useState(false)
+  const storyIndexRef = useRef(0)
   const progressRef = useRef(null)
-  const navigate = useRef(() => {})
-
-  const updateActive = useCallback((index) => {
-    if (index === activeRef.current) return
-    activeRef.current = index
-    setActive(index)
-  }, [])
+  const api = useRef({ timeline: null, trigger: null, lenis: null })
 
   const setProgress = (value) => {
     progressRef.current?.style.setProperty('--p', value.toFixed(4))
@@ -38,126 +33,114 @@ export function useStory(rootRef) {
       const stage = root.querySelector('.stage')
       const mm = gsap.matchMedia()
 
-      mm.add(
-        {
-          desktop: '(min-width: 900px)',
-          mobile: '(max-width: 899.98px)',
-          reduce: '(prefers-reduced-motion: reduce)',
-        },
-        ({ conditions }) => {
-          if (conditions.reduce) return setupStatic(root, updateActive, setProgress, navigate)
+      mm.add(STORY_QUERY, () => {
+        document.documentElement.classList.add('is-story')
+        setIsStory(true)
 
-          document.documentElement.classList.add('is-story')
-          const mobile = !conditions.desktop
-          const { tl, boundaries } = buildStory(root, { mobile })
+        const { tl, boundaries } = buildStory(root)
 
-          // Lenis só no desktop: no toque o scroll nativo é mais natural.
-          let lenis = null
-          const raf = (time) => lenis.raf(time * 1000)
-          if (!mobile) {
-            lenis = new Lenis({ lerp: 0.11, wheelMultiplier: 0.9 })
-            lenis.on('scroll', ScrollTrigger.update)
-            gsap.ticker.add(raf)
-            gsap.ticker.lagSmoothing(0)
-          }
+        const lenis = new Lenis({ lerp: 0.12, wheelMultiplier: 0.9 })
+        const raf = (time) => lenis.raf(time * 1000)
+        lenis.on('scroll', ScrollTrigger.update)
+        gsap.ticker.add(raf)
+        gsap.ticker.lagSmoothing(0)
 
-          const unit = () => window.innerHeight * (mobile ? 0.5 : 0.58)
-          const st = ScrollTrigger.create({
-            trigger: stage,
-            start: 'top top',
-            end: () => `+=${Math.round(tl.duration() * unit())}`,
-            pin: true,
-            scrub: mobile ? 0.6 : 0.4,
-            animation: tl,
-            onUpdate: (self) => {
-              setProgress(self.progress)
-              const time = self.progress * tl.duration()
-              let index = 0
-              boundaries.forEach((b, i) => {
-                if (time >= b) index = i
-              })
-              updateActive(index)
-            },
-          })
-
-          navigate.current = (id) => {
-            const time = tl.labels[id]
-            if (time === undefined) return
-            const y = st.start + (time / tl.duration()) * (st.end - st.start)
-            const distance = Math.abs(window.scrollY - y)
-            if (lenis) {
-              lenis.scrollTo(y, { duration: gsap.utils.clamp(0.8, 2.6, distance / 2200) })
-            } else {
-              window.scrollTo({ top: y, behavior: 'smooth' })
+        const trigger = ScrollTrigger.create({
+          trigger: stage,
+          start: 'top top',
+          end: () => `+=${Math.round(tl.duration() * window.innerHeight * 0.58)}`,
+          pin: true,
+          scrub: 0.4,
+          animation: tl,
+          onUpdate: (self) => {
+            setProgress(self.progress)
+            const time = self.progress * tl.duration()
+            let index = 0
+            boundaries.forEach((b, i) => {
+              if (time >= b) index = i
+            })
+            if (index !== storyIndexRef.current) {
+              storyIndexRef.current = index
+              setStoryIndex(index)
             }
-          }
+          },
+        })
 
-          // Teclado: ao focar um card fora da área visível do cardápio, leva o scroll até ele.
-          const track = root.querySelector('.menu__track')
-          const onFocus = (event) => {
-            const card = event.target.closest('.card-wrap')
-            if (!card || !tl.labels.menuTrackStart) return
-            const cards = [...track.children]
-            const ratio = cards.indexOf(card) / Math.max(1, cards.length - 1)
-            const time = tl.labels.menuTrackStart + ratio * (tl.labels.menuTrackEnd - tl.labels.menuTrackStart)
-            window.scrollTo(0, st.start + (time / tl.duration()) * (st.end - st.start))
-          }
-          track?.addEventListener('focusin', onFocus)
+        api.current = { timeline: tl, trigger, lenis }
 
-          return () => {
-            track?.removeEventListener('focusin', onFocus)
-            if (lenis) {
-              gsap.ticker.remove(raf)
-              lenis.destroy()
-            }
-            document.documentElement.classList.remove('is-story')
-          }
-        },
-      )
+        return () => {
+          gsap.ticker.remove(raf)
+          lenis.destroy()
+          api.current = { timeline: null, trigger: null, lenis: null }
+          document.documentElement.classList.remove('is-story')
+          setIsStory(false)
+        }
+      })
 
       return () => mm.revert()
     },
     { scope: rootRef },
   )
 
-  const goTo = useCallback((id) => navigate.current(id), [])
+  // Qual seção está sob a navbar (define a cor da navbar e o link ativo).
+  useEffect(() => {
+    const root = rootRef.current
+    const targets = isStory
+      ? [root.querySelector('.stage'), ...root.querySelectorAll(':scope > section')]
+      : [...root.querySelectorAll('section[data-theme]')]
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          const el = entry.target
+          setSection({ id: el.classList.contains('stage') ? 'story' : el.id, theme: el.dataset.theme })
+        })
+      },
+      { rootMargin: `-${navOffset()}px 0px -${window.innerHeight - navOffset() - 1}px 0px` },
+    )
+    targets.forEach((t) => t && observer.observe(t))
+    return () => observer.disconnect()
+  }, [isStory, rootRef])
+
+  const goTo = useCallback((id) => {
+    const { timeline, trigger, lenis } = api.current
+    if (timeline && timeline.labels[id] !== undefined) {
+      const y = trigger.start + (timeline.labels[id] / timeline.duration()) * (trigger.end - trigger.start)
+      lenis.scrollTo(y, { duration: gsap.utils.clamp(0.8, 2.4, Math.abs(window.scrollY - y) / 2200) })
+      return
+    }
+    const el = document.getElementById(id)
+    if (!el) return
+    if (lenis) {
+      lenis.scrollTo(el, { offset: -navOffset() + 1, duration: 1.4 })
+    } else {
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const top = el.getBoundingClientRect().top + window.scrollY - navOffset() + 1
+      window.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' })
+    }
+    // Leva o foco junto, para quem navega pelo teclado ou leitor de tela.
+    el.setAttribute('tabindex', '-1')
+    el.focus({ preventScroll: true })
+  }, [])
+
   const linkTo = useCallback(
     (id) => (event) => {
       event.preventDefault()
-      navigate.current(id)
+      goTo(id)
     },
-    [],
+    [goTo],
   )
 
-  return useMemo(() => ({ active, goTo, linkTo, progressRef }), [active, goTo, linkTo])
-}
+  const current = useMemo(() => {
+    if (isStory && section.id === 'story') {
+      return { ...storyScenes[storyIndex], inStory: true }
+    }
+    return { id: section.id, theme: section.theme, inStory: false }
+  }, [isStory, section, storyIndex])
 
-function setupStatic(root, updateActive, setProgress, navigate) {
-  const sections = [...root.querySelectorAll('.scene')]
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) updateActive(sections.indexOf(entry.target))
-      })
-    },
-    { rootMargin: '-45% 0px -45% 0px' },
+  return useMemo(
+    () => ({ current, storyIndex, isStory, goTo, linkTo, progressRef }),
+    [current, storyIndex, isStory, goTo, linkTo],
   )
-  sections.forEach((s) => observer.observe(s))
-
-  const onScroll = () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight
-    setProgress(max > 0 ? window.scrollY / max : 0)
-  }
-  window.addEventListener('scroll', onScroll, { passive: true })
-  onScroll()
-
-  navigate.current = (id) => {
-    const index = sceneIndex(id)
-    sections[index]?.scrollIntoView({ behavior: 'auto', block: 'start' })
-  }
-
-  return () => {
-    observer.disconnect()
-    window.removeEventListener('scroll', onScroll)
-  }
 }

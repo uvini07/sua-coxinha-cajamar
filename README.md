@@ -1,6 +1,6 @@
-# Sua Coxinha Cajamar — landing page
+# Sua Coxinha Cajamar — site
 
-Landing page em formato de narrativa por scroll: 7 cenas em tela cheia, trocadas por uma borda serrilhada (a mesma do cardápio) enquanto o usuário rola a página.
+Site da loja Sua Coxinha em Cajamar, com cardápio completo e pedido pelo iFood ou 99Food.
 
 ## Rodar
 
@@ -9,63 +9,53 @@ npm install
 npm run dev
 ```
 
-Build de produção: `npm run build` (gera a pasta `dist/`, pronta para Vercel, Netlify ou qualquer hospedagem estática).
+Publicação: cada `git push` na branch `main` publica automaticamente na Vercel.
 
-## Tecnologia
+## Como o site funciona
 
-- **Vite + React**
-- **GSAP + ScrollTrigger**: timeline mestre ligada ao scroll (`src/animations/timelines.js`)
-- **Lenis**: scroll suave, só no desktop (no celular o scroll é o nativo)
-- Sem Three.js: as fotos reais dos produtos, com transformações 3D em CSS/GSAP, deixam a página mais leve e fiel ao produto
+- **Computador:** a abertura (início, produtos, coxinha e churros) é animada pelo scroll. Depois dela, o site rola normalmente.
+- **Celular e tablet:** rolagem normal do início ao fim. Só há uma aparição suave e rápida em alguns blocos. Uma barra fixa no rodapé mantém os botões de pedido sempre à mão.
+- **Movimento reduzido** (configuração do sistema): nenhuma animação.
+- **Cardápio:** texto grande, botões grandes com nome da plataforma e todas as informações visíveis, sem precisar passar o mouse.
 
 ## Onde editar
 
 | O que | Arquivo |
 | --- | --- |
-| Produtos, sabores, preços | `src/data/products.js` |
-| Endereço, horários, telefone, links | `src/data/store.js` |
-| Diferenciais (cena 06) | `src/data/benefits.js` |
-| Ordem e nomes das cenas | `src/data/scenes.js` |
+| Produtos, sabores, preços **e links de cada produto** | `src/data/products.js` |
+| Endereço, horários, WhatsApp, **link das lojas no iFood e 99Food** | `src/data/store.js` |
+| Diferenciais ("Pra todo tipo de fome") | `src/data/benefits.js` |
 | Cores e tipografia | `src/styles/tokens.css` |
-| Animações de cada cena | `src/animations/timelines.js` |
-| Fotos | `public/assets/produtos/` |
+| Animações da abertura | `src/animations/timelines.js` |
+| Fotos | `public/assets/` |
+
+## Links de pedido por produto
+
+Cada produto em `src/data/products.js` tem os campos `ifood` e `food99`:
+
+```js
+ifood: 'https://www.ifood.com.br/delivery/...',  // link exato do produto
+food99: 'https://...',                           // link exato do produto
+```
+
+Para pegar o link, abra a loja no navegador do computador, clique no produto e copie o endereço da barra. Se um campo ficar vazio, o botão abre a página da loja. Se a loja do 99Food não estiver preenchida em `store.js`, o botão do 99Food não aparece.
 
 ## Estrutura
 
 ```
 src/
-  animations/   useStory (pin + Lenis + modo estático), timelines por cena, zigzag
-  components/   Navbar, ScrollProgress, Button, Price, Logo, ImagePlaceholder
-    scenes/     HeroScene, ProductScene, CoxinhaScene, ChurrosScene,
-                MenuSection, BenefitsSection, FinalCTA
+  animations/   useStory (abertura no computador), timelines, zigzag
+  components/   Navbar, OrderButtons, MobileOrderBar, ScrollProgress, Button, Price, Logo
+    scenes/     HeroScene, ProductScene, CoxinhaScene, ChurrosScene
+    sections/   CatalogSection, BenefitsSection, OrderSection
   data/         conteúdo editável
-  hooks/        useMagnetic, useTilt
-  styles/       tokens, base, navbar, progress, scenes/*
+  hooks/        useMagnetic, useReveal
+  styles/       tokens, base, componentes, scenes/*, sections/*
 ```
 
-## Acessibilidade e desempenho
+## Pendências
 
-- Com `prefers-reduced-motion`, a narrativa é desligada: as cenas viram seções normais, sem pin.
-- Só `transform`, `opacity` e `clip-path` são animados. O blur é usado só no desktop.
-- No celular: menos elementos flutuantes, sem blur e sem Lenis.
-- Foco visível, link para pular direto ao cardápio, preços lidos por extenso em leitores de tela.
-
-## Pendências da loja
-
-**Confirmar antes de publicar** (marcados com `CONFIRMAR` em `src/data/store.js`):
-
-1. Telefone **(11) 97640-3209**, que veio do Google. Se for WhatsApp, preencha `whatsapp: '5511976403209'` e o botão vira link do WhatsApp.
-2. Horários: seg a sáb, 7h às 22h; dom, 14h às 22h. Vieram da bio do Instagram.
-3. Preços: transcritos do cardápio `AF_COX_25_001`.
-
-**Imagens.** As fotos atuais foram recortadas do PDF do cardápio e estão em baixa resolução (~500px). Troque pelos arquivos originais mantendo o mesmo nome:
-
-| Arquivo | Onde aparece | Formato ideal |
-| --- | --- | --- |
-| `coxinha-g.webp` e `coxinha-g-sombra.webp` | Hero, cena 03, cardápio | PNG/WebP com fundo transparente, vertical 4:5, mín. 1600×2000, cortada ao meio com recheio visível, produto centralizado |
-| `churros-gourmet.webp` | Hero, cena 04, cardápio | Fundo transparente, horizontal ~6:5, mín. 2000×1700, os 3 churros nas embalagens |
-| `coxinha-m.webp` | Cena 03 (início do crescimento) | Fundo transparente, 1:1, mín. 1200×1200 |
-| `mini-churros.webp`, `molhos-doces.webp` | Elementos flutuantes da cena 04 | Fundo transparente, mín. 1000px no lado maior |
-| Demais produtos | Cardápio | Fundo transparente, mín. 1200px no lado maior |
-| **Fachada ou balcão da loja** (falta) | Cena 06, "No iFood ou na loja" | Foto real, vertical 4:5, mín. 1200×1500, com a marca visível. Hoje é um espaço reservado |
-| Logo oficial em SVG | Navbar | O logo atual foi extraído do PDF em vetor. Confirme se é a versão oficial |
+1. Link da loja no 99Food (`store.js`, plataforma `food99`).
+2. Links exatos de cada produto no iFood e no 99Food (`products.js`).
+3. Confirmar os horários (vieram da bio do Instagram).
+4. Fotos dos produtos em alta resolução. As atuais foram recortadas do PDF do cardápio (~500px). Troque mantendo o mesmo nome em `public/assets/produtos/`, com fundo transparente e mínimo de 1200px no lado maior.

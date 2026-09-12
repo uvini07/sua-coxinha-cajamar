@@ -1,0 +1,45 @@
+.order-bar {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 95;
+  padding: 0.6rem var(--pad-x) max(0.6rem, env(safe-area-inset-bottom));
+  background: rgba(247, 239, 210, 0.96);
+  box-shadow: 0 -8px 24px rgba(70, 35, 2, 0.14);
+  transition:
+    transform 0.35s var(--ease-out),
+    visibility 0s;
+}
+
+.order-bar .order-buttons {
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.5rem;
+}
+
+.order-bar .order-btn {
+  min-height: 52px;
+}
+
+.order-bar[data-hidden='true'] {
+  transform: translateY(110%);
+  visibility: hidden;
+  transition:
+    transform 0.35s var(--ease-out),
+    visibility 0s linear 0.35s;
+}
+
+.order-bar .order-buttons__dev {
+  display: none;
+}
+
+/* Espaço para a barra não cobrir o fim da página */
+@media (max-width: 1023.98px) {
+  body {
+    padding-bottom: 76px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .order-bar {
+    display: none;
+  }
+}

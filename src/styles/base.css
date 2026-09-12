@@ -60,11 +60,16 @@ button {
 }
 
 .scene--products :focus-visible,
-.scene--menu :focus-visible,
 .scene--churros :focus-visible,
-.scene--cta :focus-visible,
+.catalog :focus-visible,
+.order :focus-visible,
+.order-bar :focus-visible,
 .nav[data-theme='light'] :focus-visible {
   outline-color: var(--marrom);
+}
+
+[tabindex='-1']:focus {
+  outline: none;
 }
 
 .sr-only {
@@ -305,6 +310,38 @@ button {
   z-index: 2;
   min-height: inherit;
   padding: calc(var(--nav-h) + clamp(12px, 4vh, 48px)) var(--pad-x) clamp(24px, 5vh, 56px);
+}
+
+/* Rolagem normal (celular, tablet, movimento reduzido): cenas da abertura
+   deixam de ocupar a tela inteira, exceto a primeira */
+html:not(.is-story) .stage .scene:not(.scene--hero) {
+  min-height: 0;
+}
+
+html:not(.is-story) .stage .scene:not(.scene--hero) .scene__inner {
+  padding-top: clamp(3.5rem, 10vw, 6rem);
+  padding-bottom: clamp(3.5rem, 10vw, 6rem);
+}
+
+/* Aparição suave e única ao entrar na tela */
+.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.6s var(--ease-out),
+    transform 0.6s var(--ease-out);
+}
+
+.reveal-ready [data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* Na abertura animada quem controla esses elementos é o GSAP */
+.is-story .stage [data-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: none;
 }
 
 /* Modo narrativa: palco fixo, cenas empilhadas controladas pelo scroll */

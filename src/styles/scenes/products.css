@@ -213,11 +213,11 @@
   }
 
   .tile__name {
-    font-size: var(--step--1);
+    font-size: 1rem;
   }
 
   .tile__detail {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
   }
 
   .family__name {

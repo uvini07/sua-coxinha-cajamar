@@ -1,0 +1,63 @@
+/* Cores das plataformas ajudam o cliente a reconhecer onde vai pedir */
+.order-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.6rem;
+}
+
+.order-btn {
+  --bg: #ea1d2c;
+  --fg: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0.7em 1em;
+  border-radius: 14px;
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 1.0625rem;
+  font-weight: 900;
+  line-height: 1.15;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.18);
+  transition:
+    transform 0.2s var(--ease-out),
+    filter 0.2s var(--ease-out);
+}
+
+.order-btn--food99 {
+  --bg: #ffd100;
+  --fg: #141415;
+}
+
+.order-btn:hover {
+  filter: brightness(1.06);
+}
+
+.order-btn:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.order-btn:focus-visible {
+  outline: 3px solid var(--marrom);
+  outline-offset: 3px;
+}
+
+.order-buttons--big .order-btn {
+  min-height: 64px;
+  font-size: 1.25rem;
+  border-radius: 18px;
+}
+
+.order-buttons__dev {
+  grid-column: 1 / -1;
+  padding: 0.5rem;
+  border: 2px dashed currentColor;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-align: center;
+}
