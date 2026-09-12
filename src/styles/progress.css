@@ -1,0 +1,121 @@
+.progress {
+  --fg: var(--creme);
+  --p: 0;
+  position: fixed;
+  z-index: 80;
+  right: var(--pad-x);
+  top: 50%;
+  display: grid;
+  justify-items: end;
+  gap: 0.75rem;
+  color: var(--fg);
+  font-size: var(--step--1);
+  font-weight: 700;
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition:
+    color 0.5s var(--ease-out),
+    opacity 0.4s var(--ease-out);
+}
+
+/* O cardápio tem barra própria e os cards passam por baixo do indicador */
+@media (min-width: 900px) {
+  .progress[data-scene='cardapio'] {
+    opacity: 0;
+  }
+}
+
+.progress[data-theme='light'] {
+  --fg: var(--marrom);
+}
+
+.progress__count {
+  display: inline-flex;
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+}
+
+.progress__current {
+  display: inline-block;
+  animation: progress-in 0.6s var(--ease-out);
+}
+
+.progress__total {
+  opacity: 0.55;
+  white-space: pre;
+}
+
+.progress__track {
+  position: relative;
+  width: 2px;
+  height: clamp(80px, 16vh, 140px);
+  border-radius: 2px;
+  background: color-mix(in srgb, currentColor 22%, transparent);
+  overflow: hidden;
+}
+
+.progress__fill {
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  transform: scaleY(var(--p));
+  transform-origin: top;
+}
+
+.progress__label {
+  writing-mode: vertical-rl;
+  opacity: 0.7;
+}
+
+@keyframes progress-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+/* Mobile: barra fina no topo, contador no canto inferior */
+@media (max-width: 899.98px) {
+  .progress {
+    top: calc(var(--nav-h) / 2);
+    right: calc(var(--pad-x) + 48px);
+    justify-items: end;
+    gap: 0;
+    z-index: 101;
+  }
+
+  .menu-open .progress {
+    opacity: 0;
+  }
+
+  .progress__track {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .progress__fill {
+    transform: scaleX(var(--p));
+    transform-origin: left;
+    background: var(--amarelo);
+  }
+
+  .progress__label {
+    display: none;
+  }
+
+  .progress__count {
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+}
+
+/* Em telas baixas o indicador lateral compete com o conteúdo */
+@media (min-width: 900px) and (max-height: 640px) {
+  .progress__label {
+    display: none;
+  }
+}

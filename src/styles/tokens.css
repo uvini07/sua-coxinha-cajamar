@@ -1,0 +1,37 @@
+/* Paleta extraída do cardápio oficial Sua Coxinha */
+:root {
+  --creme: #f7efd2;
+  --amarelo: #f9c115;
+  --amarelo-claro: #ffeb4a;
+  --laranja: #f79433;
+  --marrom: #462302;
+  --marrom-medio: #8a4d1c;
+  --marrom-noite: #2a1401;
+  --coral: #f15b5b;
+  --tinta: #141415;
+
+  --font-display: 'Bricolage Grotesque', 'Arial Narrow', Impact, sans-serif;
+  --font-body: 'Satoshi', 'Segoe UI', system-ui, sans-serif;
+
+  --step--1: clamp(0.8rem, 0.78rem + 0.1vw, 0.875rem);
+  --step-0: clamp(0.95rem, 0.9rem + 0.25vw, 1.125rem);
+  --step-1: clamp(1.15rem, 1.05rem + 0.5vw, 1.5rem);
+  --step-2: clamp(1.5rem, 1.25rem + 1.2vw, 2.25rem);
+  --step-h2: clamp(2.5rem, 1.4rem + 5vw, 6.25rem);
+  --step-h1: clamp(4.25rem, 1rem + 15vw, 17rem);
+
+  --pad-x: clamp(1.25rem, 4vw, 4rem);
+  --nav-h: 72px;
+  --radius-lg: clamp(20px, 2.4vw, 32px);
+  --radius-md: 16px;
+  --radius-pill: 999px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@media (max-width: 899.98px) {
+  :root {
+    --nav-h: 60px;
+  }
+}

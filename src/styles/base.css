@@ -1,0 +1,359 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  background: var(--marrom-noite);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.55;
+  color: var(--creme);
+  background: var(--marrom-noite);
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+dl,
+dd {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--amarelo-claro);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.scene--products :focus-visible,
+.scene--menu :focus-visible,
+.scene--churros :focus-visible,
+.scene--cta :focus-visible,
+.nav[data-theme='light'] :focus-visible {
+  outline-color: var(--marrom);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 200;
+  padding: 0.7em 1.1em;
+  border-radius: var(--radius-pill);
+  background: var(--amarelo);
+  color: var(--marrom);
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform 0.3s var(--ease-out);
+}
+
+.skip-link:focus-visible {
+  transform: none;
+}
+
+/* ---------- Tipografia ---------- */
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 75%;
+  font-variation-settings: 'opsz' 96;
+  line-height: 0.88;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.h2 {
+  font-size: var(--step-h2);
+}
+
+/* Linha com máscara: o span interno sobe de dentro dela */
+.line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.line > span {
+  display: block;
+}
+
+.lead {
+  font-size: var(--step-1);
+  line-height: 1.45;
+  max-width: 36ch;
+}
+
+/* ---------- Botões ---------- */
+
+.btn {
+  --btn-bg: var(--amarelo);
+  --btn-fg: var(--marrom);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  min-height: 52px;
+  padding: 0.85em 1.6em;
+  border: 2px solid transparent;
+  border-radius: var(--radius-pill);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  font-weight: 700;
+  line-height: 1.1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  isolation: isolate;
+  overflow: hidden;
+  transition:
+    color 0.35s var(--ease-out),
+    border-color 0.35s var(--ease-out),
+    transform 0.35s var(--ease-out);
+}
+
+/* Preenchimento que sobe da base no hover */
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--btn-hover-bg, var(--amarelo-claro));
+  transform: translateY(101%);
+  transition: transform 0.45s var(--ease-out);
+}
+
+.btn:hover::before {
+  transform: none;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: currentColor;
+  --btn-hover-bg: var(--creme);
+  border-color: currentColor;
+}
+
+.btn--ghost:hover {
+  color: var(--marrom);
+  border-color: var(--creme);
+}
+
+.btn--dark {
+  --btn-bg: var(--marrom);
+  --btn-fg: var(--creme);
+  --btn-hover-bg: var(--marrom-medio);
+}
+
+.btn--ghost-dark {
+  --btn-bg: transparent;
+  --btn-fg: var(--marrom);
+  --btn-hover-bg: var(--marrom);
+  border-color: var(--marrom);
+}
+
+.btn--ghost-dark:hover {
+  color: var(--creme);
+}
+
+.btn--big {
+  min-height: 64px;
+  padding: 1em 2.2em;
+  font-size: var(--step-1);
+}
+
+.btn--small {
+  min-height: 44px;
+  padding: 0.6em 1.2em;
+  font-size: var(--step--1);
+}
+
+.btn__label {
+  position: relative;
+  display: inline-block;
+}
+
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.2em;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s var(--ease-out);
+}
+
+.link-underline:hover::after,
+.link-underline[aria-current='true']::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ---------- Preço no estilo do cardápio (centavos sobrescritos) ---------- */
+
+.price {
+  display: inline-flex;
+  align-items: flex-start;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 75%;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.price__from {
+  align-self: center;
+  margin-right: 0.4em;
+  font-family: var(--font-body);
+  font-size: 0.42em;
+  font-weight: 500;
+  font-stretch: 100%;
+}
+
+.price__currency {
+  margin-top: 0.14em;
+  margin-right: 0.08em;
+  font-size: 0.45em;
+}
+
+.price__cents {
+  margin-top: 0.08em;
+  font-size: 0.5em;
+}
+
+/* ---------- Cenas ---------- */
+
+.stage {
+  position: relative;
+}
+
+.scene {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--scene-bg);
+  color: var(--scene-fg);
+}
+
+.scene__inner {
+  position: relative;
+  z-index: 2;
+  min-height: inherit;
+  padding: calc(var(--nav-h) + clamp(12px, 4vh, 48px)) var(--pad-x) clamp(24px, 5vh, 56px);
+}
+
+/* Modo narrativa: palco fixo, cenas empilhadas controladas pelo scroll */
+.is-story .stage {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.is-story .scene {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+  height: 100%;
+}
+
+.is-story .scene__inner {
+  height: 100%;
+  min-height: 0;
+}
+
+/* Placeholder de imagem que ainda precisa ser fornecida */
+.img-placeholder {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 1.25rem;
+  border: 2px dashed currentColor;
+  border-radius: var(--radius-lg);
+  font-size: var(--step--1);
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+  opacity: 0.75;
+}
+
+.img-placeholder small {
+  display: block;
+  margin-top: 0.5em;
+  font-weight: 500;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

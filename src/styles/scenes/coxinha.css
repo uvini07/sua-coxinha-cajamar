@@ -1,0 +1,293 @@
+.scene--coxinha {
+  --scene-bg: var(--marrom);
+  --scene-fg: var(--creme);
+}
+
+/* Luz quente que percorre a cena conforme o scroll */
+.cx__light {
+  --lx: 55%;
+  --ly: 45%;
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(38vmax 38vmax at var(--lx) var(--ly), rgba(249, 193, 21, 0.38), transparent 70%),
+    radial-gradient(60vmax 50vmax at 100% 100%, rgba(42, 20, 1, 0.8), transparent 70%);
+  pointer-events: none;
+}
+
+.cx__word {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  translate: 0 -50%;
+  margin: 0;
+  font-size: clamp(10rem, 38vw, 44rem);
+  line-height: 1;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(249, 193, 21, 0.2);
+  pointer-events: none;
+  user-select: none;
+}
+
+.cx__crumbs {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.cx__crumb {
+  position: absolute;
+  aspect-ratio: 1.2;
+  background: var(--amarelo);
+  border-radius: 40% 60% 35% 65%;
+  opacity: 0.55;
+}
+
+.cx__crumb:nth-child(3n) {
+  background: var(--laranja);
+}
+
+.cx {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 0.7fr);
+  align-items: center;
+  gap: clamp(1rem, 3vw, 3rem);
+  padding-right: calc(var(--pad-x) + clamp(0px, 5vw, 80px));
+}
+
+.cx__copy {
+  display: grid;
+  gap: clamp(0.75rem, 2.5vh, 1.5rem);
+}
+
+.cx__title {
+  font-size: clamp(2.5rem, 1rem + 4.2vw, 5.5rem);
+}
+
+.cx__lead {
+  max-width: 32ch;
+  font-size: var(--step-1);
+  line-height: 1.45;
+  opacity: 0.9;
+}
+
+.cx__sizes {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.25rem;
+  margin-top: clamp(0.25rem, 2vh, 1.5rem);
+}
+
+.cx__weight {
+  display: flex;
+  align-items: baseline;
+  font-size: clamp(4rem, 2rem + 6vw, 8.5rem);
+  line-height: 0.8;
+  color: var(--amarelo);
+  font-variant-numeric: tabular-nums;
+}
+
+.cx__unit {
+  font-size: 0.45em;
+}
+
+.cx__size-labels {
+  position: relative;
+  display: grid;
+  min-width: 9rem;
+  padding-bottom: 0.2em;
+}
+
+.cx__size {
+  grid-area: 1 / 1;
+  display: grid;
+  gap: 0.15rem;
+  font-weight: 700;
+}
+
+.cx__size .price {
+  font-size: var(--step-2);
+  color: var(--creme);
+}
+
+/* Sem animação, mostra o estado final (coxinha G) */
+.cx__size--m,
+.cx__img--m {
+  visibility: hidden;
+}
+
+.cx__stage {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  height: 100%;
+  min-height: 0;
+}
+
+.cx__product {
+  position: relative;
+  width: min(100%, 58vh, 520px);
+  aspect-ratio: 473 / 551;
+}
+
+.cx__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 40px 50px rgba(0, 0, 0, 0.5));
+}
+
+.cx__img--m {
+  inset: 12%;
+  width: 76%;
+  height: 76%;
+}
+
+.cx__shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 6%;
+  width: 60%;
+  height: 7%;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.55), transparent);
+  z-index: -1;
+}
+
+.cx__flavors {
+  display: grid;
+  gap: 0.75rem;
+  align-content: center;
+}
+
+.cx__flavors-title {
+  font-size: var(--step-1);
+  font-weight: 900;
+  color: var(--amarelo);
+}
+
+.cx__flavor-list {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.cx__flavor {
+  padding: 0.4em 0;
+  border-bottom: 1px solid rgba(247, 239, 210, 0.16);
+  font-size: var(--step--1);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.cx__note {
+  font-size: var(--step--1);
+  opacity: 0.75;
+}
+
+@media (min-width: 900px) and (max-height: 760px) {
+  .cx__lead {
+    display: none;
+  }
+
+  .cx__flavor {
+    padding: 0.25em 0;
+  }
+}
+
+/* ---------- Tablet e celular ---------- */
+@media (max-width: 899.98px) {
+  .cx {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    align-items: stretch;
+    gap: clamp(0.5rem, 1.8svh, 1rem);
+    padding-right: var(--pad-x);
+  }
+
+  .cx__title {
+    font-size: clamp(2.2rem, 10.5vw, 4rem);
+  }
+
+  .cx__lead {
+    display: none;
+  }
+
+  .cx__copy {
+    gap: 0.5rem;
+  }
+
+  .cx__sizes {
+    margin: 0;
+    gap: 0.75rem;
+  }
+
+  .cx__weight {
+    font-size: clamp(2.75rem, 13vw, 4.5rem);
+  }
+
+  .cx__size-labels {
+    min-width: 7rem;
+  }
+
+  .cx__size {
+    grid-template-columns: auto auto;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+
+  .cx__size .price {
+    font-size: var(--step-1);
+  }
+
+  .cx__product {
+    width: auto;
+    height: min(100%, 48svh);
+    max-width: 88vw;
+  }
+
+  .cx__flavors {
+    gap: 0.5rem;
+  }
+
+  .cx__flavors-title {
+    font-size: var(--step-0);
+  }
+
+  .cx__flavor-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .cx__flavor {
+    padding: 0.3em 0.75em;
+    border: 1px solid rgba(247, 239, 210, 0.3);
+    border-radius: var(--radius-pill);
+    font-size: 0.75rem;
+  }
+
+  .cx__note {
+    font-size: 0.75rem;
+  }
+
+  .cx__word {
+    top: 42%;
+    font-size: 60vw;
+  }
+}
+
+@media (max-width: 899.98px) and (max-height: 700px) {
+  .cx__note {
+    display: none;
+  }
+
+  .cx__flavor {
+    padding: 0.2em 0.6em;
+  }
+}
