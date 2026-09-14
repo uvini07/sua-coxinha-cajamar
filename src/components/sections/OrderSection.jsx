@@ -6,14 +6,14 @@ export default function OrderSection() {
   const whatsapp = store.whatsapp ? `https://wa.me/${store.whatsapp}` : null
 
   return (
-    <section id="pedido" className="order" data-theme="light" aria-labelledby="pedido-title">
+    <section id="pedido" className="order" data-theme="dark" aria-labelledby="pedido-title">
       <div className="order__inner">
         <div className="order__main">
           <h2 id="pedido-title" className="order__title display" data-reveal>
             Bateu a fome?
           </h2>
           <p className="order__sub" data-reveal>
-            Peça pelo aplicativo que você preferir. Ou venha até a loja.
+            Receba em casa pelo iFood ou 99Food. Ou monte seu pedido pelo WhatsApp e retire na loja.
           </p>
           <OrderButtons size="big" className="order__buttons" />
           <a className="btn btn--ghost order__map" href={store.links.maps} target="_blank" rel="noopener noreferrer">

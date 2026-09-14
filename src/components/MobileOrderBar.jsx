@@ -10,7 +10,7 @@ export default function MobileOrderBar() {
 
   return (
     <div className="order-bar" data-hidden={hidden} inert={hidden}>
-      <OrderButtons />
+      <OrderButtons compact />
     </div>
   )
 }

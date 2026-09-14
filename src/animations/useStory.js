@@ -132,6 +132,13 @@ export function useStory(rootRef) {
     [goTo],
   )
 
+  // Trava a rolagem da página por trás de uma janela (pop-up) aberta.
+  const lockScroll = useCallback((locked) => {
+    const { lenis } = api.current
+    if (lenis) locked ? lenis.stop() : lenis.start()
+    document.documentElement.classList.toggle('scroll-locked', locked)
+  }, [])
+
   const current = useMemo(() => {
     if (isStory && section.id === 'story') {
       return { ...storyScenes[storyIndex], inStory: true }
@@ -140,7 +147,7 @@ export function useStory(rootRef) {
   }, [isStory, section, storyIndex])
 
   return useMemo(
-    () => ({ current, storyIndex, isStory, goTo, linkTo, progressRef }),
-    [current, storyIndex, isStory, goTo, linkTo],
+    () => ({ current, storyIndex, isStory, goTo, linkTo, lockScroll, progressRef }),
+    [current, storyIndex, isStory, goTo, linkTo, lockScroll],
   )
 }

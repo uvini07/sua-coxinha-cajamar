@@ -40,12 +40,25 @@ food99: 'https://...',                           // link exato do produto
 
 Para pegar o link, abra a loja no navegador do computador, clique no produto e copie o endereço da barra. Se um campo ficar vazio, o botão abre a página da loja. Se a loja do 99Food não estiver preenchida em `store.js`, o botão do 99Food não aparece.
 
+## Pedido pelo WhatsApp (retirada na loja)
+
+O botão verde "Pedir pelo WhatsApp" abre um pop-up com as etapas **Salgados → Doces → Bebidas → Finalizar**.
+O cliente escolhe sabores e quantidades, informa o nome e o horário de retirada, e o site abre o WhatsApp
+da loja com a mensagem do pedido pronta. Somente retirada na loja.
+
+- Número do WhatsApp: `whatsapp` em `src/data/store.js`.
+- Escolhas de cada produto (sabores, recheios, coberturas): campo `order` em `src/data/products.js`.
+- Em quais etapas cada categoria aparece: `src/data/whatsappOrder.js`.
+- O pedido fica salvo no aparelho do cliente até ele começar um novo.
+- Link direto que já abre o pop-up (bom para a bio do Instagram): `https://sua-coxinha-cajamar.vercel.app/#pedir-whatsapp`
+
 ## Estrutura
 
 ```
 src/
   animations/   useStory (abertura no computador), timelines, zigzag
   components/   Navbar, OrderButtons, MobileOrderBar, ScrollProgress, Button, Price, Logo
+    whatsapp/   WhatsAppOrder (estado), OrderDialog, StepList, ItemView, ReviewView, orderLogic
     scenes/     HeroScene, ProductScene, CoxinhaScene, ChurrosScene
     sections/   CatalogSection, BenefitsSection, OrderSection
   data/         conteúdo editável

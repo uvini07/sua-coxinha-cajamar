@@ -1,14 +1,19 @@
-import { platforms, orderUrl } from '../data/store.js'
+import { platforms, orderUrl, store } from '../data/store.js'
+import { useWhatsAppOrder } from './whatsapp/WhatsAppOrder.jsx'
+import { WhatsAppIcon } from './whatsapp/ReviewView.jsx'
 import '../styles/order-buttons.css'
 
-// Botões "Pedir no iFood" e "Pedir no 99Food".
-// Com `item`, abre o produto exato na plataforma (quando o link foi cadastrado).
-// Plataforma sem link cadastrado não mostra botão.
-export default function OrderButtons({ item, itemName, size = 'normal', className = '' }) {
+const prepositions = { ifood: 'no', food99: 'no' }
+
+// Botões de pedido: iFood e 99Food (entrega pelos apps) e WhatsApp (retirada na loja).
+// Com `item`, iFood/99 abrem o produto exato (quando o link foi cadastrado) e o WhatsApp
+// abre o pop-up já no produto. `compact` é a versão da barra fixa do celular.
+export default function OrderButtons({ item, itemName, size = 'normal', compact = false, className = '' }) {
+  const { open, count } = useWhatsAppOrder()
   const available = platforms.filter((p) => orderUrl(p, item))
 
   return (
-    <div className={`order-buttons order-buttons--${size} ${className}`}>
+    <div className={`order-buttons order-buttons--${size}${compact ? ' order-buttons--compact' : ''} ${className}`}>
       {available.map((platform) => (
         <a
           key={platform.id}
@@ -17,14 +22,32 @@ export default function OrderButtons({ item, itemName, size = 'normal', classNam
           target="_blank"
           rel="noopener noreferrer"
         >
-          Pedir no {platform.name}
+          <span className="order-btn__pre">Pedir {prepositions[platform.id]} </span>
+          <span className="order-btn__name">{platform.name}</span>
           <span className="sr-only">
             {itemName ? `: ${itemName}` : ''} (abre em nova aba)
           </span>
         </a>
       ))}
-      {import.meta.env.DEV && available.length < platforms.length && (
-        <p className="order-buttons__dev">[LINK DO 99FOOD — preencher em src/data/store.js]</p>
+
+      {store.whatsapp && (
+        <button type="button" className="order-btn order-btn--whatsapp" onClick={() => open({ itemId: item?.id })}>
+          {!compact && <WhatsAppIcon />}
+          <span className="order-btn__stack">
+            <span>
+              <span className="order-btn__pre">Pedir pelo </span>
+              <span className="order-btn__name">WhatsApp</span>
+              {itemName && <span className="sr-only">: {itemName}</span>}
+            </span>
+            {compact && count > 0 && (
+              <span className="order-btn__badge">
+                {count}
+                <span className="sr-only"> {count === 1 ? 'item' : 'itens'} no pedido</span>
+              </span>
+            )}
+            {!compact && <span className="order-btn__sub">Somente retirada na loja</span>}
+          </span>
+        </button>
       )}
     </div>
   )

@@ -5,6 +5,7 @@ import { useReveal } from './hooks/useReveal.js'
 import Navbar from './components/Navbar.jsx'
 import ScrollProgress from './components/ScrollProgress.jsx'
 import MobileOrderBar from './components/MobileOrderBar.jsx'
+import { WhatsAppOrderProvider } from './components/whatsapp/WhatsAppOrder.jsx'
 import HeroScene from './components/scenes/HeroScene.jsx'
 import ProductScene from './components/scenes/ProductScene.jsx'
 import CoxinhaScene from './components/scenes/CoxinhaScene.jsx'
@@ -20,24 +21,26 @@ export default function App() {
 
   return (
     <StoryContext.Provider value={story}>
-      <a className="skip-link" href="#cardapio" onClick={story.linkTo('cardapio')}>
-        Pular para o cardápio
-      </a>
-      <Navbar />
-      <ScrollProgress />
-      <main ref={rootRef} className="story">
-        {/* Abertura: animada pelo scroll no computador, rolagem normal no celular */}
-        <div className="stage">
-          <HeroScene />
-          <ProductScene />
-          <CoxinhaScene />
-          <ChurrosScene />
-        </div>
-        <CatalogSection />
-        <BenefitsSection />
-        <OrderSection />
-      </main>
-      <MobileOrderBar />
+      <WhatsAppOrderProvider>
+        <a className="skip-link" href="#cardapio" onClick={story.linkTo('cardapio')}>
+          Pular para o cardápio
+        </a>
+        <Navbar />
+        <ScrollProgress />
+        <main ref={rootRef} className="story">
+          {/* Abertura: animada pelo scroll no computador, rolagem normal no celular */}
+          <div className="stage">
+            <HeroScene />
+            <ProductScene />
+            <CoxinhaScene />
+            <ChurrosScene />
+          </div>
+          <CatalogSection />
+          <BenefitsSection />
+          <OrderSection />
+        </main>
+        <MobileOrderBar />
+      </WhatsAppOrderProvider>
     </StoryContext.Provider>
   )
 }

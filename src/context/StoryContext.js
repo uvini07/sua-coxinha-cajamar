@@ -6,6 +6,7 @@ export const StoryContext = createContext({
   isStory: false,
   goTo: () => {},
   linkTo: () => () => {},
+  lockScroll: () => {},
   progressRef: { current: null },
 })
 
