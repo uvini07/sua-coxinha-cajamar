@@ -23,7 +23,8 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
 
   const send = (event) => {
     if (!hasErrors) {
-      onSent()
+      // Deixa o navegador abrir o link antes de limpar o pedido (o link sumiria com o carrinho vazio).
+      setTimeout(() => onSent(url), 0)
       return
     }
     event.preventDefault()

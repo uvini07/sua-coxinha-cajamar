@@ -15,6 +15,7 @@ export default function OrderDialog({ open, target, openedAt, onClose, summary, 
   const [stepIndex, setStepIndex] = useState(0)
   const [itemId, setItemId] = useState(null)
   const [sent, setSent] = useState(false)
+  const [sentUrl, setSentUrl] = useState('')
   const [toast, setToast] = useState('')
   const listScroll = useRef({})
 
@@ -78,6 +79,15 @@ export default function OrderDialog({ open, target, openedAt, onClose, summary, 
     dispatch({ type: 'add', line })
     setToast(`Adicionado ao pedido: ${itemIndex.get(line.itemId).item.name}`)
     closeItem()
+  }
+
+  // Pedido enviado ao WhatsApp: guarda o link (para "tentar de novo") e esvazia o carrinho.
+  // O nome fica salvo para o próximo pedido.
+  const finishOrder = (url) => {
+    setSentUrl(url)
+    setSent(true)
+    dispatch({ type: 'clear' })
+    setCustomer((c) => ({ ...c, when: 'pronto', time: '', notes: '' }))
   }
 
   const onCancel = (event) => {
@@ -161,15 +171,7 @@ export default function OrderDialog({ open, target, openedAt, onClose, summary, 
         {item ? (
           <ItemView key={item.id} item={item} onAdd={addLine} />
         ) : sent ? (
-          <SentView
-            onBack={() => setSent(false)}
-            onNewOrder={() => {
-              dispatch({ type: 'clear' })
-              setCustomer((c) => ({ ...c, notes: '' }))
-              goToStep(0)
-            }}
-            onClose={onClose}
-          />
+          <SentView url={sentUrl} onNewOrder={() => goToStep(0)} onClose={onClose} />
         ) : step.review ? (
           <ReviewView
             summary={summary}
@@ -177,7 +179,7 @@ export default function OrderDialog({ open, target, openedAt, onClose, summary, 
             customer={customer}
             setCustomer={setCustomer}
             onGoToStep={goToStep}
-            onSent={() => setSent(true)}
+            onSent={finishOrder}
           />
         ) : (
           <StepList
@@ -202,7 +204,7 @@ export default function OrderDialog({ open, target, openedAt, onClose, summary, 
   )
 }
 
-function SentView({ onBack, onNewOrder, onClose }) {
+function SentView({ url, onNewOrder, onClose }) {
   const titleRef = useRef(null)
   useEffect(() => titleRef.current?.focus(), [])
 
@@ -218,10 +220,11 @@ function SentView({ onBack, onNewOrder, onClose }) {
         Abrimos o WhatsApp com o seu pedido. Confira a mensagem e toque em <strong>enviar</strong> lá no WhatsApp.
       </p>
       <p className="wa-sent__text">A loja responde confirmando o pedido e o valor. Depois é só retirar na loja.</p>
+      <p className="wa-sent__text">Seu carrinho foi esvaziado para o próximo pedido.</p>
       <div className="wa-sent__actions">
-        <button type="button" className="wa-btn wa-btn--dark" onClick={onBack}>
+        <a className="wa-btn wa-btn--dark" href={url} target="_blank" rel="noopener noreferrer">
           O WhatsApp não abriu? Tentar de novo
-        </button>
+        </a>
         <button type="button" className="wa-btn wa-btn--ghost" onClick={onNewOrder}>
           Começar um novo pedido
         </button>
