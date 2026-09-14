@@ -85,10 +85,27 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
           )}
 
           {summary.count > 0 && (
-            <p className="wa-review__total">
-              <span>Total estimado</span>
-              <strong>{priceText(summary.total)}</strong>
-            </p>
+            <>
+              <p className="wa-review__total">
+                <span>Total estimado</span>
+                <strong>{priceText(summary.total)}</strong>
+              </p>
+              <div className="wa-review__actions">
+                <button type="button" className="wa-btn wa-btn--ghost" onClick={() => onGoToStep(0)}>
+                  Adicionar mais produtos
+                </button>
+                <button
+                  type="button"
+                  className="wa-review__clear"
+                  onClick={() => window.confirm('Tirar todos os produtos do pedido?') && dispatch({ type: 'clear' })}
+                >
+                  Esvaziar pedido
+                </button>
+              </div>
+              <p className="wa-review__saved">
+                Seu pedido fica guardado neste aparelho. Pode fechar e voltar depois: é só tocar em <strong>Meu pedido</strong>.
+              </p>
+            </>
           )}
         </section>
 

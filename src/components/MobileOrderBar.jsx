@@ -1,5 +1,6 @@
-import { useStoryContext } from '../context/StoryContext.js'
+﻿import { useStoryContext } from '../context/StoryContext.js'
 import OrderButtons from './OrderButtons.jsx'
+import CartButton from './whatsapp/CartButton.jsx'
 import '../styles/mobile-order-bar.css'
 
 // Barra fixa no rodapé do celular: pedir sempre a um toque, em qualquer parte do site.
@@ -10,6 +11,7 @@ export default function MobileOrderBar() {
 
   return (
     <div className="order-bar" data-hidden={hidden} inert={hidden}>
+      <CartButton variant="strip" />
       <OrderButtons compact />
     </div>
   )

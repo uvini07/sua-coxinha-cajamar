@@ -1,8 +1,13 @@
-/* Cores das plataformas ajudam o cliente a reconhecer onde vai pedir */
+﻿/* Cores das plataformas ajudam o cliente a reconhecer onde vai pedir.
+   Duas colunas fixas: iFood e 99Food lado a lado, do mesmo tamanho; WhatsApp embaixo, largura toda */
 .order-buttons {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.6rem;
+}
+
+.order-buttons[data-platforms='1'] > .order-btn:first-child:not(.order-btn--whatsapp) {
+  grid-column: 1 / -1;
 }
 
 .order-btn {
@@ -29,6 +34,11 @@
   transition:
     transform 0.2s var(--ease-out),
     filter 0.2s var(--ease-out);
+}
+
+/* Nos cartões de produto os botões são mais estreitos */
+.product__order .order-btn:not(.order-btn--whatsapp) {
+  padding-inline: 0.5rem;
 }
 
 .order-btn--food99 {
@@ -85,7 +95,7 @@
 
 /* Barra do celular: três botões lado a lado, nome da plataforma em destaque */
 .order-buttons--compact {
-  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.45rem;
 }
 
@@ -96,6 +106,10 @@
   min-height: 56px;
   padding: 0.35rem 0.25rem;
   border-radius: 12px;
+}
+
+.order-buttons--compact .order-btn__label {
+  display: grid;
 }
 
 .order-buttons--compact .order-btn__pre {

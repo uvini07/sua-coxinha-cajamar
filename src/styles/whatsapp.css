@@ -782,6 +782,37 @@ textarea.wa-input {
   font-weight: 900;
 }
 
+.wa-review__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-top: 1rem;
+}
+
+.wa-review__clear {
+  min-height: 48px;
+  padding: 0 0.25rem;
+  border: 0;
+  background: transparent;
+  color: var(--wa-error);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.wa-review__saved {
+  margin-top: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
+  background: #fff6d6;
+  font-size: 1rem;
+}
+
 .wa-empty {
   display: grid;
   justify-items: start;

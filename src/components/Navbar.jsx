@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+﻿import { useEffect, useRef, useState } from 'react'
 import { useStoryContext } from '../context/StoryContext.js'
 import { navLinks } from '../data/scenes.js'
 import { store } from '../data/store.js'
 import Logo from './Logo.jsx'
+import CartButton from './whatsapp/CartButton.jsx'
 import '../styles/navbar.css'
 
 export default function Navbar() {
@@ -67,6 +68,8 @@ export default function Navbar() {
         <a className="btn btn--small nav__order" href="#pedido" onClick={linkTo('pedido')}>
           <span className="btn__label">Fazer pedido</span>
         </a>
+
+        <CartButton />
 
         <button
           ref={burgerRef}

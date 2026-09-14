@@ -13,7 +13,10 @@ export default function OrderButtons({ item, itemName, size = 'normal', compact 
   const available = platforms.filter((p) => orderUrl(p, item))
 
   return (
-    <div className={`order-buttons order-buttons--${size}${compact ? ' order-buttons--compact' : ''} ${className}`}>
+    <div
+      className={`order-buttons order-buttons--${size}${compact ? ' order-buttons--compact' : ''} ${className}`}
+      data-platforms={available.length}
+    >
       {available.map((platform) => (
         <a
           key={platform.id}
@@ -22,8 +25,11 @@ export default function OrderButtons({ item, itemName, size = 'normal', compact 
           target="_blank"
           rel="noopener noreferrer"
         >
-          <span className="order-btn__pre">Pedir {prepositions[platform.id]} </span>
-          <span className="order-btn__name">{platform.name}</span>
+          {/* Um único bloco de texto: evita que "Pedir no" e o nome quebrem separados */}
+          <span className="order-btn__label">
+            <span className="order-btn__pre">Pedir {prepositions[platform.id]} </span>
+            <span className="order-btn__name">{platform.name}</span>
+          </span>
           <span className="sr-only">
             {itemName ? `: ${itemName}` : ''} (abre em nova aba)
           </span>
@@ -34,19 +40,19 @@ export default function OrderButtons({ item, itemName, size = 'normal', compact 
         <button type="button" className="order-btn order-btn--whatsapp" onClick={() => open({ itemId: item?.id })}>
           {!compact && <WhatsAppIcon />}
           <span className="order-btn__stack">
-            <span>
+            <span className="order-btn__label">
               <span className="order-btn__pre">Pedir pelo </span>
               <span className="order-btn__name">WhatsApp</span>
               {itemName && <span className="sr-only">: {itemName}</span>}
             </span>
-            {compact && count > 0 && (
-              <span className="order-btn__badge">
-                {count}
-                <span className="sr-only"> {count === 1 ? 'item' : 'itens'} no pedido</span>
-              </span>
-            )}
             {!compact && <span className="order-btn__sub">Somente retirada na loja</span>}
           </span>
+          {compact && count > 0 && (
+            <span className="order-btn__badge">
+              {count}
+              <span className="sr-only"> {count === 1 ? 'item' : 'itens'} no pedido</span>
+            </span>
+          )}
         </button>
       )}
     </div>

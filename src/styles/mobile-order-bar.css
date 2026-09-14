@@ -27,6 +27,10 @@
   body {
     padding-bottom: 80px;
   }
+
+  body:has(.cart-strip) {
+    padding-bottom: 138px;
+  }
 }
 
 @media (min-width: 1024px) {

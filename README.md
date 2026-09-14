@@ -49,7 +49,8 @@ da loja com a mensagem do pedido pronta. Somente retirada na loja.
 - Número do WhatsApp: `whatsapp` em `src/data/store.js`.
 - Escolhas de cada produto (sabores, recheios, coberturas): campo `order` em `src/data/products.js`.
 - Em quais etapas cada categoria aparece: `src/data/whatsappOrder.js`.
-- O pedido fica salvo no aparelho do cliente até ele começar um novo.
+- O pedido fica salvo no aparelho do cliente até ele começar um novo. Enquanto houver itens, aparece o
+  carrinho "Meu pedido": na barra do topo (todas as telas) e numa faixa acima da barra de pedido do celular.
 - Link direto que já abre o pop-up (bom para a bio do Instagram): `https://sua-coxinha-cajamar.vercel.app/#pedir-whatsapp`
 
 ## Estrutura

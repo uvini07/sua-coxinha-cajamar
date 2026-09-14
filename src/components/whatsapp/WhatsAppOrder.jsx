@@ -1,10 +1,10 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react'
+﻿import { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react'
 import { useStoryContext } from '../../context/StoryContext.js'
 import { itemIndex } from '../../data/whatsappOrder.js'
 import { summarize } from './orderLogic.js'
 import OrderDialog from './OrderDialog.jsx'
 
-const WhatsAppOrderContext = createContext({ open: () => {}, count: 0 })
+const WhatsAppOrderContext = createContext({ open: () => {}, count: 0, total: 0, isOpen: false })
 export const useWhatsAppOrder = () => useContext(WhatsAppOrderContext)
 
 // O pedido fica salvo no aparelho: se a pessoa sair e voltar, não perde o que escolheu.
@@ -87,7 +87,10 @@ export function WhatsAppOrderProvider({ children }) {
   }, [open])
 
   const summary = useMemo(() => summarize(lines), [lines])
-  const value = useMemo(() => ({ open, count: summary.count }), [open, summary.count])
+  const value = useMemo(
+    () => ({ open, count: summary.count, total: summary.total, isOpen: dialog.open }),
+    [open, summary.count, summary.total, dialog.open],
+  )
 
   return (
     <WhatsAppOrderContext.Provider value={value}>
