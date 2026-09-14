@@ -1,9 +1,6 @@
-.scene--churros {
-  --scene-bg: var(--laranja);
-  --scene-fg: var(--marrom);
-  background:
-    radial-gradient(70vmax 60vmax at 28% 55%, rgba(255, 235, 74, 0.55), transparent 65%),
-    var(--laranja);
+﻿.scene--churros {
+  --scene-bg: var(--amarelo);
+  --scene-fg: var(--preto);
 }
 
 .ch__floats {
@@ -15,7 +12,7 @@
 
 .ch__float {
   position: absolute;
-  filter: drop-shadow(0 20px 24px rgba(70, 35, 2, 0.3));
+  filter: drop-shadow(0 20px 24px rgba(0, 0, 0, 0.3));
 }
 
 .ch__float--a {
@@ -34,7 +31,7 @@
   right: 12%;
   top: 14%;
   width: clamp(80px, 8vw, 130px);
-  filter: blur(3px) drop-shadow(0 20px 24px rgba(70, 35, 2, 0.3));
+  filter: blur(3px) drop-shadow(0 20px 24px rgba(0, 0, 0, 0.3));
   opacity: 0.85;
 }
 
@@ -65,13 +62,13 @@
   inset: -10%;
   z-index: -1;
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(255, 235, 74, 0.9), transparent);
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.55), transparent);
   opacity: var(--glow);
 }
 
 .ch__product img {
   width: 100%;
-  filter: drop-shadow(0 40px 40px rgba(70, 35, 2, 0.35));
+  filter: drop-shadow(0 40px 40px rgba(0, 0, 0, 0.35));
 }
 
 .ch__copy {
@@ -105,7 +102,7 @@
   display: grid;
   gap: 0.35rem;
   padding-top: clamp(0.6rem, 1.6vh, 1rem);
-  border-top: 2px solid rgba(70, 35, 2, 0.25);
+  border-top: 2px solid rgba(0, 0, 0, 0.25);
 }
 
 .ch__step-n {
@@ -130,7 +127,8 @@
 .chip {
   padding: 0.35em 0.9em;
   border-radius: var(--radius-pill);
-  background: var(--creme);
+  background: var(--preto);
+  color: var(--branco);
   font-size: var(--step--1);
   font-weight: 700;
   line-height: 1.3;

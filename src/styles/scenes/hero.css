@@ -1,26 +1,37 @@
-.scene--hero {
-  --scene-bg: var(--marrom-noite);
-  --scene-fg: var(--creme);
+﻿.scene--hero {
+  --scene-bg: var(--preto);
+  --scene-fg: var(--branco);
   z-index: 1;
 }
 
-.hero__glow {
+/* Metade amarela: cópia do conteúdo recortada na diagonal, com cores invertidas */
+.hero__split {
+  --cut: polygon(64% 0, 100% 0, 100% 100%, 36% 100%);
   position: absolute;
-  left: 50%;
-  top: 48%;
-  width: 120vmax;
-  aspect-ratio: 1;
-  translate: -50% -50%;
-  border-radius: 50%;
-  background: radial-gradient(
-    closest-side,
-    rgba(249, 193, 21, 0.34),
-    rgba(247, 148, 51, 0.16) 45%,
-    rgba(42, 20, 1, 0) 100%
-  );
+  inset: 0;
+  z-index: 3;
+  background: var(--amarelo);
+  color: var(--preto);
+  clip-path: var(--cut);
   pointer-events: none;
 }
 
+/* A cópia precisa ter exatamente a altura da camada de baixo */
+.hero__split > .scene__inner {
+  height: 100%;
+}
+
+.hero .hero__title {
+  color: var(--amarelo);
+}
+
+.hero--on-yellow .hero__title {
+  color: var(--preto);
+}
+
+.hero--on-yellow .hero__product img {
+  filter: drop-shadow(0 30px 34px rgba(0, 0, 0, 0.35));
+}
 .hero {
   display: flex;
   flex-direction: column;
@@ -159,6 +170,11 @@
 
 /* ---------- Tablet e celular: coluna ---------- */
 @media (max-width: 899.98px) {
+  /* No celular a linha é mais deitada: preto em cima, amarelo embaixo */
+  .hero__split {
+    --cut: polygon(0 60%, 100% 40%, 100% 100%, 0 100%);
+  }
+
   .hero__title {
     font-size: clamp(4rem, 26vw, 11rem);
   }

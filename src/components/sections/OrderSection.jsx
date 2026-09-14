@@ -16,7 +16,7 @@ export default function OrderSection() {
             Peça pelo aplicativo que você preferir. Ou venha até a loja.
           </p>
           <OrderButtons size="big" className="order__buttons" />
-          <a className="btn btn--ghost-dark order__map" href={store.links.maps} target="_blank" rel="noopener noreferrer">
+          <a className="btn btn--ghost order__map" href={store.links.maps} target="_blank" rel="noopener noreferrer">
             <span className="btn__label">Ver a loja no mapa</span>
             <span className="sr-only"> (abre em nova aba)</span>
           </a>

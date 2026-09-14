@@ -1,5 +1,5 @@
-.progress {
-  --fg: var(--creme);
+﻿.progress {
+  --fg: var(--branco);
   --p: 0;
   position: fixed;
   z-index: 80;
@@ -19,7 +19,7 @@
 }
 
 .progress[data-theme='light'] {
-  --fg: var(--marrom);
+  --fg: var(--preto);
 }
 
 .progress[data-hidden='true'] {

@@ -1,4 +1,4 @@
-/* Cores das plataformas ajudam o cliente a reconhecer onde vai pedir */
+﻿/* Cores das plataformas ajudam o cliente a reconhecer onde vai pedir */
 .order-buttons {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -39,11 +39,6 @@
 .order-btn:active {
   transform: translateY(2px);
   box-shadow: none;
-}
-
-.order-btn:focus-visible {
-  outline: 3px solid var(--marrom);
-  outline-offset: 3px;
 }
 
 .order-buttons--big .order-btn {

@@ -16,7 +16,7 @@ export default function ScrollProgress() {
     <div
       ref={progressRef}
       className="progress"
-      data-theme={scene.theme}
+      data-theme={scene.progressTheme || scene.theme}
       data-hidden={!current.inStory}
       aria-hidden="true"
     >

@@ -1,11 +1,9 @@
-.order {
+﻿.order {
   position: relative;
   z-index: 5;
   overflow: hidden;
-  background:
-    radial-gradient(60vmax 50vmax at 30% 20%, rgba(255, 235, 74, 0.85), transparent 70%),
-    var(--amarelo);
-  color: var(--marrom);
+  background: var(--preto);
+  color: var(--branco);
 }
 
 .order__inner {
@@ -26,6 +24,7 @@
 }
 
 .order__title {
+  color: var(--amarelo);
   font-size: clamp(3.5rem, 1.5rem + 9vw, 11rem);
   line-height: 0.85;
 }
@@ -53,7 +52,7 @@
   gap: 1.5rem clamp(1.5rem, 5vw, 4rem);
   margin: 0;
   padding-top: 1.75rem;
-  border-top: 2px solid rgba(70, 35, 2, 0.25);
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
   font-size: 1.125rem;
   line-height: 1.55;
 }
@@ -84,7 +83,7 @@
   justify-content: space-between;
   gap: 0.75rem 1.5rem;
   padding-top: 1.25rem;
-  border-top: 1px solid rgba(70, 35, 2, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
   font-size: 0.9375rem;
 }
 
@@ -104,7 +103,7 @@
   aspect-ratio: 4 / 3;
   object-fit: cover;
   border-radius: 22px;
-  box-shadow: 0 24px 40px -24px rgba(70, 35, 2, 0.6);
+  box-shadow: 0 24px 40px -24px rgba(0, 0, 0, 0.6);
 }
 
 .order__photo figcaption {

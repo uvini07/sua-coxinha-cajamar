@@ -1,4 +1,4 @@
-*,
+﻿*,
 *::before,
 *::after {
   box-sizing: border-box;
@@ -6,7 +6,7 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  background: var(--marrom-noite);
+  background: var(--preto);
 }
 
 body {
@@ -14,8 +14,8 @@ body {
   font-family: var(--font-body);
   font-size: var(--step-0);
   line-height: 1.55;
-  color: var(--creme);
-  background: var(--marrom-noite);
+  color: var(--branco);
+  background: var(--preto);
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -54,18 +54,18 @@ button {
 }
 
 :focus-visible {
-  outline: 3px solid var(--amarelo-claro);
+  outline: 3px solid var(--amarelo);
   outline-offset: 3px;
   border-radius: 6px;
 }
 
 .scene--products :focus-visible,
 .scene--churros :focus-visible,
-.catalog :focus-visible,
-.order :focus-visible,
-.order-bar :focus-visible,
+.about :focus-visible,
+.product__card :focus-visible,
+.drinks :focus-visible,
 .nav[data-theme='light'] :focus-visible {
-  outline-color: var(--marrom);
+  outline-color: var(--preto);
 }
 
 [tabindex='-1']:focus {
@@ -92,7 +92,7 @@ button {
   padding: 0.7em 1.1em;
   border-radius: var(--radius-pill);
   background: var(--amarelo);
-  color: var(--marrom);
+  color: var(--preto);
   font-weight: 700;
   text-decoration: none;
   transform: translateY(-160%);
@@ -141,7 +141,7 @@ button {
 
 .btn {
   --btn-bg: var(--amarelo);
-  --btn-fg: var(--marrom);
+  --btn-fg: var(--preto);
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -175,7 +175,7 @@ button {
   inset: 0;
   z-index: -1;
   border-radius: inherit;
-  background: var(--btn-hover-bg, var(--amarelo-claro));
+  background: var(--btn-hover-bg, var(--amarelo-hover));
   transform: translateY(101%);
   transition: transform 0.45s var(--ease-out);
 }
@@ -191,30 +191,30 @@ button {
 .btn--ghost {
   --btn-bg: transparent;
   --btn-fg: currentColor;
-  --btn-hover-bg: var(--creme);
+  --btn-hover-bg: var(--branco);
   border-color: currentColor;
 }
 
 .btn--ghost:hover {
-  color: var(--marrom);
-  border-color: var(--creme);
+  color: var(--preto);
+  border-color: var(--branco);
 }
 
 .btn--dark {
-  --btn-bg: var(--marrom);
-  --btn-fg: var(--creme);
-  --btn-hover-bg: var(--marrom-medio);
+  --btn-bg: var(--preto);
+  --btn-fg: var(--branco);
+  --btn-hover-bg: var(--preto-2);
 }
 
 .btn--ghost-dark {
   --btn-bg: transparent;
-  --btn-fg: var(--marrom);
-  --btn-hover-bg: var(--marrom);
-  border-color: var(--marrom);
+  --btn-fg: var(--preto);
+  --btn-hover-bg: var(--preto);
+  border-color: var(--preto);
 }
 
 .btn--ghost-dark:hover {
-  color: var(--creme);
+  color: var(--branco);
 }
 
 .btn--big {

@@ -1,10 +1,10 @@
-/* Cardápio: rolagem normal, texto grande, botões grandes. Pensado para todas as idades. */
+﻿/* Cardápio: rolagem normal, texto grande, botões grandes. Pensado para todas as idades. */
 .catalog {
   --tone: var(--amarelo);
   position: relative;
   z-index: 5;
-  background: var(--creme);
-  color: var(--marrom);
+  background: var(--preto);
+  color: var(--branco);
   font-size: 1.125rem;
 }
 
@@ -16,7 +16,7 @@
   right: 0;
   top: -15px;
   height: 16px;
-  background: var(--creme);
+  background: var(--preto);
   -webkit-mask: conic-gradient(from 135deg at top, #000 90deg, #0000 0) 50% / 30px 100%;
   mask: conic-gradient(from 135deg at top, #000 90deg, #0000 0) 50% / 30px 100%;
 }
@@ -34,6 +34,7 @@
 }
 
 .catalog__title {
+  color: var(--amarelo);
   font-size: clamp(3.25rem, 2rem + 6vw, 7rem);
 }
 
@@ -62,9 +63,10 @@
   justify-content: center;
   min-height: 56px;
   padding: 0.6em 1em;
-  border: 2px solid var(--marrom);
+  border: 2px solid var(--amarelo);
   border-radius: 14px;
-  background: #fffaf0;
+  background: transparent;
+  color: var(--branco);
   font-size: 1.125rem;
   font-weight: 800;
   text-align: center;
@@ -76,8 +78,8 @@
 
 .catalog__nav a:hover,
 .catalog__nav a:active {
-  background: var(--marrom);
-  color: var(--creme);
+  background: var(--amarelo);
+  color: var(--preto);
 }
 
 @media (min-width: 700px) {
@@ -94,7 +96,7 @@
     z-index: 10;
     margin-inline: calc(var(--pad-x) * -1);
     padding: 0.75rem var(--pad-x);
-    background: rgba(247, 239, 210, 0.94);
+    background: rgba(20, 20, 21, 0.94);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
   }
@@ -160,16 +162,16 @@
 }
 
 .product--churros {
-  --tone: var(--laranja);
+  --tone: var(--amarelo);
 }
 
 .product--festa,
 .product--combos {
-  --tone: var(--amarelo-claro);
+  --tone: var(--amarelo);
 }
 
 .product--casa {
-  --tone: #f7b7a3;
+  --tone: var(--amarelo);
 }
 
 .product__card {
@@ -177,8 +179,8 @@
   flex-direction: column;
   height: 100%;
   border-radius: 22px;
-  background: #fffaf0;
-  box-shadow: 0 0 0 1px rgba(70, 35, 2, 0.1);
+  background: var(--branco);
+  color: var(--preto);
   overflow: hidden;
 }
 
@@ -194,7 +196,7 @@
   width: 84%;
   height: 84%;
   object-fit: contain;
-  filter: drop-shadow(0 12px 14px rgba(70, 35, 2, 0.25));
+  filter: drop-shadow(0 12px 14px rgba(0, 0, 0, 0.25));
 }
 
 .product__body {
@@ -232,7 +234,7 @@
   justify-content: space-between;
   gap: 1rem;
   padding: 0.45rem 0;
-  border-bottom: 1px solid rgba(70, 35, 2, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   font-size: 1.0625rem;
 }
 
@@ -267,8 +269,7 @@
   .product__card:hover {
     transform: translateY(-4px);
     box-shadow:
-      0 0 0 1px rgba(70, 35, 2, 0.1),
-      0 20px 36px -22px rgba(70, 35, 2, 0.45);
+      0 20px 36px -18px rgba(249, 193, 21, 0.35);
   }
 }
 
@@ -279,8 +280,8 @@
   gap: 1.5rem;
   padding: clamp(1.25rem, 3vw, 2rem);
   border-radius: 22px;
-  background: #fffaf0;
-  box-shadow: 0 0 0 1px rgba(70, 35, 2, 0.1);
+  background: var(--branco);
+  color: var(--preto);
 }
 
 .drinks__list {
@@ -303,7 +304,7 @@
   justify-content: space-between;
   gap: 1rem;
   padding: 0.6rem 0;
-  border-bottom: 1px solid rgba(70, 35, 2, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   font-size: 1.125rem;
 }
 

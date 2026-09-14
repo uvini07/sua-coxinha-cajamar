@@ -1,6 +1,6 @@
-.scene--coxinha {
-  --scene-bg: var(--marrom);
-  --scene-fg: var(--creme);
+﻿.scene--coxinha {
+  --scene-bg: var(--preto);
+  --scene-fg: var(--branco);
 }
 
 /* Luz quente que percorre a cena conforme o scroll */
@@ -10,8 +10,7 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(38vmax 38vmax at var(--lx) var(--ly), rgba(249, 193, 21, 0.38), transparent 70%),
-    radial-gradient(60vmax 50vmax at 100% 100%, rgba(42, 20, 1, 0.8), transparent 70%);
+    radial-gradient(38vmax 38vmax at var(--lx) var(--ly), rgba(249, 193, 21, 0.3), transparent 70%);
   pointer-events: none;
 }
 
@@ -46,7 +45,8 @@
 }
 
 .cx__crumb:nth-child(3n) {
-  background: var(--laranja);
+  background: var(--branco);
+  opacity: 0.35;
 }
 
 .cx {
@@ -109,7 +109,7 @@
 
 .cx__size .price {
   font-size: var(--step-2);
-  color: var(--creme);
+  color: var(--branco);
 }
 
 /* Sem animação, mostra o estado final (coxinha G) */
@@ -179,7 +179,7 @@
 
 .cx__flavor {
   padding: 0.4em 0;
-  border-bottom: 1px solid rgba(247, 239, 210, 0.16);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
   font-size: var(--step--1);
   font-weight: 500;
   line-height: 1.3;
@@ -267,7 +267,7 @@
 
   .cx__flavor {
     padding: 0.3em 0.75em;
-    border: 1px solid rgba(247, 239, 210, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: var(--radius-pill);
     font-size: 0.75rem;
   }

@@ -1,4 +1,4 @@
-import gsap from 'gsap'
+﻿import gsap from 'gsap'
 import { zigzag } from './zigzag.js'
 
 /**
@@ -50,7 +50,6 @@ function hero({ q }, { tl, blur }) {
   tl.to(q('.hero__word--bottom'), { xPercent: 24, duration: 1.4, ease: 'none' }, 0)
   tl.to(q('.hero__coxinha'), { scale: 1.55, rotate: 14, yPercent: -18, duration: 1.4, ease: 'power1.in' }, 0)
   tl.to(q('.hero__churros'), { scale: 1.3, rotate: -16, xPercent: 18, yPercent: 26, duration: 1.4, ease: 'power1.in' }, 0)
-  tl.to(q('.hero__glow'), { scale: 1.7, duration: 1.4, ease: 'none' }, 0)
   return 0.7
 }
 

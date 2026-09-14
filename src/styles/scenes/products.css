@@ -1,6 +1,6 @@
-.scene--products {
-  --scene-bg: var(--creme);
-  --scene-fg: var(--marrom);
+﻿.scene--products {
+  --scene-bg: var(--amarelo);
+  --scene-fg: var(--preto);
 }
 
 .products {
@@ -42,12 +42,9 @@
   min-width: 0;
 }
 
-.family--coxinhas {
-  --plate: var(--amarelo);
-}
-
+.family--coxinhas,
 .family--churros {
-  --plate: var(--laranja);
+  --plate: var(--preto);
 }
 
 .tile {
@@ -67,7 +64,7 @@
   margin-bottom: 0.6rem;
   border-radius: var(--radius-lg);
   background: var(--plate);
-  box-shadow: 0 0 0 rgba(70, 35, 2, 0);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
   transition:
     box-shadow 0.5s var(--ease-out),
     border-radius 0.5s var(--ease-out);
@@ -79,7 +76,7 @@
   width: 90%;
   height: 90%;
   object-fit: contain;
-  filter: drop-shadow(0 12px 14px rgba(70, 35, 2, 0.28));
+  filter: drop-shadow(0 12px 14px rgba(0, 0, 0, 0.5));
   transition: transform 0.6s var(--ease-out);
 }
 
@@ -110,13 +107,13 @@
   width: 7px;
   height: 7px;
   border-radius: 2px;
-  background: var(--marrom);
+  background: var(--preto);
   opacity: 0;
   transform: rotate(var(--angle)) translateX(0) scale(0.4);
 }
 
 .tile__sparks i:nth-child(odd) {
-  background: var(--creme);
+  background: var(--branco);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -135,7 +132,7 @@
 
   .tile:hover .tile__plate,
   .tile:focus-visible .tile__plate {
-    box-shadow: 0 24px 40px -18px rgba(70, 35, 2, 0.5);
+    box-shadow: 0 24px 40px -18px rgba(0, 0, 0, 0.5);
   }
 
   .tile:hover .tile__plate img,

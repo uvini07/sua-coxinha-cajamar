@@ -1,14 +1,10 @@
-/* Paleta extraída do cardápio oficial Sua Coxinha */
+/* Cores da loja Sua Coxinha: preto e amarelo (letreiro e fachada). Branco só para textos e cartões. */
 :root {
-  --creme: #f7efd2;
+  --preto: #141415;
+  --preto-2: #2a2a2c;
   --amarelo: #f9c115;
-  --amarelo-claro: #ffeb4a;
-  --laranja: #f79433;
-  --marrom: #462302;
-  --marrom-medio: #8a4d1c;
-  --marrom-noite: #2a1401;
-  --coral: #f15b5b;
-  --tinta: #141415;
+  --amarelo-hover: #ffd23f;
+  --branco: #ffffff;
 
   --font-display: 'Bricolage Grotesque', 'Arial Narrow', Impact, sans-serif;
   --font-body: 'Satoshi', 'Segoe UI', system-ui, sans-serif;
