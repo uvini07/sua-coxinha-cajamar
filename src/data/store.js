@@ -40,8 +40,8 @@ export const platforms = [
   {
     id: 'food99',
     name: '99Food',
-    // PREENCHER: link da loja no 99Food (ex.: https://99app.com/99food/cajamar/sua-coxinha-.../123/)
-    url: '',
+    // Link de compartilhamento da loja no app 99Food.
+    url: 'https://oia.99app.com/dlp9/xeuFH9',
   },
 ]
 

@@ -1,4 +1,4 @@
-# Sua Coxinha Cajamar — site
+﻿# Sua Coxinha Cajamar — site
 
 Site da loja Sua Coxinha em Cajamar, com cardápio completo e pedido pelo iFood ou 99Food.
 
@@ -55,7 +55,6 @@ src/
 
 ## Pendências
 
-1. Link da loja no 99Food (`store.js`, plataforma `food99`).
-2. Links exatos de cada produto no iFood e no 99Food (`products.js`).
-3. Confirmar os horários (vieram da bio do Instagram).
-4. Fotos dos produtos em alta resolução. As atuais foram recortadas do PDF do cardápio (~500px). Troque mantendo o mesmo nome em `public/assets/produtos/`, com fundo transparente e mínimo de 1200px no lado maior.
+1. Links exatos de cada produto no iFood e no 99Food (`products.js`).
+2. Confirmar os horários (vieram da bio do Instagram).
+3. Fotos dos produtos em alta resolução. As atuais foram recortadas do PDF do cardápio (~500px). Troque mantendo o mesmo nome em `public/assets/produtos/`, com fundo transparente e mínimo de 1200px no lado maior.
