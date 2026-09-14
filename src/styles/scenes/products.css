@@ -44,7 +44,7 @@
 
 .family--coxinhas,
 .family--churros {
-  --plate: var(--preto);
+  --plate: var(--amarelo);
 }
 
 .tile {
@@ -76,7 +76,7 @@
   width: 90%;
   height: 90%;
   object-fit: contain;
-  filter: drop-shadow(0 12px 14px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 12px 14px rgba(0, 0, 0, 0.28));
   transition: transform 0.6s var(--ease-out);
 }
 
