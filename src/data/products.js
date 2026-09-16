@@ -13,19 +13,24 @@
 
 const img = (name) => `/assets/produtos/${name}.webp`
 
-export const coxinhaFlavors = [
-  'Frango tradicional',
-  'Frango com Catupiry®',
-  'Costela bovina com requeijão',
-  'Queijo mussarela',
-  'Pizza (presunto, queijo e orégano)',
-  'Carne seca com queijo',
-  'Frango, cheddar e bacon',
-  'Caipira (frango, milho, bacon e requeijão)',
-]
+// Sabores da coxinha. `image` é a foto do recheio (imagem ilustrativa), usada no seletor de sabores.
+// Para trocar uma foto, substitua o arquivo em public/assets/sabores/ mantendo o nome.
+// `onlyM: true` marca os sabores que existem apenas na coxinha M.
+export const flavors = [
+  { id: 'frango', name: 'Frango tradicional' },
+  { id: 'catupiry', name: 'Frango com Catupiry®' },
+  { id: 'costela', name: 'Costela bovina com requeijão' },
+  { id: 'mussarela', name: 'Queijo mussarela' },
+  { id: 'pizza', name: 'Pizza (presunto, queijo e orégano)' },
+  { id: 'carne-seca', name: 'Carne seca com queijo' },
+  { id: 'cheddar-bacon', name: 'Frango, cheddar e bacon' },
+  { id: 'caipira', name: 'Caipira (frango, milho, bacon e requeijão)' },
+  { id: 'carne-moida', name: 'Carne moída', onlyM: true },
+  { id: 'brocolis', name: 'Brócolis', onlyM: true },
+].map((f) => ({ ...f, image: `/assets/sabores/${f.id}.webp` }))
 
-// Sabores extras disponíveis apenas na coxinha M.
-export const coxinhaMExtras = ['Carne moída', 'Brócolis']
+export const coxinhaFlavors = flavors.filter((f) => !f.onlyM).map((f) => f.name)
+export const coxinhaMExtras = flavors.filter((f) => f.onlyM).map((f) => f.name)
 
 export const festaFlavors = [
   'Frango tradicional',

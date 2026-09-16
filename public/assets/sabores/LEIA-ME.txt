@@ -1,0 +1,15 @@
+Fotos dos sabores da coxinha (imagens ilustrativas).
+
+Como trocar: salve a foto do sabor com o nome exato da lista abaixo, em PNG com fundo
+transparente, e rode "npm run fotos" na pasta do projeto para gerar os .webp do site.
+
+frango.png         -> Frango tradicional
+catupiry.png       -> Frango com Catupiry
+costela.png        -> Costela bovina com requeijao
+mussarela.png      -> Queijo mussarela
+pizza.png          -> Pizza (presunto, queijo e oregano)
+carne-seca.png     -> Carne seca com queijo
+cheddar-bacon.png  -> Frango, cheddar e bacon
+caipira.png        -> Caipira (frango, milho, bacon e requeijao)
+carne-moida.png    -> Carne moida (so na coxinha M)
+brocolis.png       -> Brocolis (so na coxinha M)

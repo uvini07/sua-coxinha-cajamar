@@ -1,4 +1,5 @@
-﻿import { coxinhaFlavors, coxinhaMExtras } from '../../data/products.js'
+﻿import { useRef, useState } from 'react'
+import { flavors } from '../../data/products.js'
 import Price from '../Price.jsx'
 import '../../styles/scenes/coxinha.css'
 
@@ -11,6 +12,22 @@ const CRUMBS = Array.from({ length: 9 }, (_, i) => ({
 }))
 
 export default function CoxinhaScene() {
+  const [flavor, setFlavor] = useState(flavors[0])
+  const imgRef = useRef(null)
+
+  // Troca a foto do recheio com uma piscada curta, para o cliente perceber a mudança.
+  const chooseFlavor = (next) => {
+    setFlavor(next)
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    imgRef.current?.animate?.(
+      [
+        { opacity: 0.3, transform: 'scale(0.97)' },
+        { opacity: 1, transform: 'scale(1)' },
+      ],
+      { duration: 260, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+    )
+  }
+
   return (
     <section id="coxinha" className="scene scene--coxinha" data-theme="dark" aria-labelledby="coxinha-title">
       <div className="cx__light" aria-hidden="true" />
@@ -64,27 +81,43 @@ export default function CoxinhaScene() {
               decoding="async"
             />
             <img
+              ref={imgRef}
               className="cx__img cx__img--g"
-              src="/assets/produtos/coxinha-g-sombra.webp"
-              alt="Coxinha G cortada ao meio, mostrando o recheio"
+              src={flavor.image}
+              alt={`Coxinha cortada ao meio, com recheio de ${flavor.name.toLowerCase()}`}
               loading="lazy"
               decoding="async"
+              onError={(e) => {
+                e.currentTarget.src = '/assets/produtos/coxinha-g-sombra.webp'
+              }}
             />
           </div>
           <span className="cx__shadow" aria-hidden="true" />
         </div>
 
         <div className="cx__flavors" data-reveal>
-          <h3 className="cx__flavors-title">Sabores</h3>
-          <ul className="cx__flavor-list">
-            {coxinhaFlavors.map((flavor) => (
-              <li key={flavor} className="cx__flavor">
-                {flavor}
+          <h3 className="cx__flavors-title" id="cx-sabores">
+            Sabores
+          </h3>
+          <p className="cx__flavors-hint">Toque num sabor para ver por dentro.</p>
+          <ul className="cx__flavor-list" aria-labelledby="cx-sabores">
+            {flavors.map((item) => (
+              <li key={item.id}>
+                <button
+                  type="button"
+                  className="cx__flavor"
+                  aria-pressed={item.id === flavor.id}
+                  onClick={() => chooseFlavor(item)}
+                >
+                  {item.name}
+                  {item.onlyM && <span className="cx__flavor-tag">só na M</span>}
+                </button>
               </li>
             ))}
           </ul>
-          <p className="cx__note">Na M, também {coxinhaMExtras.join(' e ').toLowerCase()}.</p>
+          <p className="cx__note">Imagens meramente ilustrativas.</p>
         </div>
+
       </div>
     </section>
   )

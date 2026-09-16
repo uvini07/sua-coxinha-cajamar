@@ -174,15 +174,64 @@
 
 .cx__flavor-list {
   display: grid;
-  gap: 0.1rem;
+  gap: 0.35rem;
 }
 
-.cx__flavor {
-  padding: 0.4em 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+.cx__flavors-hint {
+  margin-top: -0.4rem;
   font-size: var(--step--1);
-  font-weight: 500;
+  opacity: 0.75;
+}
+
+/* Cada sabor é um botão: troca a foto do recheio */
+.cx__flavor {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.4em 0.9em;
+  border: 2px solid rgba(255, 255, 255, 0.22);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--step--1);
+  font-weight: 600;
   line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 0.25s var(--ease-out),
+    color 0.25s var(--ease-out),
+    border-color 0.25s var(--ease-out);
+}
+
+.cx__flavor[aria-pressed='true'] {
+  border-color: var(--amarelo);
+  background: var(--amarelo);
+  color: var(--preto);
+  font-weight: 800;
+}
+
+@media (hover: hover) {
+  .cx__flavor:hover {
+    border-color: var(--amarelo);
+  }
+}
+
+.cx__flavor-tag {
+  flex-shrink: 0;
+  padding: 0.1em 0.5em;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.cx__flavor[aria-pressed='true'] .cx__flavor-tag {
+  background: rgba(0, 0, 0, 0.18);
 }
 
 .cx__note {
@@ -196,7 +245,8 @@
   }
 
   .cx__flavor {
-    padding: 0.25em 0;
+    min-height: 38px;
+    padding: 0.2em 0.8em;
   }
 }
 
@@ -265,11 +315,16 @@
     gap: 0.35rem;
   }
 
+  /* Botões de sabor no celular: largura só do texto, mas com altura boa para o dedo */
   .cx__flavor {
-    padding: 0.3em 0.75em;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: var(--radius-pill);
-    font-size: 0.75rem;
+    width: auto;
+    min-height: 40px;
+    padding: 0.3em 0.9em;
+    font-size: 0.9375rem;
+  }
+
+  .cx__flavors-hint {
+    font-size: 0.875rem;
   }
 
   .cx__note {
@@ -298,8 +353,8 @@
   }
 
   html:not(.is-story) .cx__flavor {
-    font-size: 0.9375rem;
-    padding: 0.35em 0.85em;
+    min-height: 44px;
+    font-size: 1rem;
   }
 
   html:not(.is-story) .cx__note {

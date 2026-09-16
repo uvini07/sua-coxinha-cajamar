@@ -5,3 +5,5 @@ dist
 .env*
 # fotos originais enviadas (versões otimizadas ficam em public/assets/loja)
 frenteLoja*.jpeg
+# fotos originais dos sabores (o site usa os .webp gerados por "npm run fotos")
+public/assets/sabores/*.png

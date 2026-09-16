@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "fotos": "python scripts/fotos-sabores.py"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

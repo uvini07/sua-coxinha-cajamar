@@ -56,6 +56,18 @@ da loja com a mensagem do pedido pronta. Somente retirada na loja.
   carrinho "Meu pedido": na barra do topo (todas as telas) e numa faixa acima da barra de pedido do celular.
 - Link direto que já abre o pop-up (bom para a bio do Instagram): `https://sua-coxinha-cajamar.vercel.app/#pedir-whatsapp`
 
+## Fotos dos sabores
+
+Na cena "Crocante por fora, cremosa por dentro" o cliente toca num sabor e a foto do recheio muda.
+
+1. Salve o PNG de cada sabor em `public/assets/sabores/` com o nome da lista em `LEIA-ME.txt`
+   (`frango.png`, `catupiry.png`, `costela.png`, `mussarela.png`, `pizza.png`, `carne-seca.png`,
+   `cheddar-bacon.png`, `caipira.png`, `carne-moida.png`, `brocolis.png`).
+2. Rode `npm run fotos`: o script recorta o fundo transparente e gera os `.webp` que o site usa.
+3. Os nomes e a ordem dos sabores ficam em `flavors`, em `src/data/products.js`.
+
+As fotos são ilustrativas, e o site diz isso embaixo da lista.
+
 ## Estrutura
 
 ```
