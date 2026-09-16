@@ -372,3 +372,30 @@
     padding: 0.2em 0.6em;
   }
 }
+
+/* Enquanto a foto do sabor está sendo baixada */
+.cx__flavor[data-loading='true'] {
+  border-color: var(--amarelo);
+}
+
+.cx__flavor-spinner {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(249, 193, 21, 0.35);
+  border-top-color: var(--amarelo);
+  border-radius: 50%;
+  animation: cx-spin 0.7s linear infinite;
+}
+
+@keyframes cx-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cx__flavor-spinner {
+    animation-duration: 2s;
+  }
+}

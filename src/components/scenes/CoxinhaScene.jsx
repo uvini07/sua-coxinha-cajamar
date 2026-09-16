@@ -1,4 +1,4 @@
-﻿import { useRef, useState } from 'react'
+﻿import { useEffect, useRef, useState } from 'react'
 import { flavors } from '../../data/products.js'
 import Price from '../Price.jsx'
 import '../../styles/scenes/coxinha.css'
@@ -11,20 +11,49 @@ const CRUMBS = Array.from({ length: 9 }, (_, i) => ({
   filter: i % 3 ? `blur(${i % 3}px)` : undefined,
 }))
 
+// Mantém na memória as fotos já baixadas, para a troca ser instantânea da segunda vez em diante.
+const carregadas = new Set()
+
+function carregar(src) {
+  if (carregadas.has(src)) return Promise.resolve()
+  const img = new Image()
+  img.src = src
+  const pronto = img.decode ? img.decode() : Promise.resolve()
+  return pronto.catch(() => {}).then(() => carregadas.add(src))
+}
+
 export default function CoxinhaScene() {
   const [flavor, setFlavor] = useState(flavors[0])
+  const [carregando, setCarregando] = useState(null)
   const imgRef = useRef(null)
 
-  // Troca a foto do recheio com uma piscada curta, para o cliente perceber a mudança.
-  const chooseFlavor = (next) => {
+  // Com conexão boa, deixa as outras fotos prontas enquanto a pessoa lê a página.
+  useEffect(() => {
+    const rede = navigator.connection
+    if (rede?.saveData || (rede?.effectiveType && !rede.effectiveType.includes('4g'))) return
+    const agendar = window.requestIdleCallback ?? ((fn) => setTimeout(fn, 1200))
+    const id = agendar(() => flavors.forEach((f) => carregar(f.image)))
+    return () => window.cancelIdleCallback?.(id)
+  }, [])
+
+  // Só troca a foto depois que ela está baixada: sem piscar nem aparecer pela metade.
+  const chooseFlavor = async (next) => {
+    if (next.id === flavor.id) return
+    if (!carregadas.has(next.image)) {
+      setCarregando(next.id)
+      await carregar(next.image)
+      setCarregando(null)
+    }
     setFlavor(next)
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    imgRef.current?.animate?.(
-      [
-        { opacity: 0.3, transform: 'scale(0.97)' },
-        { opacity: 1, transform: 'scale(1)' },
-      ],
-      { duration: 260, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+    requestAnimationFrame(() =>
+      imgRef.current?.animate?.(
+        [
+          { opacity: 0, transform: 'scale(0.97)' },
+          { opacity: 1, transform: 'scale(1)' },
+        ],
+        { duration: 320, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+      ),
     )
   }
 
@@ -107,10 +136,15 @@ export default function CoxinhaScene() {
                   type="button"
                   className="cx__flavor"
                   aria-pressed={item.id === flavor.id}
+                  aria-busy={carregando === item.id}
+                  data-loading={carregando === item.id}
                   onClick={() => chooseFlavor(item)}
+                  onPointerEnter={() => carregar(item.image)}
+                  onTouchStart={() => carregar(item.image)}
                 >
                   {item.name}
                   {item.onlyM && <span className="cx__flavor-tag">só na M</span>}
+                  {carregando === item.id && <span className="cx__flavor-spinner" aria-hidden="true" />}
                 </button>
               </li>
             ))}
