@@ -201,6 +201,29 @@
   .logo {
     width: 122px;
   }
+
+  /* Sem os links e o botao de pedido, a barra pode ficar mais justa. */
+  .nav {
+    gap: 0.5rem;
+  }
+}
+
+/* Em telas estreitas o texto "Menu" nao cabe: vira so o icone. */
+@media (max-width: 560px) {
+  .nav__burger {
+    gap: 0;
+    padding: 0 0.85rem;
+  }
+
+  .nav__burger-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }
 
 @media (min-width: 900px) {
@@ -246,5 +269,11 @@
 
   .logo {
     width: 104px;
+  }
+}
+
+@media (max-width: 360px) {
+  .nav__unit {
+    display: none;
   }
 }

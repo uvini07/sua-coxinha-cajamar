@@ -119,7 +119,8 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
                 </button>
               </div>
               <p className="wa-review__saved">
-                Seu pedido fica guardado neste aparelho. Pode fechar e voltar depois: é só tocar em <strong>Meu pedido</strong>.
+                Seu pedido fica guardado neste aparelho.
+                <span className="wa-only-wide"> Pode fechar e voltar depois: é só tocar em <strong>Meu pedido</strong>.</span>
               </p>
             </>
           )}
@@ -129,7 +130,9 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
           <h3 id="wa-pickup-title" className="wa-pickup__title">
             Retirada na loja
           </h3>
-          <p>Pedidos pelo WhatsApp são somente para retirar na loja. A loja confirma o pedido e o valor pelo WhatsApp.</p>
+          <p className="wa-only-wide">
+            Pedidos pelo WhatsApp são somente para retirar na loja. A loja confirma o pedido e o valor pelo WhatsApp.
+          </p>
           <p className="wa-pickup__address">
             {store.address.street}
             <br />
@@ -248,8 +251,11 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
 
       <footer className="wa-foot wa-foot--send">
         <p className="wa-foot__notice">
-          Olá! 😊 Informamos que pedidos feitos via WhatsApp, para retirada na loja, só serão encaminhados para produção após o
-          envio do comprovante de pagamento. Agradecemos a compreensão! 💛
+          <span className="wa-only-wide">Olá! 😊 Informamos que </span>
+          <span className="wa-only-wide">pedidos feitos via WhatsApp, para retirada na loja, só serão encaminhados para produção após o envio do comprovante de pagamento. Agradecemos a compreensão! 💛</span>
+          <span className="wa-only-narrow">
+            💛 O pedido só vai para produção depois do envio do comprovante de pagamento.
+          </span>
         </p>
         {showErrors && hasErrors && (
           <p className="wa-foot__error" role="alert">

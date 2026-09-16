@@ -1158,3 +1158,64 @@ textarea.wa-input {
   line-height: 1.45;
   text-align: center;
 }
+
+/* Textos longos ficam só nas telas largas; no celular entra a versão curta. */
+.wa-only-narrow {
+  display: none;
+}
+
+@media (max-width: 599.98px) {
+  .wa-only-wide {
+    display: none;
+  }
+
+  .wa-only-narrow {
+    display: inline;
+  }
+
+  /* Tela de conferência mais enxuta no celular. */
+  .wa-body {
+    padding: 0.75rem 1rem 1rem;
+    font-size: 1rem;
+  }
+
+  .wa-section__title {
+    padding: 0.75rem 0 0.25rem;
+    font-size: 1.5rem;
+  }
+
+  .wa-review__total {
+    padding-top: 0.75rem;
+  }
+
+  .wa-review__actions {
+    margin-top: 0.75rem;
+  }
+
+  .wa-review__saved {
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.65rem;
+    font-size: 0.875rem;
+  }
+
+  .wa-pickup {
+    gap: 0.25rem;
+    margin-top: 1rem;
+    padding: 0.75rem 0.85rem;
+  }
+
+  .wa-pickup__title {
+    font-size: 1.0625rem;
+  }
+
+  .wa-pickup__address,
+  .wa-pickup__link {
+    font-size: 0.9375rem;
+  }
+
+  .wa-foot__notice {
+    padding: 0.5rem 0.625rem;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+  }
+}
