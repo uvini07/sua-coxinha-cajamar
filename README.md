@@ -68,6 +68,18 @@ Na cena "Crocante por fora, cremosa por dentro" o cliente toca num sabor e a fot
 
 As fotos são ilustrativas, e o site diz isso embaixo da lista.
 
+## Imagem do link (WhatsApp, Instagram, Facebook)
+
+Ao compartilhar o link aparece a imagem `public/compartilhar.jpg` (1200x630).
+
+- Para refazer: edite `scripts/og.html`, copie-o para `public/__og.html`, rode `npm run dev`, abra
+  `http://localhost:5173/__og.html`, tire um print de 1200x630 salvando em `public/compartilhar.jpg`
+  e apague o `public/__og.html`.
+- Os textos e o endereço da imagem ficam nas tags `og:` em `index.html`. **Ao trocar de domínio,
+  atualize as URLs absolutas de `og:url` e `og:image`.**
+- O WhatsApp guarda a prévia por alguns dias. Para testar de novo, mande o link com algo no fim,
+  como `?v=2`.
+
 ## Estrutura
 
 ```
