@@ -14,7 +14,7 @@ export const store = {
   // CONFIRMAR: horários vieram da bio do Instagram da loja.
   hours: [
     { days: 'Segunda a sábado', time: '7h às 22h' },
-    { days: 'Domingo', time: '14h às 22h' },
+    { days: 'Domingo e feriados', time: '14h às 22h' },
   ],
 
   // Horário de funcionamento por dia da semana (0 = domingo), em horas.
@@ -28,6 +28,11 @@ export const store = {
     5: [7, 22],
     6: [7, 22],
   },
+
+  // Em feriados a loja funciona como domingo (14h às 22h).
+  // Os feriados nacionais são calculados sozinhos. Aqui entram os feriados da cidade
+  // e os dias em que a loja fecha ou muda o horário (formato AAAA-MM-DD).
+  feriadosLocais: [],
 
   // CONFIRMAR: prazo de preparo. O cliente só pode marcar a retirada depois desse tempo.
   prepMinutes: 45,

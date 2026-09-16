@@ -119,6 +119,56 @@ export function earliestPickup(now = new Date()) {
 
 const hoursLabel = (open, close) => `das ${open}h às ${close}h`
 
+// Domingo de Páscoa pelo cálculo de Gauss: dele saem Carnaval, Sexta-feira Santa e Corpus Christi.
+function pascoa(ano) {
+  const a = ano % 19
+  const b = Math.floor(ano / 100)
+  const c = ano % 100
+  const d = Math.floor(b / 4)
+  const e = b % 4
+  const f = Math.floor((b + 8) / 25)
+  const g = Math.floor((b - f + 1) / 3)
+  const h = (19 * a + b - d - g + 15) % 30
+  const i = Math.floor(c / 4)
+  const k = c % 4
+  const l = (32 + 2 * e + 2 * i - h - k) % 7
+  const m = Math.floor((a + 11 * h + 22 * l) / 451)
+  const mes = Math.floor((h + l - 7 * m + 114) / 31)
+  const dia = ((h + l - 7 * m + 114) % 31) + 1
+  return new Date(ano, mes - 1, dia)
+}
+
+const somaDias = (data, dias) => new Date(data.getFullYear(), data.getMonth(), data.getDate() + dias)
+
+// Feriados nacionais do ano (os municipais entram em `feriadosLocais`, no store.js).
+function feriadosNacionais(ano) {
+  const p = pascoa(ano)
+  return new Set([
+    `${ano}-01-01`, // Confraternização Universal
+    `${ano}-04-21`, // Tiradentes
+    `${ano}-05-01`, // Dia do Trabalho
+    `${ano}-09-07`, // Independência
+    `${ano}-10-12`, // Nossa Senhora Aparecida
+    `${ano}-11-02`, // Finados
+    `${ano}-11-15`, // Proclamação da República
+    `${ano}-11-20`, // Consciência Negra
+    `${ano}-12-25`, // Natal
+    toDateValue(somaDias(p, -47)), // Carnaval
+    toDateValue(somaDias(p, -2)), // Sexta-feira Santa
+    toDateValue(somaDias(p, 60)), // Corpus Christi
+  ])
+}
+
+export function ehFeriado(data) {
+  const dia = toDateValue(data)
+  return feriadosNacionais(data.getFullYear()).has(dia) || (store.feriadosLocais ?? []).includes(dia)
+}
+
+// Horário de atendimento do dia: feriado funciona como domingo.
+export function horarioDoDia(data) {
+  return ehFeriado(data) ? store.openingHours[0] : store.openingHours[data.getDay()]
+}
+
 const dayLabel = (date, now) => {
   const days = Math.round((new Date(date).setHours(0, 0, 0, 0) - new Date(now).setHours(0, 0, 0, 0)) / 86400000)
   if (days === 0) return 'hoje'
@@ -134,10 +184,13 @@ export function pickupError(dateValue, timeValue, now = new Date()) {
   const chosen = toDate(dateValue, timeValue)
   if (Number.isNaN(chosen.getTime())) return 'Escolha o dia e o horário da retirada.'
 
-  const [open, close] = store.openingHours[chosen.getDay()] ?? []
+  const [open, close] = horarioDoDia(chosen) ?? []
   if (open === undefined) return 'A loja não abre neste dia.'
   const hour = chosen.getHours() + chosen.getMinutes() / 60
-  if (hour < open || hour > close) return `Neste dia a loja atende ${hoursLabel(open, close)}. Escolha um horário nesse intervalo.`
+  if (hour < open || hour > close) {
+    const quando = ehFeriado(chosen) ? 'Em feriado' : 'Neste dia'
+    return `${quando} a loja atende ${hoursLabel(open, close)}. Escolha um horário nesse intervalo.`
+  }
 
   const earliest = earliestPickup(now)
   if (chosen < earliest) {

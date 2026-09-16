@@ -102,7 +102,10 @@ export default function CatalogSection() {
               {drinks.items.map((drink) => (
                 <li key={drink.name} className="drinks__item">
                   <span>{drink.name}</span>
-                  <span className="drinks__price">{priceText(drink.price)}</span>
+                  <span className="drinks__price">
+                    {drink.from && <span className="drinks__from">a partir de </span>}
+                    {priceText(drink.price)}
+                  </span>
                 </li>
               ))}
             </ul>

@@ -37,7 +37,10 @@ export default function StepList({ step, summary, dispatch, onOpenItem, onNext, 
                     <li key={item.id} className="wa-drink">
                       <span className="wa-drink__info">
                         <span className="wa-drink__name">{item.name}</span>
-                        <span className="wa-drink__price">{priceText(item.price)}</span>
+                        <span className="wa-drink__price">
+                          {item.from && <span className="wa-drink__from">a partir de </span>}
+                          {priceText(item.price)}
+                        </span>
                       </span>
                       {qty ? (
                         <Stepper value={qty} label={item.name} removable onChange={(n) => dispatch({ type: 'qty', key: item.id, qty: n })} />

@@ -12,7 +12,7 @@ export const benefits = [
   {
     short: 'Sabores',
     title: 'Mais de 10 recheios.',
-    text: 'Frango com Catupiry®, costela com requeijão, carne seca com queijo, calabresa, palmito e outros.',
+    text: 'Frango com Catupiry®, costela com requeijão, carne seca com queijo, calabresa, mini kibe e outros.',
     image: '/assets/produtos/coxinha-meia.webp',
     alt: 'Metade de uma coxinha com recheio cremoso',
   },

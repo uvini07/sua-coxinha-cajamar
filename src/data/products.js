@@ -25,7 +25,6 @@ export const flavors = [
   { id: 'carne-seca', name: 'Carne seca com queijo' },
   { id: 'cheddar-bacon', name: 'Frango, cheddar e bacon' },
   { id: 'caipira', name: 'Caipira (frango, milho, bacon e requeijão)' },
-  { id: 'carne-moida', name: 'Carne moída', onlyM: true },
   { id: 'brocolis', name: 'Brócolis', onlyM: true },
 ].map((f) => ({ ...f, image: `/assets/sabores/${f.id}.webp` }))
 
@@ -34,15 +33,15 @@ export const coxinhaMExtras = flavors.filter((f) => f.onlyM).map((f) => f.name)
 
 export const festaFlavors = [
   'Frango tradicional',
-  'Calabresa com queijo',
-  'Costela bovina com requeijão',
-  'Queijo mussarela',
-  'Pizza (presunto, queijo e orégano)',
-  'Carne seca com queijo',
   'Frango, cheddar e bacon',
+  'Costela bovina',
+  'Calabresa com queijo',
   'Carne moída',
+  'Enroladinho de salsicha',
+  'Mini kibe',
+  'Pizza (queijo, presunto e orégano)',
+  'Queijo mussarela',
   'Brócolis',
-  'Palmito',
 ]
 
 export const churrosSteps = [
@@ -89,7 +88,7 @@ export const catalog = [
         id: 'coxinha-gourmet',
         name: 'Coxinha Gourmet',
         description: '3 coxinhas de 40g.',
-        price: 990,
+        price: 250,
         image: img('coxinha-gourmet'),
         alt: 'Embalagem com três coxinhas gourmet',
         ifood: '',
@@ -97,9 +96,8 @@ export const catalog = [
       },
       {
         id: 'copo-salgado',
-        order: [{ id: 'cobertura', title: 'Cobertura grátis', type: 'single', required: true, choices: ['Requeijão', 'Cheddar'] }],
         name: 'Copo Mágico Salgado',
-        description: '20 mini coxinhas de frango. Cobertura grátis de requeijão ou cheddar.',
+        description: '20 mini coxinhas de frango.',
         price: 1890,
         image: img('copo-magico-salgado'),
         alt: 'Copo cheio de mini coxinhas',
@@ -132,12 +130,9 @@ export const catalog = [
       },
       {
         id: 'copo-doce',
-        order: [
-          { id: 'recheio', title: 'Recheio dos mini churros', type: 'single', required: true, choices: ['Doce de leite', 'Chocolate'] },
-          { id: 'cobertura', title: 'Cobertura grátis', type: 'single', required: true, choices: ['Doce de leite', 'Creme de avelã'] },
-        ],
+        order: [{ id: 'recheio', title: 'Recheio dos mini churros', type: 'single', required: true, choices: ['Doce de leite', 'Chocolate'] }],
         name: 'Copo Mágico Doce',
-        description: '12 mini churros. Cobertura grátis de doce de leite ou creme de avelã.',
+        description: '12 mini churros de doce de leite ou chocolate.',
         price: 1890,
         image: img('copo-magico-doce'),
         alt: 'Copo de mini churros com cobertura de chocolate',
@@ -271,23 +266,19 @@ export const drinks = {
   ifood: '',
   food99: '',
   items: [
-    { name: 'Água sem gás', price: 490 },
-    { name: 'Água com gás', price: 490 },
-    { name: 'Café coado', price: 300 },
-    { name: 'Café coado da mesa', price: 700 },
-    { name: 'Café com leite', price: 500 },
-    { name: 'Chocolate', price: 550 },
+    { name: 'Água sem gás', price: 500 },
+    { name: 'Água com gás', price: 500 },
+    { name: 'Café coado curto', price: 300 },
+    { name: 'Café com leite longo', price: 600 },
     { name: 'Refrigerante lata', price: 790 },
-    { name: 'Suco lata', price: 800 },
+    { name: 'Suco lata', price: 1000 },
     { name: 'H2O!', price: 1000 },
-    { name: 'Red Bull', price: 1490 },
+    { name: 'Energético', price: 1190, from: true },
     { name: 'Refrigerante 200ml', price: 490 },
-    { name: 'Refrigerante 600ml', price: 1290 },
+    { name: 'Refrigerante 600ml', price: 1190 },
     { name: 'Refrigerante 2L', price: 1490 },
-    { name: 'Coca-Cola 2L', price: 1890 },
-    { name: 'Cerveja Original lata', price: 750 },
-    { name: 'Heineken lata', price: 900 },
-    { name: 'Heineken long neck', price: 1290 },
+    { name: 'Coca-Cola 2L', price: 1750 },
+    { name: 'Cervejas', price: 700, from: true },
   ],
 }
 
@@ -298,7 +289,7 @@ export const families = [
     name: 'Coxinhas',
     items: [
       { name: 'Coxinha G', detail: '250g · 8 sabores', image: img('coxinha-g'), alt: 'Coxinha G cortada ao meio' },
-      { name: 'Coxinha M', detail: '130g · 10 sabores', image: img('coxinha-m'), alt: 'Coxinha M aberta' },
+      { name: 'Coxinha M', detail: '130g · 9 sabores', image: img('coxinha-m'), alt: 'Coxinha M aberta' },
       { name: 'Coxinha Gourmet', detail: '3 unidades de 40g', image: img('coxinha-gourmet'), alt: 'Embalagem com três coxinhas gourmet' },
     ],
   },
