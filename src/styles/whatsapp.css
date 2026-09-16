@@ -1112,3 +1112,34 @@ textarea.wa-input {
   opacity: 1;
   transform: translate(-50%, 0);
 }
+
+/* Explicação curta embaixo da opção (prazo de preparo, horário mínimo) */
+.wa-choice__note {
+  display: block;
+  margin-top: 0.1rem;
+  color: var(--wa-muted);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+/* Dia e horário da retirada */
+.wa-schedule {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0.5rem 0 0 0.9rem;
+  padding: 0.9rem;
+  border-radius: 12px;
+  background: #f2f2f2;
+}
+
+.wa-schedule .wa-field {
+  margin-top: 0.5rem;
+}
+
+.wa-schedule .wa-field:first-child {
+  margin-top: 0;
+}
+
+.wa-input--date {
+  max-width: 260px;
+}

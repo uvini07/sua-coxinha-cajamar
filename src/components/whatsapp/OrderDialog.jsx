@@ -87,7 +87,7 @@ export default function OrderDialog({ open, target, openedAt, onClose, summary, 
     setSentUrl(url)
     setSent(true)
     dispatch({ type: 'clear' })
-    setCustomer((c) => ({ ...c, when: 'pronto', time: '', notes: '' }))
+    setCustomer((c) => ({ ...c, when: 'pronto', date: '', time: '', notes: '' }))
   }
 
   const onCancel = (event) => {

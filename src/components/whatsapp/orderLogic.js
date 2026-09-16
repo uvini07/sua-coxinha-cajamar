@@ -75,7 +75,7 @@ export function summarize(lines) {
 export function buildMessage(summary, customer) {
   const out = [`Olá, ${store.brand} ${store.unit}! Quero fazer um pedido para *retirar na loja*.`, '']
   out.push(`*Nome:* ${customer.name.trim()}`)
-  out.push(`*Retirada:* ${customer.when === 'horario' ? `às ${customer.time}` : 'assim que ficar pronto'}`)
+  out.push(`*Retirada:* ${pickupText(customer)}`)
 
   orderSteps.forEach((step) => {
     const lines = summary.lines.filter((l) => l.step.id === step.id)
@@ -94,3 +94,63 @@ export function buildMessage(summary, customer) {
 }
 
 export const whatsappUrl = (text) => `https://wa.me/${store.whatsapp}?text=${encodeURIComponent(text)}`
+
+/* ---------- Retirada agendada ---------- */
+
+const pad = (n) => String(n).padStart(2, '0')
+export const toDateValue = (date) => `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+export const toTimeValue = (date) => `${pad(date.getHours())}:${pad(date.getMinutes())}`
+
+// Junta os campos de data e hora num horário real (no fuso do próprio aparelho).
+const toDate = (dateValue, timeValue) => {
+  const [y, m, d] = dateValue.split('-').map(Number)
+  const [h, min] = timeValue.split(':').map(Number)
+  return new Date(y, m - 1, d, h, min, 0, 0)
+}
+
+// Primeiro horário possível: agora + tempo de preparo, arredondado para os próximos 5 minutos.
+export function earliestPickup(now = new Date()) {
+  const date = new Date(now.getTime() + store.prepMinutes * 60000)
+  date.setSeconds(0, 0)
+  const rest = date.getMinutes() % 5
+  if (rest) date.setMinutes(date.getMinutes() + (5 - rest))
+  return date
+}
+
+const hoursLabel = (open, close) => `das ${open}h às ${close}h`
+
+const dayLabel = (date, now) => {
+  const days = Math.round((new Date(date).setHours(0, 0, 0, 0) - new Date(now).setHours(0, 0, 0, 0)) / 86400000)
+  if (days === 0) return 'hoje'
+  if (days === 1) return 'amanhã'
+  return `dia ${pad(date.getDate())}/${pad(date.getMonth() + 1)}`
+}
+
+// Confere a data e a hora escolhidas. Devolve uma mensagem de erro, ou null quando está tudo certo.
+export function pickupError(dateValue, timeValue, now = new Date()) {
+  if (!dateValue) return 'Escolha o dia da retirada.'
+  if (!timeValue) return 'Escolha o horário da retirada.'
+
+  const chosen = toDate(dateValue, timeValue)
+  if (Number.isNaN(chosen.getTime())) return 'Escolha o dia e o horário da retirada.'
+
+  const [open, close] = store.openingHours[chosen.getDay()] ?? []
+  if (open === undefined) return 'A loja não abre neste dia.'
+  const hour = chosen.getHours() + chosen.getMinutes() / 60
+  if (hour < open || hour > close) return `Neste dia a loja atende ${hoursLabel(open, close)}. Escolha um horário nesse intervalo.`
+
+  const earliest = earliestPickup(now)
+  if (chosen < earliest) {
+    const sameDay = toDateValue(chosen) === toDateValue(earliest)
+    const quando = sameDay ? `a partir das ${toTimeValue(earliest)}` : `a partir de ${dayLabel(earliest, now)}, às ${toTimeValue(earliest)}`
+    return `O pedido leva até ${store.prepMinutes} minutos para ficar pronto. Escolha ${quando}.`
+  }
+  return null
+}
+
+// Texto da retirada que vai na mensagem do WhatsApp.
+export function pickupText(customer, now = new Date()) {
+  if (customer.when !== 'agendar') return `assim que ficar pronto (até ${store.prepMinutes} min)`
+  const chosen = toDate(customer.date, customer.time)
+  return `${dayLabel(chosen, now)} (${pad(chosen.getDate())}/${pad(chosen.getMonth() + 1)}) às ${customer.time}`
+}

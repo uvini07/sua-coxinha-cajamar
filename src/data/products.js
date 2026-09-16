@@ -141,10 +141,7 @@ export const catalog = [
       },
       {
         id: 'mini-churros',
-        order: [
-          { id: 'sabores', title: 'Escolha os recheios', type: 'multi', required: true, maxFromVariant: true, choices: ['Doce de leite', 'Chocolate'] },
-          { id: 'extra', title: 'Cobertura extra', type: 'single', required: false, price: 400, choices: ['Doce de leite', 'Creme de avelã'] },
-        ],
+        order: [{ id: 'sabores', title: 'Escolha os recheios', type: 'multi', required: true, maxFromVariant: true, choices: ['Doce de leite', 'Chocolate'] }],
         name: 'Mini Churros Recheados',
         description: 'Recheio de doce de leite ou chocolate.',
         price: 1290,
@@ -157,7 +154,6 @@ export const catalog = [
           { label: '50 unidades (até 2 sabores)', price: 4990, flavors: 2 },
           { label: '100 unidades (até 2 sabores)', price: 8990, flavors: 2 },
         ],
-        extra: 'Cobertura extra de doce de leite ou creme de avelã: + R$ 4,00',
         ifood: '',
         food99: '',
       },
@@ -169,10 +165,7 @@ export const catalog = [
     items: [
       {
         id: 'caixa-gostosuras',
-        order: [
-          { id: 'sabores', title: 'Escolha os sabores', type: 'multi', required: true, maxFromVariant: true, choices: festaFlavors },
-          { id: 'extra', title: 'Cobertura extra', type: 'single', required: false, price: 400, choices: ['Requeijão', 'Cheddar'] },
-        ],
+        order: [{ id: 'sabores', title: 'Escolha os sabores', type: 'multi', required: true, maxFromVariant: true, choices: festaFlavors }],
         name: 'Caixa de Mini Gostosuras',
         description: 'Mini salgados da linha festa, de 17g cada.',
         price: 1290,
@@ -186,7 +179,6 @@ export const catalog = [
           { label: '100 unidades (até 5 sabores)', price: 8990, flavors: 5 },
         ],
         options: { title: 'Sabores', list: festaFlavors },
-        extra: 'Cobertura extra de requeijão ou cheddar: + R$ 4,00',
         ifood: '',
         food99: '',
       },

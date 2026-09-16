@@ -9,7 +9,7 @@ export const useWhatsAppOrder = () => useContext(WhatsAppOrderContext)
 
 // O pedido fica salvo no aparelho: se a pessoa sair e voltar, não perde o que escolheu.
 const STORAGE_KEY = 'sua-coxinha:pedido-whatsapp:v1'
-const emptyCustomer = { name: '', when: 'pronto', time: '', notes: '' }
+const emptyCustomer = { name: '', when: 'pronto', date: '', time: '', notes: '' }
 
 function loadSaved() {
   try {

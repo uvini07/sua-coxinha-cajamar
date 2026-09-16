@@ -17,6 +17,21 @@ export const store = {
     { days: 'Domingo', time: '14h às 22h' },
   ],
 
+  // Horário de funcionamento por dia da semana (0 = domingo), em horas.
+  // Usado para conferir o horário de retirada escolhido pelo cliente.
+  openingHours: {
+    0: [14, 22],
+    1: [7, 22],
+    2: [7, 22],
+    3: [7, 22],
+    4: [7, 22],
+    5: [7, 22],
+    6: [7, 22],
+  },
+
+  // CONFIRMAR: prazo de preparo. O cliente só pode marcar a retirada depois desse tempo.
+  prepMinutes: 45,
+
   // WhatsApp confirmado pelo letreiro da loja.
   phone: '(11) 97640-3209',
   whatsapp: '5511976403209',

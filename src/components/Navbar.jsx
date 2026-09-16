@@ -43,6 +43,9 @@ export default function Navbar() {
       <header className="nav" data-theme={open ? 'dark' : current.theme} data-top={current.id === 'inicio' && !open}>
         <a className="nav__logo" href="#inicio" onClick={linkTo('inicio')}>
           <Logo />
+          <span className="nav__unit" aria-hidden="true">
+            {store.unit}
+          </span>
           <span className="sr-only">
             {store.brand} {store.unit}, voltar ao início
           </span>

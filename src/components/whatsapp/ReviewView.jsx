@@ -2,23 +2,37 @@ import { useRef, useState } from 'react'
 import { priceText } from '../../data/products.js'
 import { store } from '../../data/store.js'
 import { orderSteps } from '../../data/whatsappOrder.js'
-import { buildMessage, whatsappUrl } from './orderLogic.js'
+import { buildMessage, earliestPickup, pickupError, toDateValue, toTimeValue, whatsappUrl } from './orderLogic.js'
 import Stepper from './Stepper.jsx'
 
 // Última etapa: conferir o pedido, dados da retirada e enviar pelo WhatsApp.
 export default function ReviewView({ summary, dispatch, customer, setCustomer, onGoToStep, onSent }) {
   const [showErrors, setShowErrors] = useState(false)
   const nameRef = useRef(null)
+  const dateRef = useRef(null)
   const timeRef = useRef(null)
   const bodyRef = useRef(null)
 
   const update = (field) => (e) => setCustomer((c) => ({ ...c, [field]: e.target.value }))
+
+  // Ao escolher "marcar dia e horário", já sugere hoje no primeiro horário possível.
+  const chooseWhen = (e) => {
+    const when = e.target.value
+    setCustomer((c) => ({
+      ...c,
+      when,
+      date: when === 'agendar' && !c.date ? toDateValue(earliestPickup()) : c.date,
+      time: when === 'agendar' && !c.time ? toTimeValue(earliestPickup()) : c.time,
+    }))
+  }
+  // O horário mínimo é recalculado a cada abertura da tela: agora + o tempo de preparo.
+  const earliest = earliestPickup()
   const errors = {
     empty: summary.count === 0,
     name: !customer.name.trim(),
-    time: customer.when === 'horario' && !customer.time,
+    pickup: customer.when === 'agendar' ? pickupError(customer.date, customer.time) : null,
   }
-  const hasErrors = errors.empty || errors.name || errors.time
+  const hasErrors = errors.empty || errors.name || Boolean(errors.pickup)
   const url = hasErrors ? undefined : whatsappUrl(buildMessage(summary, customer))
 
   const send = (event) => {
@@ -31,6 +45,7 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
     setShowErrors(true)
     if (errors.empty) bodyRef.current.scrollTo({ top: 0, behavior: 'smooth' })
     else if (errors.name) nameRef.current.focus()
+    else if (!customer.date) dateRef.current?.focus()
     else timeRef.current?.focus()
   }
 
@@ -157,30 +172,64 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
           <fieldset className="wa-group wa-group--plain">
             <legend className="wa-field__label">Quando você vai retirar?</legend>
             <label className="wa-choice">
-              <input type="radio" name="wa-when" value="pronto" checked={customer.when === 'pronto'} onChange={update('when')} />
+              <input type="radio" name="wa-when" value="pronto" checked={customer.when !== 'agendar'} onChange={chooseWhen} />
               <span className="wa-choice__mark" aria-hidden="true" />
-              <span className="wa-choice__text">Assim que ficar pronto</span>
+              <span className="wa-choice__text">
+                Assim que ficar pronto
+                <span className="wa-choice__note">Fica pronto em até {store.prepMinutes} minutos</span>
+              </span>
             </label>
             <label className="wa-choice">
-              <input type="radio" name="wa-when" value="horario" checked={customer.when === 'horario'} onChange={update('when')} />
+              <input type="radio" name="wa-when" value="agendar" checked={customer.when === 'agendar'} onChange={chooseWhen} />
               <span className="wa-choice__mark" aria-hidden="true" />
-              <span className="wa-choice__text">Escolher um horário</span>
+              <span className="wa-choice__text">
+                Marcar dia e horário
+                <span className="wa-choice__note">A partir das {toTimeValue(earliest)} de hoje</span>
+              </span>
             </label>
-            {customer.when === 'horario' && (
-              <div className="wa-field wa-field--time">
-                <label className="wa-field__label" htmlFor="wa-time">
-                  Horário
-                </label>
-                <input
-                  ref={timeRef}
-                  id="wa-time"
-                  className="wa-input wa-input--time"
-                  type="time"
-                  value={customer.time}
-                  onChange={update('time')}
-                  aria-invalid={showErrors && errors.time}
-                />
-                {showErrors && errors.time && <p className="wa-group__error">Escolha o horário da retirada.</p>}
+
+            {customer.when === 'agendar' && (
+              <div className="wa-schedule">
+                <div className="wa-field">
+                  <label className="wa-field__label" htmlFor="wa-date">
+                    Dia da retirada
+                  </label>
+                  <input
+                    ref={dateRef}
+                    id="wa-date"
+                    className="wa-input wa-input--date"
+                    type="date"
+                    value={customer.date}
+                    min={toDateValue(new Date())}
+                    max={toDateValue(new Date(Date.now() + 30 * 86400000))}
+                    onChange={update('date')}
+                    aria-invalid={Boolean(showErrors && errors.pickup)}
+                  />
+                </div>
+
+                <div className="wa-field">
+                  <label className="wa-field__label" htmlFor="wa-time">
+                    Horário
+                  </label>
+                  <input
+                    ref={timeRef}
+                    id="wa-time"
+                    className="wa-input wa-input--time"
+                    type="time"
+                    step="300"
+                    value={customer.time}
+                    onChange={update('time')}
+                    aria-invalid={Boolean(showErrors && errors.pickup)}
+                  />
+                </div>
+
+                {showErrors && errors.pickup ? (
+                  <p className="wa-group__error">{errors.pickup}</p>
+                ) : (
+                  <p className="wa-field__help">
+                    O preparo leva até {store.prepMinutes} minutos. Hoje dá para retirar a partir das {toTimeValue(earliest)}.
+                  </p>
+                )}
                 <p className="wa-field__help">
                   Loja aberta: {store.hours.map((h) => `${h.days.toLowerCase()}, ${h.time}`).join('; ')}.
                 </p>
