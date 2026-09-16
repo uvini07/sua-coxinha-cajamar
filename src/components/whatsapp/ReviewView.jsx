@@ -184,7 +184,7 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
               <span className="wa-choice__mark" aria-hidden="true" />
               <span className="wa-choice__text">
                 Marcar dia e horário
-                <span className="wa-choice__note">A partir das {toTimeValue(earliest)} de hoje</span>
+                <span className="wa-choice__note">Retirada a partir das {toTimeValue(earliest)}</span>
               </span>
             </label>
 
