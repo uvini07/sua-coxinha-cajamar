@@ -212,7 +212,7 @@
 /* Nome da unidade ao lado do logo: "sua coxinha – Cajamar" */
 .nav__unit {
   position: relative;
-  padding-left: 1.3rem;
+  padding-left: 1.75rem;
   color: var(--amarelo);
   font-size: var(--step--1);
   font-weight: 800;
@@ -240,7 +240,7 @@
 
 @media (max-width: 420px) {
   .nav__unit {
-    padding-left: 1.1rem;
+    padding-left: 1.5rem;
     font-size: 0.8125rem;
   }
 
