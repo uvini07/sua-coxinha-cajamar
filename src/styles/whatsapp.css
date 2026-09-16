@@ -1147,3 +1147,14 @@ textarea.wa-input {
 .wa-drink__from {
   font-weight: 500;
 }
+
+.wa-foot__notice {
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--wa-line);
+  border-radius: 10px;
+  background: #fff8e1;
+  color: var(--wa-ink, inherit);
+  font-size: 0.875rem;
+  line-height: 1.45;
+  text-align: center;
+}

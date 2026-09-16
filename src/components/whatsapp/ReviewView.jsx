@@ -247,6 +247,10 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
       </div>
 
       <footer className="wa-foot wa-foot--send">
+        <p className="wa-foot__notice">
+          Olá! 😊 Informamos que pedidos feitos via WhatsApp, para retirada na loja, só serão encaminhados para produção após o
+          envio do comprovante de pagamento. Agradecemos a compreensão! 💛
+        </p>
         {showErrors && hasErrors && (
           <p className="wa-foot__error" role="alert">
             {errors.empty ? 'Adicione pelo menos 1 produto.' : 'Falta preencher seus dados acima.'}
