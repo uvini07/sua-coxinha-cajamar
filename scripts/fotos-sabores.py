@@ -7,7 +7,7 @@ import os
 from PIL import Image
 
 PASTA = os.path.join('public', 'assets', 'sabores')
-LARGURA_MAX = 1200
+LARGURA_MAX = 900  # o suficiente para a tela, sem deixar a página pesada
 
 for arquivo in sorted(os.listdir(PASTA)):
     if not arquivo.lower().endswith('.png'):
@@ -22,5 +22,5 @@ for arquivo in sorted(os.listdir(PASTA)):
     imagem.thumbnail((LARGURA_MAX, LARGURA_MAX), Image.LANCZOS)
 
     destino = os.path.join(PASTA, os.path.splitext(arquivo)[0] + '.webp')
-    imagem.save(destino, 'WEBP', quality=88, method=6)
+    imagem.save(destino, 'WEBP', quality=80, method=6)
     print(f'{arquivo} -> {os.path.basename(destino)}  {imagem.size[0]}x{imagem.size[1]}  {os.path.getsize(destino) // 1024} KB')
