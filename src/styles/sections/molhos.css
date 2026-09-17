@@ -1,0 +1,324 @@
+/* Seção dos molhos: fundo da própria foto da linha, desfocado, com as
+   garrafas em cartões que inclinam em 3D conforme o mouse. */
+.molhos {
+  position: relative;
+  z-index: 5;
+  isolation: isolate;
+  background: #120d08 url('/assets/molhos/fundo.webp') center / cover no-repeat;
+  color: var(--branco);
+}
+
+.molhos::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(10, 7, 4, 0.92) 0%, rgba(10, 7, 4, 0.72) 35%, rgba(10, 7, 4, 0.94) 100%);
+}
+
+.molhos__inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: clamp(3.5rem, 8vw, 6.5rem) var(--pad-x);
+}
+
+.molhos__head {
+  max-width: 44rem;
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+
+.molhos__kicker {
+  margin-bottom: 0.5rem;
+  color: var(--amarelo);
+  font-size: var(--step--1);
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.molhos__title {
+  font-size: clamp(2.75rem, 1.8rem + 4.5vw, 5.5rem);
+  line-height: 0.95;
+}
+
+.molhos__title span {
+  color: var(--amarelo);
+}
+
+.molhos__sub {
+  max-width: 38rem;
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: var(--step-0);
+}
+
+.molhos__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: clamp(1rem, 2vw, 1.75rem);
+}
+
+/* A perspectiva fica no item; o cartão gira dentro dela. */
+.molhos__item {
+  perspective: 1100px;
+}
+
+.molho {
+  --rx: 0deg;
+  --ry: 0deg;
+  --mx: 50%;
+  --my: 50%;
+  --cor: var(--amarelo);
+  position: relative;
+  display: grid;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 0.75rem 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style: preserve-3d;
+  transition:
+    transform 0.4s var(--ease-out),
+    border-color 0.3s ease,
+    box-shadow 0.4s var(--ease-out);
+}
+
+.molho--quente {
+  --cor: #ff5a3c;
+}
+
+.molho:hover,
+.molho:focus-visible {
+  border-color: var(--cor);
+  box-shadow:
+    0 26px 48px -26px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.molho:focus-visible {
+  outline: 3px solid var(--amarelo);
+  outline-offset: 4px;
+}
+
+.molho__cena {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4.4;
+  border-radius: calc(var(--radius-lg) - 8px);
+  background: radial-gradient(120% 80% at 50% 10%, rgba(255, 255, 255, 0.14), rgba(0, 0, 0, 0.55));
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+.molho__foto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* As bordas do recorte somem no fundo da cena, sem emenda visível. */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent),
+    linear-gradient(180deg, transparent, #000 8%, #000 94%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent),
+    linear-gradient(180deg, transparent, #000 8%, #000 94%, transparent);
+  mask-composite: intersect;
+  transform: translateZ(0) scale(1.02);
+  transition:
+    transform 0.5s var(--ease-out),
+    filter 0.4s ease;
+}
+
+.molho:hover .molho__foto,
+.molho:focus-visible .molho__foto,
+.molho.is-aberta .molho__foto {
+  transform: translateZ(45px) scale(1.08);
+  filter: saturate(1.08) contrast(1.04);
+}
+
+/* Reflexo que acompanha o cursor */
+.molho__brilho {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(180px 180px at var(--mx) var(--my), rgba(255, 255, 255, 0.28), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.molho:hover .molho__brilho {
+  opacity: 1;
+}
+
+/* Sombra no chão da cena, para a garrafa parecer levantar */
+.molho__sombra {
+  position: absolute;
+  left: 50%;
+  bottom: 6%;
+  width: 62%;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  filter: blur(8px);
+  opacity: 0;
+  transform: translateX(-50%) scale(0.7);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s var(--ease-out);
+}
+
+.molho:hover .molho__sombra,
+.molho.is-aberta .molho__sombra {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+.molho__info {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0 0.25rem;
+  transform: translateZ(28px);
+}
+
+.molho__nome {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  font-stretch: 85%;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.molho__nome strong {
+  display: block;
+  color: var(--cor);
+  font-weight: 800;
+}
+
+.molho__ardencia {
+  display: flex;
+  gap: 0.15rem;
+}
+
+.pimenta {
+  width: 17px;
+  height: 17px;
+  fill: rgba(255, 255, 255, 0.22);
+  transition: fill 0.3s ease;
+}
+
+.pimenta--acesa {
+  fill: var(--cor);
+}
+
+.molho__texto {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
+/* Dica extra: aparece ao clicar (ou tocar) no cartão */
+.molho__extra {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0 0.25rem;
+  padding: 0 0.75rem;
+  max-height: 0;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  opacity: 0;
+  overflow: hidden;
+  transform: translateZ(28px);
+  transition:
+    max-height 0.35s var(--ease-out),
+    opacity 0.3s ease,
+    padding 0.35s var(--ease-out);
+}
+
+.molho.is-aberta .molho__extra {
+  max-height: 7rem;
+  padding: 0.6rem 0.75rem;
+  opacity: 1;
+}
+
+.molho__extra-label {
+  color: var(--cor);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.molho__extra-texto {
+  font-size: 0.9375rem;
+  line-height: 1.35;
+}
+
+/* Celular: duas garrafas por linha, para a lista nao virar um rolo sem fim. */
+@media (max-width: 599.98px) {
+  .molhos__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .molho {
+    gap: 0.5rem;
+    padding: 0.5rem 0.5rem 0.85rem;
+    border-radius: 18px;
+  }
+
+  .molho__cena {
+    border-radius: 12px;
+  }
+
+  .molho__nome {
+    font-size: 1rem;
+  }
+
+  .pimenta {
+    width: 14px;
+    height: 14px;
+  }
+
+  .molho__texto {
+    font-size: 0.8125rem;
+  }
+
+  .molho__extra {
+    margin: 0;
+  }
+
+  .molho__extra-texto {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (hover: none) {
+  /* No toque não há cursor: o destaque vem do cartão aberto. */
+  .molho.is-aberta {
+    border-color: var(--cor);
+    box-shadow: 0 22px 40px -24px rgba(0, 0, 0, 0.9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .molho,
+  .molho__foto,
+  .molho__sombra,
+  .molho__extra {
+    transition-duration: 0.01ms;
+  }
+
+  .molho:hover .molho__foto,
+  .molho:focus-visible .molho__foto,
+  .molho.is-aberta .molho__foto {
+    transform: none;
+  }
+}

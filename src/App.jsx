@@ -11,6 +11,7 @@ import ProductScene from './components/scenes/ProductScene.jsx'
 import CoxinhaScene from './components/scenes/CoxinhaScene.jsx'
 import ChurrosScene from './components/scenes/ChurrosScene.jsx'
 import CatalogSection from './components/sections/CatalogSection.jsx'
+import MolhosSection from './components/sections/MolhosSection.jsx'
 import BenefitsSection from './components/sections/BenefitsSection.jsx'
 import OrderSection from './components/sections/OrderSection.jsx'
 
@@ -36,6 +37,7 @@ export default function App() {
             <ChurrosScene />
           </div>
           <CatalogSection />
+          <MolhosSection />
           <BenefitsSection />
           <OrderSection />
         </main>
