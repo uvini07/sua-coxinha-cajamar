@@ -44,6 +44,31 @@ export const festaFlavors = [
   'Brócolis',
 ]
 
+// Sabores das coxinhas que vêm nos combos (lista própria, menor que a do balcão).
+export const comboCoxinhaFlavors = [
+  'Frango tradicional',
+  'Frango com Catupiry®',
+  'Costela bovina com requeijão',
+  'Caipira (frango, milho, bacon e requeijão)',
+  'Calabresa com queijo',
+  'Queijo mussarela',
+  'Pizza (presunto, queijo e orégano)',
+]
+
+// Sabores dos salgadinhos PP do Combo Mata Fome (até 5 sabores por combo).
+export const mataFomeFlavors = [
+  'Frango tradicional',
+  'Calabresa com queijo',
+  'Costela bovina com requeijão',
+  'Queijo mussarela',
+  'Pizza (presunto, queijo e orégano)',
+  'Carne seca com queijo',
+  'Frango, cheddar e bacon',
+  'Carne moída',
+  'Brócolis',
+  'Palmito',
+]
+
 export const churrosSteps = [
   { title: 'Escolha o recheio', options: ['Doce de leite', 'Chocolate'] },
   {
@@ -200,21 +225,27 @@ export const catalog = [
     items: [
       {
         id: 'combo-pra-voce',
+        order: [{ id: 'sabor', title: 'Escolha o sabor da coxinha', type: 'single', required: true, choices: comboCoxinhaFlavors }],
         name: 'Combo Pra Você',
-        description: '1 coxinha G (250g) e 1 Coca-Cola lata 350ml.',
+        description: '1 coxinha G (250g) e 1 Coca-Cola lata 350ml. Escolha o sabor da coxinha.',
         price: 2090,
         image: img('coxinha-combo'),
         alt: 'Coxinha G cortada ao meio',
+        options: { title: 'Sabores', list: comboCoxinhaFlavors },
         ifood: '',
         food99: '',
       },
       {
         id: 'combo-dupla-fome',
+        order: [
+          { id: 'sabores', title: 'Escolha até 2 sabores (1 para cada coxinha)', type: 'multi', required: true, max: 2, choices: comboCoxinhaFlavors },
+        ],
         name: 'Combo Dupla Fome',
-        description: '2 coxinhas G (250g) e 1 Coca-Cola 600ml.',
+        description: '2 coxinhas G (250g) e 1 Coca-Cola 600ml. Escolha os sabores das coxinhas.',
         price: 3890,
         image: img('coxinha-combo'),
         alt: 'Coxinha G cortada ao meio',
+        options: { title: 'Sabores', list: comboCoxinhaFlavors },
         ifood: '',
         food99: '',
       },
@@ -231,11 +262,13 @@ export const catalog = [
       },
       {
         id: 'combo-mata-fome',
+        order: [{ id: 'sabores', title: 'Escolha até 5 sabores', type: 'multi', required: true, max: 5, choices: mataFomeFlavors }],
         name: 'Combo Mata Fome',
-        description: '50 salgados PP e 2 refrigerantes lata 350ml.',
+        description: '50 salgados PP (escolha até 5 sabores) e 2 refrigerantes lata 350ml.',
         price: 5990,
         image: img('cesta-mini-coxinhas'),
         alt: 'Cesta cheia de mini coxinhas',
+        options: { title: 'Sabores', list: mataFomeFlavors },
         ifood: '',
         food99: '',
       },
