@@ -2,7 +2,16 @@ import { useRef, useState } from 'react'
 import { priceText } from '../../data/products.js'
 import { store } from '../../data/store.js'
 import { orderSteps } from '../../data/whatsappOrder.js'
-import { buildMessage, earliestPickup, pickupError, toDateValue, toTimeValue, whatsappUrl } from './orderLogic.js'
+import {
+  buildMessage,
+  dayLabel,
+  earliestPickup,
+  pickupError,
+  retiradaAdiada,
+  toDateValue,
+  toTimeValue,
+  whatsappUrl,
+} from './orderLogic.js'
 import Stepper from './Stepper.jsx'
 
 // Última etapa: conferir o pedido, dados da retirada e enviar pelo WhatsApp.
@@ -25,8 +34,12 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
       time: when === 'agendar' && !c.time ? toTimeValue(earliestPickup()) : c.time,
     }))
   }
-  // O horário mínimo é recalculado a cada abertura da tela: agora + o tempo de preparo.
-  const earliest = earliestPickup()
+  // O horário mínimo é recalculado a cada abertura da tela: agora + o tempo de preparo,
+  // já dentro do horário da loja. Se a loja fechou, a retirada cai no próximo dia.
+  const agora = new Date()
+  const earliest = earliestPickup(agora)
+  const adiada = retiradaAdiada(agora)
+  const quandoAbre = `${dayLabel(earliest, agora)} a partir das ${toTimeValue(earliest)}`
   const errors = {
     empty: summary.count === 0,
     name: !customer.name.trim(),
@@ -133,6 +146,11 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
           <p className="wa-only-wide">
             Pedidos pelo WhatsApp são somente para retirar na loja. A loja confirma o pedido e o valor pelo WhatsApp.
           </p>
+          {adiada && (
+            <p className="wa-pickup__aviso">
+              A loja está fechada agora. Pedidos feitos neste horário são retirados <strong>{quandoAbre}</strong>.
+            </p>
+          )}
           <p className="wa-pickup__address">
             {store.address.street}
             <br />
@@ -178,8 +196,10 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
               <input type="radio" name="wa-when" value="pronto" checked={customer.when !== 'agendar'} onChange={chooseWhen} />
               <span className="wa-choice__mark" aria-hidden="true" />
               <span className="wa-choice__text">
-                Assim que ficar pronto
-                <span className="wa-choice__note">Fica pronto em até {store.prepMinutes} minutos</span>
+                {adiada ? 'Assim que a loja abrir' : 'Assim que ficar pronto'}
+                <span className="wa-choice__note">
+                  {adiada ? `Retirada ${quandoAbre}` : `Fica pronto em até ${store.prepMinutes} minutos`}
+                </span>
               </span>
             </label>
             <label className="wa-choice">
@@ -187,7 +207,9 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
               <span className="wa-choice__mark" aria-hidden="true" />
               <span className="wa-choice__text">
                 Marcar dia e horário
-                <span className="wa-choice__note">Retirada a partir das {toTimeValue(earliest)}</span>
+                <span className="wa-choice__note">
+                  {adiada ? `Retirada ${quandoAbre}` : `Retirada a partir das ${toTimeValue(earliest)}`}
+                </span>
               </span>
             </label>
 
@@ -203,7 +225,7 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
                     className="wa-input wa-input--date"
                     type="date"
                     value={customer.date}
-                    min={toDateValue(new Date())}
+                    min={toDateValue(earliest)}
                     max={toDateValue(new Date(Date.now() + 30 * 86400000))}
                     onChange={update('date')}
                     aria-invalid={Boolean(showErrors && errors.pickup)}
@@ -230,7 +252,9 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
                   <p className="wa-group__error">{errors.pickup}</p>
                 ) : (
                   <p className="wa-field__help">
-                    O preparo leva até {store.prepMinutes} minutos. Hoje dá para retirar a partir das {toTimeValue(earliest)}.
+                    {adiada
+                      ? `A loja está fechada agora. Dá para retirar ${quandoAbre}.`
+                      : `O preparo leva até ${store.prepMinutes} minutos. Hoje dá para retirar a partir das ${toTimeValue(earliest)}.`}
                   </p>
                 )}
                 <p className="wa-field__help">

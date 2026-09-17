@@ -843,6 +843,20 @@ textarea.wa-input {
   font-weight: 900;
 }
 
+/* Aviso de loja fechada dentro do bloco de retirada */
+.wa-pickup__aviso {
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  background: rgba(249, 193, 21, 0.16);
+  color: var(--amarelo);
+  font-size: 0.9375rem;
+  line-height: 1.35;
+}
+
+.wa-pickup__aviso strong {
+  color: var(--branco);
+}
+
 .wa-pickup__address {
   font-weight: 700;
 }

@@ -108,13 +108,41 @@ const toDate = (dateValue, timeValue) => {
   return new Date(y, m - 1, d, h, min, 0, 0)
 }
 
-// Primeiro horário possível: agora + tempo de preparo, arredondado para os próximos 5 minutos.
+// Primeiro horário possível: agora + tempo de preparo, arredondado para os próximos
+// 5 minutos e empurrado para o próximo horário em que a loja está aberta. Se o
+// pedido chega perto de fechar, a retirada cai no próximo dia de atendimento.
 export function earliestPickup(now = new Date()) {
   const date = new Date(now.getTime() + store.prepMinutes * 60000)
   date.setSeconds(0, 0)
   const rest = date.getMinutes() % 5
   if (rest) date.setMinutes(date.getMinutes() + (5 - rest))
-  return date
+  return proximoAberto(date)
+}
+
+const emPonto = (data, horaDecimal) =>
+  new Date(data.getFullYear(), data.getMonth(), data.getDate(), Math.floor(horaDecimal), Math.round((horaDecimal % 1) * 60), 0, 0)
+
+// Anda no calendário até achar um momento dentro do horário de atendimento.
+function proximoAberto(momento) {
+  let atual = new Date(momento)
+  for (let i = 0; i < 14; i += 1) {
+    const faixa = horarioDoDia(atual)
+    if (faixa) {
+      const [abre, fecha] = faixa
+      const hora = atual.getHours() + atual.getMinutes() / 60
+      if (hora < abre) return emPonto(atual, abre)
+      if (hora <= fecha) return atual
+    }
+    atual = emPonto(somaDias(atual, 1), 0)
+  }
+  return momento
+}
+
+// true quando a loja está fechada: a retirada teve de ser empurrada para depois do
+// tempo normal de preparo (mais tarde no mesmo dia ou no próximo dia de atendimento).
+export function retiradaAdiada(now = new Date()) {
+  const natural = now.getTime() + store.prepMinutes * 60000
+  return earliestPickup(now).getTime() - natural > 60000
 }
 
 const hoursLabel = (open, close) => `das ${open}h às ${close}h`
@@ -169,7 +197,7 @@ export function horarioDoDia(data) {
   return ehFeriado(data) ? store.openingHours[0] : store.openingHours[data.getDay()]
 }
 
-const dayLabel = (date, now) => {
+export const dayLabel = (date, now) => {
   const days = Math.round((new Date(date).setHours(0, 0, 0, 0) - new Date(now).setHours(0, 0, 0, 0)) / 86400000)
   if (days === 0) return 'hoje'
   if (days === 1) return 'amanhã'
@@ -203,7 +231,13 @@ export function pickupError(dateValue, timeValue, now = new Date()) {
 
 // Texto da retirada que vai na mensagem do WhatsApp.
 export function pickupText(customer, now = new Date()) {
-  if (customer.when !== 'agendar') return `assim que ficar pronto (até ${store.prepMinutes} min)`
+  if (customer.when !== 'agendar') {
+    const earliest = earliestPickup(now)
+    if (retiradaAdiada(now)) {
+      return `${dayLabel(earliest, now)} (${pad(earliest.getDate())}/${pad(earliest.getMonth() + 1)}), a partir das ${toTimeValue(earliest)} — pedido feito fora do horário da loja`
+    }
+    return `assim que ficar pronto (até ${store.prepMinutes} min)`
+  }
   const chosen = toDate(customer.date, customer.time)
   return `${dayLabel(chosen, now)} (${pad(chosen.getDate())}/${pad(chosen.getMonth() + 1)}) às ${customer.time}`
 }
