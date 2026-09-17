@@ -13,9 +13,9 @@
 
 const img = (name) => `/assets/produtos/${name}.webp`
 
-// Sabores da coxinha. `image` é a foto do recheio (imagem ilustrativa), usada no seletor de sabores.
-// Para trocar uma foto, substitua o arquivo em public/assets/sabores/ mantendo o nome.
-// `onlyM: true` marca os sabores que existem apenas na coxinha M.
+// Sabores da coxinha (os mesmos na G e na M). `image` é a foto do recheio
+// (imagem ilustrativa), usada no seletor de sabores. Para trocar uma foto,
+// substitua o arquivo em public/assets/sabores/ mantendo o nome.
 export const flavors = [
   { id: 'frango', name: 'Frango tradicional' },
   { id: 'catupiry', name: 'Frango com Catupiry®' },
@@ -25,11 +25,9 @@ export const flavors = [
   { id: 'carne-seca', name: 'Carne seca com queijo' },
   { id: 'cheddar-bacon', name: 'Frango, cheddar e bacon' },
   { id: 'caipira', name: 'Caipira (frango, milho, bacon e requeijão)' },
-  { id: 'brocolis', name: 'Brócolis', onlyM: true },
 ].map((f) => ({ ...f, image: `/assets/sabores/${f.id}.webp` }))
 
-export const coxinhaFlavors = flavors.filter((f) => !f.onlyM).map((f) => f.name)
-export const coxinhaMExtras = flavors.filter((f) => f.onlyM).map((f) => f.name)
+export const coxinhaFlavors = flavors.map((f) => f.name)
 
 export const festaFlavors = [
   'Frango tradicional',
@@ -99,13 +97,13 @@ export const catalog = [
       },
       {
         id: 'coxinha-m',
-        order: [{ id: 'sabor', title: 'Escolha o sabor', type: 'single', required: true, choices: [...coxinhaFlavors, ...coxinhaMExtras] }],
+        order: [{ id: 'sabor', title: 'Escolha o sabor', type: 'single', required: true, choices: coxinhaFlavors }],
         name: 'Coxinha M',
         description: 'Coxinha média de 130g.',
         price: 990,
         image: img('coxinha-m'),
         alt: 'Coxinha M aberta, com recheio cremoso',
-        options: { title: 'Sabores', list: [...coxinhaFlavors, ...coxinhaMExtras] },
+        options: { title: 'Sabores', list: coxinhaFlavors },
         ifood: '',
         food99: '',
       },
@@ -368,7 +366,7 @@ export const families = [
     name: 'Coxinhas',
     items: [
       { name: 'Coxinha G', detail: '250g · 8 sabores', image: img('coxinha-g'), alt: 'Coxinha G cortada ao meio' },
-      { name: 'Coxinha M', detail: '130g · 9 sabores', image: img('coxinha-m'), alt: 'Coxinha M aberta' },
+      { name: 'Coxinha M', detail: '130g · 8 sabores', image: img('coxinha-m'), alt: 'Coxinha M aberta' },
       { name: 'Coxinha Gourmet', detail: '3 unidades de 40g', image: img('coxinha-gourmet'), alt: 'Embalagem com três coxinhas gourmet' },
     ],
   },

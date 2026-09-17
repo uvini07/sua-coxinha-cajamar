@@ -143,7 +143,6 @@ export default function CoxinhaScene() {
                   onTouchStart={() => carregar(item.image)}
                 >
                   {item.name}
-                  {item.onlyM && <span className="cx__flavor-tag">só na M</span>}
                   {carregando === item.id && <span className="cx__flavor-spinner" aria-hidden="true" />}
                 </button>
               </li>

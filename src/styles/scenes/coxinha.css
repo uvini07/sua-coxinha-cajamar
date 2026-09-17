@@ -221,20 +221,7 @@
   }
 }
 
-.cx__flavor-tag {
-  flex-shrink: 0;
-  padding: 0.1em 0.5em;
-  border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.16);
-  font-size: 0.8125rem;
-  font-weight: 700;
-}
-
-.cx__flavor[aria-pressed='true'] .cx__flavor-tag {
-  background: rgba(0, 0, 0, 0.18);
-}
-
-.cx__note {
+.cx__flavor[aria-pressed='true'] .cx__note {
   font-size: var(--step--1);
   opacity: 0.75;
 }
