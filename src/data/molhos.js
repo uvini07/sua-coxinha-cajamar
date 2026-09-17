@@ -1,7 +1,11 @@
 // Linha de molhos artesanais. O nível de ardência é o mesmo impresso no rótulo (de 1 a 5).
+// `pedido` liga cada garrafa ao produto do pedido pelo WhatsApp (products.js).
+export const molhoPrice = 1990
+
 export const molhos = [
   {
     id: 'moderado',
+    pedido: 'molho-moderado',
     name: 'Molho cremoso',
     highlight: 'Moderado',
     image: '/assets/molhos/moderado.webp',
@@ -13,6 +17,7 @@ export const molhos = [
   },
   {
     id: 'goiabinha',
+    pedido: 'molho-goiabinha',
     name: 'Pimenta agridoce',
     highlight: 'Goiabinha',
     image: '/assets/molhos/goiabinha.webp',
@@ -24,6 +29,7 @@ export const molhos = [
   },
   {
     id: 'suave',
+    pedido: 'molho-suave',
     name: 'Molho cremoso',
     highlight: 'Suave',
     image: '/assets/molhos/suave.webp',
@@ -35,6 +41,7 @@ export const molhos = [
   },
   {
     id: 'alho',
+    pedido: 'molho-alho',
     name: 'Molho de',
     highlight: 'Alho picante',
     image: '/assets/molhos/alho.webp',

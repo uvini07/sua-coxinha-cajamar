@@ -19,7 +19,7 @@ export const orderSteps = [
     id: 'salgados',
     name: 'Salgados',
     hint: 'Toque no produto para escolher. Não quer salgado? Toque em Próximo.',
-    sections: ['coxinhas', 'festa', 'combos', 'casa'].map(group),
+    sections: ['coxinhas', 'festa', 'combos', 'molhos', 'casa'].map(group),
   },
   {
     id: 'doces',

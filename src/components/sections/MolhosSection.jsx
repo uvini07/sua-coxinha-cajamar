@@ -1,38 +1,18 @@
-import { useRef, useState } from 'react'
-import { molhos } from '../../data/molhos.js'
+import { useState } from 'react'
+import { molhoPrice, molhos } from '../../data/molhos.js'
+import { priceText } from '../../data/products.js'
+import { useWhatsAppOrder } from '../whatsapp/WhatsAppOrder.jsx'
 import '../../styles/sections/molhos.css'
 
-// Carrossel dos molhos: a garrafa escolhida fica grande no centro e as outras
-// ficam menores ao lado. Tocar ou clicar em uma delas traz a garrafa para o meio.
+// As quatro garrafas ficam sempre na tela, lado a lado. A que recebe o mouse,
+// o toque ou o foco cresce e acende; as outras recuam.
 export default function MolhosSection() {
-  const [ativo, setAtivo] = useState(0)
-  const toqueX = useRef(null)
+  const [escolhido, setEscolhido] = useState(0)
+  const [sobre, setSobre] = useState(null)
+  const { open } = useWhatsAppOrder()
 
-  // Distância até a garrafa em destaque, dando a volta na lista (-2, -1, 0, 1...).
-  const deslocamento = (i) => {
-    const total = molhos.length
-    let off = i - ativo
-    if (off > total / 2) off -= total
-    if (off < -total / 2) off += total
-    return off
-  }
-
-  const girar = (passo) => setAtivo((a) => (a + passo + molhos.length) % molhos.length)
-
-  const aoTeclar = (e) => {
-    if (e.key === 'ArrowRight') girar(1)
-    if (e.key === 'ArrowLeft') girar(-1)
-  }
-
-  const inicioToque = (e) => (toqueX.current = e.changedTouches[0].clientX)
-  const fimToque = (e) => {
-    if (toqueX.current === null) return
-    const d = e.changedTouches[0].clientX - toqueX.current
-    if (Math.abs(d) > 45) girar(d < 0 ? 1 : -1)
-    toqueX.current = null
-  }
-
-  const atual = molhos[ativo]
+  const ativo = sobre ?? escolhido
+  const molho = molhos[ativo]
 
   return (
     <section id="molhos" className="molhos" data-theme="dark" aria-labelledby="molhos-title">
@@ -44,85 +24,57 @@ export default function MolhosSection() {
           </h2>
         </header>
 
-        <div
-          className="molhos__palco"
-          role="group"
-          aria-label="Molhos da Sua Coxinha"
-          tabIndex={0}
-          onKeyDown={aoTeclar}
-          onTouchStart={inicioToque}
-          onTouchEnd={fimToque}
-          data-reveal
-        >
-          <button type="button" className="molhos__seta molhos__seta--esq" onClick={() => girar(-1)} aria-label="Molho anterior">
-            <Seta />
-          </button>
-
-          <ul className="molhos__trilho">
-            {molhos.map((m, i) => {
-              const off = deslocamento(i)
-              const centro = off === 0
-              return (
-                <li key={m.id} className="molhos__slot" style={{ '--off': off, '--dist': Math.abs(off) }}>
-                  <button
-                    type="button"
-                    className={`garrafa${centro ? ' is-ativa' : ''}${m.quente ? ' garrafa--quente' : ''}`}
-                    onClick={() => setAtivo(i)}
-                    aria-label={centro ? undefined : `Ver ${m.name} ${m.highlight}`}
-                    aria-current={centro ? 'true' : undefined}
-                    tabIndex={centro ? -1 : 0}
-                  >
-                    <img src={m.image} alt={centro ? m.alt : ''} loading="lazy" decoding="async" />
-                  </button>
-                </li>
-              )
-            })}
-          </ul>
-
-          <button type="button" className="molhos__seta molhos__seta--dir" onClick={() => girar(1)} aria-label="Próximo molho">
-            <Seta />
-          </button>
-        </div>
+        <ul className="molhos__prateleira" data-reveal onMouseLeave={() => setSobre(null)}>
+          {molhos.map((m, i) => (
+            <li key={m.id} className={`molhos__slot${i === ativo ? ' is-ativa' : ''}`}>
+              <button
+                type="button"
+                className={`garrafa${m.quente ? ' garrafa--quente' : ''}`}
+                onClick={() => setEscolhido(i)}
+                onMouseEnter={() => setSobre(i)}
+                onFocus={() => setSobre(i)}
+                onBlur={() => setSobre(null)}
+                aria-pressed={i === ativo}
+              >
+                <span className="garrafa__chao" aria-hidden="true" />
+                <img src={m.image} alt={m.alt} loading="lazy" decoding="async" />
+                <span className="garrafa__nome">
+                  {m.name} <strong>{m.highlight}</strong>
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
 
         <div className="molhos__ficha" aria-live="polite" data-reveal>
-          <p className={`molhos__nome${atual.quente ? ' is-quente' : ''}`}>
-            {atual.name} <strong>{atual.highlight}</strong>
-          </p>
-          <p className={`molhos__ardencia${atual.quente ? ' is-quente' : ''}`}>
-            <span className="sr-only">Nível de ardência: {atual.level} de 5</span>
-            {[1, 2, 3, 4, 5].map((n) => (
-              <Pimenta key={n} acesa={n <= atual.level} />
-            ))}
-          </p>
-          <p className="molhos__texto">{atual.text}</p>
-          <p className="molhos__combina">
-            <span>Combina com</span> {atual.combina}
-          </p>
+          <div key={molho.id} className="molhos__cartao">
+            <p className={`molhos__nome${molho.quente ? ' is-quente' : ''}`}>
+              {molho.name} <strong>{molho.highlight}</strong>
+            </p>
+            <p className={`molhos__ardencia${molho.quente ? ' is-quente' : ''}`}>
+              <span className="sr-only">Nível de ardência: {molho.level} de 5</span>
+              {[1, 2, 3, 4, 5].map((n) => (
+                <Pimenta key={n} acesa={n <= molho.level} />
+              ))}
+            </p>
+            <p className="molhos__texto">{molho.text}</p>
+            <p className="molhos__combina">
+              <span>Combina com</span> {molho.combina}
+            </p>
+          </div>
 
-          <ol className="molhos__pontos">
-            {molhos.map((m, i) => (
-              <li key={m.id}>
-                <button
-                  type="button"
-                  className={`molhos__ponto${i === ativo ? ' is-ativo' : ''}`}
-                  onClick={() => setAtivo(i)}
-                  aria-label={`${m.name} ${m.highlight}`}
-                  aria-current={i === ativo ? 'true' : undefined}
-                />
-              </li>
-            ))}
-          </ol>
+          <div className="molhos__compra">
+            <p className="molhos__preco">
+              <span>250g</span>
+              {priceText(molhoPrice)}
+            </p>
+            <button type="button" className="btn btn--small molhos__add" onClick={() => open({ itemId: molho.pedido })}>
+              <span className="btn__label">Adicionar ao pedido</span>
+            </button>
+          </div>
         </div>
       </div>
     </section>
-  )
-}
-
-function Seta() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
   )
 }
 
