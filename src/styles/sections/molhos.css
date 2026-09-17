@@ -248,27 +248,19 @@
   text-transform: uppercase;
 }
 
-.molhos__compra {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem 1.25rem;
-  margin-top: 0.25rem;
-  padding: 0.75rem 1.25rem;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: var(--radius-pill);
-  background: rgba(18, 12, 6, 0.55);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-}
-
+/* Só o preço: quem vai pedir usa o cardápio, logo acima. */
 .molhos__preco {
   display: flex;
   align-items: baseline;
   gap: 0.5rem;
-  font-size: 1.375rem;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-pill);
+  background: rgba(18, 12, 6, 0.5);
+  font-size: 1.25rem;
   font-weight: 900;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
 .molhos__preco span {
@@ -305,11 +297,6 @@
     font-size: 0.9375rem;
   }
 
-  .molhos__compra {
-    width: 100%;
-    justify-content: space-between;
-    border-radius: 18px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

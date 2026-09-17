@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { molhoPrice, molhos } from '../../data/molhos.js'
 import { priceText } from '../../data/products.js'
-import { useWhatsAppOrder } from '../whatsapp/WhatsAppOrder.jsx'
 import '../../styles/sections/molhos.css'
 
 // As quatro garrafas ficam sempre na tela, lado a lado. A que recebe o mouse,
@@ -9,7 +8,6 @@ import '../../styles/sections/molhos.css'
 export default function MolhosSection() {
   const [escolhido, setEscolhido] = useState(0)
   const [sobre, setSobre] = useState(null)
-  const { open } = useWhatsAppOrder()
 
   const ativo = sobre ?? escolhido
   const molho = molhos[ativo]
@@ -63,15 +61,10 @@ export default function MolhosSection() {
             </p>
           </div>
 
-          <div className="molhos__compra">
-            <p className="molhos__preco">
-              <span>250g</span>
-              {priceText(molhoPrice)}
-            </p>
-            <button type="button" className="btn btn--small molhos__add" onClick={() => open({ itemId: molho.pedido })}>
-              <span className="btn__label">Adicionar ao pedido</span>
-            </button>
-          </div>
+          <p className="molhos__preco">
+            <span>250g</span>
+            {priceText(molhoPrice)}
+          </p>
         </div>
       </div>
     </section>
