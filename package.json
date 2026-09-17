@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "fotos": "python scripts/fotos-sabores.py"
+    "fotos": "python scripts/fotos-sabores.py",
+    "molhos": "python scripts/recorta-molhos.py"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

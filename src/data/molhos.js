@@ -1,4 +1,4 @@
-// Linha de molhos artesanais. O nível de ardência segue o rótulo (de 1 a 5 pimentas).
+// Linha de molhos artesanais. O nível de ardência é o mesmo impresso no rótulo (de 1 a 5).
 export const molhos = [
   {
     id: 'moderado',
@@ -6,7 +6,7 @@ export const molhos = [
     highlight: 'Moderado',
     image: '/assets/molhos/moderado.webp',
     alt: 'Garrafa do molho cremoso moderado, de rótulo vermelho',
-    level: 4,
+    level: 3,
     quente: false,
     text: 'Cremoso e equilibrado, com sabor suave e toque de ardência.',
     combina: 'Coxinha G, porções e lanches',
@@ -17,7 +17,7 @@ export const molhos = [
     highlight: 'Goiabinha',
     image: '/assets/molhos/goiabinha.webp',
     alt: 'Garrafa da pimenta agridoce goiabinha, de rótulo verde escuro',
-    level: 5,
+    level: 4,
     quente: true,
     text: 'O equilíbrio perfeito entre o picante da pimenta e o doce da goiabinha.',
     combina: 'Mini salgados, queijos e carnes',
@@ -28,8 +28,8 @@ export const molhos = [
     highlight: 'Suave',
     image: '/assets/molhos/suave.webp',
     alt: 'Garrafa do molho cremoso suave, de rótulo amarelo',
-    level: 3,
-    quente: false,
+    level: 4,
+    quente: true,
     text: 'Sabor leve e marcante, perfeito para o dia a dia.',
     combina: 'Coxinha de qualquer tamanho e batata',
   },

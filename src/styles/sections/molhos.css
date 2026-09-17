@@ -1,10 +1,10 @@
-/* Seção dos molhos: fundo da própria foto da linha, desfocado, com as
-   garrafas em cartões que inclinam em 3D conforme o mouse. */
+/* Seção dos molhos: foto da bancada de madeira como fundo e um carrossel em que
+   a garrafa escolhida fica grande no centro e as outras, menores, ao lado. */
 .molhos {
   position: relative;
   z-index: 5;
   isolation: isolate;
-  background: #120d08 url('/assets/molhos/fundo.webp') center / cover no-repeat;
+  background: #1a1109 url('/assets/molhos/fundo.webp') center / cover no-repeat;
   color: var(--branco);
 }
 
@@ -13,312 +13,329 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(180deg, rgba(10, 7, 4, 0.92) 0%, rgba(10, 7, 4, 0.72) 35%, rgba(10, 7, 4, 0.94) 100%);
+  background: linear-gradient(180deg, rgba(12, 8, 4, 0.82) 0%, rgba(12, 8, 4, 0.3) 42%, rgba(12, 8, 4, 0.9) 100%);
 }
 
 .molhos__inner {
-  max-width: 1320px;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: clamp(3.5rem, 8vw, 6.5rem) var(--pad-x);
+  padding: clamp(3rem, 7vw, 5.5rem) var(--pad-x) clamp(3rem, 7vw, 5rem);
 }
 
 .molhos__head {
-  max-width: 44rem;
-  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  text-align: center;
 }
 
 .molhos__kicker {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   color: var(--amarelo);
   font-size: var(--step--1);
   font-weight: 800;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
 .molhos__title {
-  font-size: clamp(2.75rem, 1.8rem + 4.5vw, 5.5rem);
+  font-size: clamp(2.5rem, 1.6rem + 4vw, 4.75rem);
   line-height: 0.95;
+  text-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
 }
 
 .molhos__title span {
   color: var(--amarelo);
 }
 
-.molhos__sub {
-  max-width: 38rem;
-  margin-top: 1rem;
-  color: rgba(255, 255, 255, 0.78);
+/* ---------- Palco do carrossel ---------- */
+
+.molhos__palco {
+  position: relative;
+  height: clamp(300px, 44vh, 460px);
+  margin: clamp(1.5rem, 4vw, 2.5rem) 0 clamp(1rem, 2vw, 1.5rem);
+}
+
+.molhos__palco:focus-visible {
+  outline: 3px solid var(--amarelo);
+  outline-offset: 12px;
+  border-radius: 20px;
+}
+
+.molhos__trilho {
+  position: absolute;
+  inset: 0;
+  list-style: none;
+}
+
+/* Cada garrafa é posicionada pela distância até o centro (--off) */
+.molhos__slot {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  height: 100%;
+  transform: translateX(-50%) translateX(calc(var(--off) * clamp(105px, 16vw, 200px)));
+  transition: transform 0.55s var(--ease-out);
+  will-change: transform;
+}
+
+.molhos__slot:has(.is-ativa) {
+  z-index: 3;
+}
+
+.garrafa {
+  display: block;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transform: scale(calc(1 - var(--dist) * 0.3));
+  transform-origin: bottom center;
+  transition:
+    transform 0.55s var(--ease-out),
+    filter 0.55s var(--ease-out),
+    opacity 0.55s var(--ease-out);
+}
+
+.garrafa img {
+  display: block;
+  height: 100%;
+  width: auto;
+  filter: drop-shadow(0 24px 26px rgba(0, 0, 0, 0.6));
+}
+
+/* Garrafas laterais: menores, mais escuras e atrás */
+.garrafa:not(.is-ativa) {
+  opacity: calc(1 - var(--dist) * 0.26);
+  filter: brightness(0.6) saturate(0.85);
+}
+
+.garrafa:not(.is-ativa):hover,
+.garrafa:not(.is-ativa):focus-visible {
+  opacity: 1;
+  filter: brightness(0.9) saturate(1);
+  transform: scale(calc(1 - var(--dist) * 0.3 + 0.04));
+}
+
+.garrafa:focus-visible {
+  outline: 3px solid var(--amarelo);
+  outline-offset: 6px;
+  border-radius: 16px;
+}
+
+.garrafa.is-ativa {
+  cursor: default;
+  animation: molho-entra 0.55s var(--ease-out);
+}
+
+.garrafa.is-ativa img {
+  filter: drop-shadow(0 30px 34px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 40px rgba(249, 193, 21, 0.18));
+}
+
+.garrafa--quente.is-ativa img {
+  filter: drop-shadow(0 30px 34px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 40px rgba(255, 90, 60, 0.22));
+}
+
+@keyframes molho-entra {
+  from {
+    transform: scale(0.88) translateY(10px);
+  }
+}
+
+/* ---------- Setas ---------- */
+
+.molhos__seta {
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin-top: -23px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  background: rgba(18, 12, 6, 0.55);
+  color: var(--branco);
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.molhos__seta svg {
+  width: 22px;
+  height: 22px;
+}
+
+.molhos__seta:hover {
+  border-color: var(--amarelo);
+  background: rgba(249, 193, 21, 0.92);
+  color: var(--preto);
+}
+
+.molhos__seta:focus-visible {
+  outline: 3px solid var(--amarelo);
+  outline-offset: 3px;
+}
+
+.molhos__seta--esq {
+  left: 0;
+}
+
+.molhos__seta--dir {
+  right: 0;
+  transform: scaleX(-1);
+}
+
+/* ---------- Ficha do molho em destaque ---------- */
+
+.molhos__ficha {
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.molhos__nome {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem);
+  font-weight: 800;
+  font-stretch: 85%;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.molhos__nome strong {
+  color: var(--amarelo);
+  font-weight: 800;
+}
+
+.molhos__nome.is-quente strong {
+  color: #ff7a5c;
+}
+
+.molhos__ardencia {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.pimenta {
+  width: 20px;
+  height: 20px;
+  fill: rgba(255, 255, 255, 0.24);
+}
+
+.molhos__ardencia .pimenta--acesa {
+  fill: var(--amarelo);
+}
+
+.molhos__ardencia.is-quente .pimenta--acesa {
+  fill: #ff5a3c;
+}
+
+.molhos__texto {
+  max-width: 34rem;
+  color: rgba(255, 255, 255, 0.85);
   font-size: var(--step-0);
 }
 
-.molhos__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
-  gap: clamp(1rem, 2vw, 1.75rem);
+.molhos__combina {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.9375rem;
 }
 
-/* A perspectiva fica no item; o cartão gira dentro dela. */
-.molhos__item {
-  perspective: 1100px;
+.molhos__combina span {
+  color: var(--amarelo);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
-.molho {
-  --rx: 0deg;
-  --ry: 0deg;
-  --mx: 50%;
-  --my: 50%;
-  --cor: var(--amarelo);
-  position: relative;
+.molhos__pontos {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  list-style: none;
+}
+
+/* Alvo de toque confortável sem engordar o traço */
+.molhos__pontos li {
   display: grid;
-  gap: 0.75rem;
-  width: 100%;
-  padding: 0.75rem 0.75rem 1.1rem;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: var(--radius-lg);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
-  color: inherit;
-  font: inherit;
-  text-align: left;
+  place-items: center;
+  height: 28px;
+}
+
+.molhos__ponto {
+  width: 34px;
+  height: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.3);
   cursor: pointer;
-  transform: rotateX(var(--rx)) rotateY(var(--ry));
-  transform-style: preserve-3d;
   transition:
-    transform 0.4s var(--ease-out),
-    border-color 0.3s ease,
-    box-shadow 0.4s var(--ease-out);
+    background-color 0.3s ease,
+    width 0.3s var(--ease-out);
 }
 
-.molho--quente {
-  --cor: #ff5a3c;
+.molhos__ponto.is-ativo {
+  width: 52px;
+  background: var(--amarelo);
 }
 
-.molho:hover,
-.molho:focus-visible {
-  border-color: var(--cor);
-  box-shadow:
-    0 26px 48px -26px rgba(0, 0, 0, 0.85),
-    0 0 0 1px rgba(255, 255, 255, 0.06);
-}
-
-.molho:focus-visible {
+.molhos__ponto:focus-visible {
   outline: 3px solid var(--amarelo);
   outline-offset: 4px;
 }
 
-.molho__cena {
-  position: relative;
-  display: block;
-  aspect-ratio: 3 / 4.4;
-  border-radius: calc(var(--radius-lg) - 8px);
-  background: radial-gradient(120% 80% at 50% 10%, rgba(255, 255, 255, 0.14), rgba(0, 0, 0, 0.55));
-  overflow: hidden;
-  transform-style: preserve-3d;
-}
-
-.molho__foto {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  /* As bordas do recorte somem no fundo da cena, sem emenda visível. */
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent),
-    linear-gradient(180deg, transparent, #000 8%, #000 94%, transparent);
-  -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent),
-    linear-gradient(180deg, transparent, #000 8%, #000 94%, transparent);
-  mask-composite: intersect;
-  transform: translateZ(0) scale(1.02);
-  transition:
-    transform 0.5s var(--ease-out),
-    filter 0.4s ease;
-}
-
-.molho:hover .molho__foto,
-.molho:focus-visible .molho__foto,
-.molho.is-aberta .molho__foto {
-  transform: translateZ(45px) scale(1.08);
-  filter: saturate(1.08) contrast(1.04);
-}
-
-/* Reflexo que acompanha o cursor */
-.molho__brilho {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: radial-gradient(180px 180px at var(--mx) var(--my), rgba(255, 255, 255, 0.28), transparent 65%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.molho:hover .molho__brilho {
-  opacity: 1;
-}
-
-/* Sombra no chão da cena, para a garrafa parecer levantar */
-.molho__sombra {
-  position: absolute;
-  left: 50%;
-  bottom: 6%;
-  width: 62%;
-  height: 12px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.55);
-  filter: blur(8px);
-  opacity: 0;
-  transform: translateX(-50%) scale(0.7);
-  transition:
-    opacity 0.4s ease,
-    transform 0.4s var(--ease-out);
-}
-
-.molho:hover .molho__sombra,
-.molho.is-aberta .molho__sombra {
-  opacity: 1;
-  transform: translateX(-50%) scale(1);
-}
-
-.molho__info {
-  display: grid;
-  gap: 0.35rem;
-  padding: 0 0.25rem;
-  transform: translateZ(28px);
-}
-
-.molho__nome {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 800;
-  font-stretch: 85%;
-  line-height: 1.1;
-  text-transform: uppercase;
-}
-
-.molho__nome strong {
-  display: block;
-  color: var(--cor);
-  font-weight: 800;
-}
-
-.molho__ardencia {
-  display: flex;
-  gap: 0.15rem;
-}
-
-.pimenta {
-  width: 17px;
-  height: 17px;
-  fill: rgba(255, 255, 255, 0.22);
-  transition: fill 0.3s ease;
-}
-
-.pimenta--acesa {
-  fill: var(--cor);
-}
-
-.molho__texto {
-  color: rgba(255, 255, 255, 0.76);
-  font-size: 0.9375rem;
-  line-height: 1.4;
-}
-
-/* Dica extra: aparece ao clicar (ou tocar) no cartão */
-.molho__extra {
-  display: grid;
-  gap: 0.15rem;
-  margin: 0 0.25rem;
-  padding: 0 0.75rem;
-  max-height: 0;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.08);
-  opacity: 0;
-  overflow: hidden;
-  transform: translateZ(28px);
-  transition:
-    max-height 0.35s var(--ease-out),
-    opacity 0.3s ease,
-    padding 0.35s var(--ease-out);
-}
-
-.molho.is-aberta .molho__extra {
-  max-height: 7rem;
-  padding: 0.6rem 0.75rem;
-  opacity: 1;
-}
-
-.molho__extra-label {
-  color: var(--cor);
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.molho__extra-texto {
-  font-size: 0.9375rem;
-  line-height: 1.35;
-}
-
-/* Celular: duas garrafas por linha, para a lista nao virar um rolo sem fim. */
 @media (max-width: 599.98px) {
-  .molhos__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.75rem;
+  .molhos__palco {
+    height: clamp(240px, 36vh, 320px);
   }
 
-  .molho {
-    gap: 0.5rem;
-    padding: 0.5rem 0.5rem 0.85rem;
-    border-radius: 18px;
+  .molhos__seta {
+    width: 38px;
+    height: 38px;
+    margin-top: -19px;
+    background: rgba(18, 12, 6, 0.42);
   }
 
-  .molho__cena {
-    border-radius: 12px;
+  .molhos__seta--esq {
+    left: -8px;
   }
 
-  .molho__nome {
-    font-size: 1rem;
+  .molhos__seta--dir {
+    right: -8px;
   }
 
-  .pimenta {
-    width: 14px;
-    height: 14px;
+  /* No celular as garrafas ficam mais juntas para as quatro caberem na tela. */
+  .molhos__slot {
+    transform: translateX(-50%) translateX(calc(var(--off) * clamp(56px, 19vw, 78px)));
   }
 
-  .molho__texto {
-    font-size: 0.8125rem;
+  .garrafa {
+    transform: scale(calc(1 - var(--dist) * 0.34));
   }
 
-  .molho__extra {
-    margin: 0;
+  .garrafa:not(.is-ativa):hover,
+  .garrafa:not(.is-ativa):focus-visible {
+    transform: scale(calc(1 - var(--dist) * 0.34 + 0.04));
   }
 
-  .molho__extra-texto {
-    font-size: 0.8125rem;
-  }
-}
-
-@media (hover: none) {
-  /* No toque não há cursor: o destaque vem do cartão aberto. */
-  .molho.is-aberta {
-    border-color: var(--cor);
-    box-shadow: 0 22px 40px -24px rgba(0, 0, 0, 0.9);
+  .molhos__texto {
+    font-size: 0.9375rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .molho,
-  .molho__foto,
-  .molho__sombra,
-  .molho__extra {
+  .molhos__slot,
+  .garrafa {
     transition-duration: 0.01ms;
   }
 
-  .molho:hover .molho__foto,
-  .molho:focus-visible .molho__foto,
-  .molho.is-aberta .molho__foto {
-    transform: none;
+  .garrafa.is-ativa {
+    animation: none;
   }
 }
