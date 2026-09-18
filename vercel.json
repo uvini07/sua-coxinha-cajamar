@@ -6,13 +6,13 @@
     {
       "source": "/",
       "has": [{ "type": "host", "value": "sua-coxinha-cajamar.vercel.app" }],
-      "destination": "https://suacoxinhaloja.vercel.app/cajamar",
+      "destination": "https://www.suacoxinhaloja.com.br/cajamar",
       "permanent": true
     },
     {
       "source": "/:caminho*",
       "has": [{ "type": "host", "value": "sua-coxinha-cajamar.vercel.app" }],
-      "destination": "https://suacoxinhaloja.vercel.app/:caminho*",
+      "destination": "https://www.suacoxinhaloja.com.br/:caminho*",
       "permanent": true
     }
   ],

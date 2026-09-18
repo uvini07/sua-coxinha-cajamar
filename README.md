@@ -3,9 +3,9 @@
 Um projeto, um código, várias franquias. Cada loja tem a sua página no mesmo domínio:
 
 ```
-suacoxinha.com.br/          escolha da loja
-suacoxinha.com.br/cajamar   loja de Cajamar
-suacoxinha.com.br/jundiai   loja de Jundiaí
+www.suacoxinhaloja.com.br/          escolha da loja
+www.suacoxinhaloja.com.br/cajamar   loja de Cajamar
+www.suacoxinhaloja.com.br/jundiai   loja de Jundiaí
 ```
 
 A franquia é o primeiro pedaço da URL. O sistema carrega os dados daquela loja e
@@ -21,7 +21,7 @@ npm run dev
 
 Publicação: cada `git push` na branch `main` publica automaticamente na Vercel.
 
-Endereço público: `site.config.js` (hoje `https://suacoxinhaloja.vercel.app`). Ao ligar
+Endereço público: `site.config.js` (hoje `https://www.suacoxinhaloja.com.br`). Ao ligar
 outro domínio, troque ali — as metas de compartilhamento e o canonical de todas as
 lojas saem com o novo endereço no próximo build. O endereço antigo
 (`sua-coxinha-cajamar.vercel.app`) redireciona para o novo pelo `vercel.json`: a raiz
@@ -57,7 +57,7 @@ Cada franquia é uma pasta em `src/lojas/<slug>/`. Mexer numa loja não afeta as
 4. Em `produtos.js`, deixe só o que essa loja vende, com os preços dela.
 5. `npm run dev` e abra `/osasco`.
 
-Não é preciso criar página, componente ou rota: a pasta já vira `suacoxinha.com.br/osasco`,
+Não é preciso criar página, componente ou rota: a pasta já vira `www.suacoxinhaloja.com.br/osasco`,
 entra na lista da página inicial e ganha o seu próprio HTML (com título, descrição e
 imagem de compartilhamento) no `npm run build`.
 
@@ -103,7 +103,7 @@ da loja com a mensagem do pedido pronta. Somente retirada na loja.
 - O pedido é esvaziado assim que o WhatsApp abre com a mensagem.
 - O pedido fica salvo no aparelho do cliente até ele enviar. Enquanto houver itens, aparece o
   carrinho "Meu pedido": na barra do topo (todas as telas) e numa faixa acima da barra de pedido do celular.
-- Link direto que já abre o pop-up (bom para a bio do Instagram): `https://suacoxinhaloja.vercel.app/cajamar#pedir-whatsapp`
+- Link direto que já abre o pop-up (bom para a bio do Instagram): `https://www.suacoxinhaloja.com.br/cajamar#pedir-whatsapp`
 
 ## Fotos dos sabores
 
