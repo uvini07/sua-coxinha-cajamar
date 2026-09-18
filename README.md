@@ -21,6 +21,12 @@ npm run dev
 
 Publicação: cada `git push` na branch `main` publica automaticamente na Vercel.
 
+Endereço público: `site.config.js` (hoje `https://suacoxinhaloja.vercel.app`). Ao ligar
+outro domínio, troque ali — as metas de compartilhamento e o canonical de todas as
+lojas saem com o novo endereço no próximo build. O endereço antigo
+(`sua-coxinha-cajamar.vercel.app`) redireciona para o novo pelo `vercel.json`: a raiz
+vai para `/cajamar`, que era a loja daquele endereço.
+
 ## Como o site funciona
 
 - **Computador:** a abertura (início, produtos, coxinha e churros) é animada pelo scroll. Depois dela, o site rola normalmente.
@@ -97,7 +103,7 @@ da loja com a mensagem do pedido pronta. Somente retirada na loja.
 - O pedido é esvaziado assim que o WhatsApp abre com a mensagem.
 - O pedido fica salvo no aparelho do cliente até ele enviar. Enquanto houver itens, aparece o
   carrinho "Meu pedido": na barra do topo (todas as telas) e numa faixa acima da barra de pedido do celular.
-- Link direto que já abre o pop-up (bom para a bio do Instagram): `https://sua-coxinha-cajamar.vercel.app/#pedir-whatsapp`
+- Link direto que já abre o pop-up (bom para a bio do Instagram): `https://suacoxinhaloja.vercel.app/cajamar#pedir-whatsapp`
 
 ## Fotos dos sabores
 

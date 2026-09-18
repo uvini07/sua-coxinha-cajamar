@@ -97,7 +97,9 @@ export function useStory(rootRef) {
           setSection({ id: el.classList.contains('stage') ? 'story' : el.id, theme: el.dataset.theme })
         })
       },
-      { rootMargin: `-${navOffset()}px 0px -${window.innerHeight - navOffset() - 1}px 0px` },
+      // Com a janela ainda sem altura (aba abrindo em segundo plano), a conta dava
+      // negativo e o navegador recusava a margem, derrubando a página inteira.
+      { rootMargin: `-${navOffset()}px 0px -${Math.max(0, window.innerHeight - navOffset() - 1)}px 0px` },
     )
     targets.forEach((t) => t && observer.observe(t))
     return () => observer.disconnect()

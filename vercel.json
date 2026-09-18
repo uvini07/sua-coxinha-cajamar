@@ -2,6 +2,20 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "sua-coxinha-cajamar.vercel.app" }],
+      "destination": "https://suacoxinhaloja.vercel.app/cajamar",
+      "permanent": true
+    },
+    {
+      "source": "/:caminho*",
+      "has": [{ "type": "host", "value": "sua-coxinha-cajamar.vercel.app" }],
+      "destination": "https://suacoxinhaloja.vercel.app/:caminho*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     { "source": "/((?!assets/|favicon|apple-touch-icon|compartilhar).*)", "destination": "/index.html" }
   ]

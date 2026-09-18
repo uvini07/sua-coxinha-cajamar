@@ -7,9 +7,10 @@
 import { readdir, readFile, writeFile, mkdir } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { SITE_URL } from '../site.config.js'
 
 const raiz = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const SITE = process.env.SITE_URL ?? 'https://suacoxinha.com.br'
+const SITE = process.env.SITE_URL ?? SITE_URL
 
 const escapar = (texto = '') =>
   String(texto).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
