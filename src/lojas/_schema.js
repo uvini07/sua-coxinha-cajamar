@@ -19,6 +19,7 @@ export const SECOES = {
   pedido: { id: 'pedido', label: 'Onde pedir' },
 }
 
+// Cores da marca, usadas por toda loja que não tiver um tema.js próprio.
 const TEMA_PADRAO = {
   marca: '#f9c115',
   marcaClara: '#ffd23f',

@@ -1,5 +1,7 @@
-// TEMA DA LOJA DE CAJAMAR
-// Estas cores viram variáveis CSS na página inteira. Trocar aqui muda só esta loja.
+// TEMA DA LOJA DE CAJAMAR — as cores da marca.
+//
+// O tema é OPCIONAL: loja sem tema.js usa as cores da marca (as mesmas daqui).
+// Só crie um tema.js quando uma franquia precisar mesmo de cores próprias.
 // Campos possíveis e valores padrão: src/lojas/_schema.js
 export default {
   marca: '#f9c115',

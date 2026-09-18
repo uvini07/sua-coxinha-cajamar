@@ -36,7 +36,7 @@ Cada franquia é uma pasta em `src/lojas/<slug>/`. Mexer numa loja não afeta as
 | --- | --- |
 | Produtos, sabores, preços **e links de cada produto** | `src/lojas/<slug>/produtos.js` |
 | Endereço, horários, WhatsApp, iFood, 99Food, textos, SEO, seções | `src/lojas/<slug>/loja.js` |
-| Cores, logo e tipografia da loja | `src/lojas/<slug>/tema.js` |
+| Cores, logo e tipografia da loja (opcional) | `src/lojas/<slug>/tema.js` |
 | Campos possíveis e valores padrão | `src/lojas/_schema.js` |
 | De onde os dados vêm (trocar por banco no futuro) | `src/lojas/carregador.js` |
 | Cores padrão da marca | `src/styles/tokens.css` |
@@ -47,7 +47,7 @@ Cada franquia é uma pasta em `src/lojas/<slug>/`. Mexer numa loja não afeta as
 
 1. Copie uma pasta de loja: `cp -r src/lojas/cajamar src/lojas/osasco`.
 2. Em `loja.js`, troque `slug`, `unit`, endereço, WhatsApp, horários, links e textos.
-3. Em `tema.js`, ajuste as cores (ou deixe as da marca).
+3. Cores: por padrão toda loja usa as cores da marca. Só crie um `tema.js` na pasta se aquela franquia precisar de cores próprias.
 4. Em `produtos.js`, deixe só o que essa loja vende, com os preços dela.
 5. `npm run dev` e abra `/osasco`.
 
