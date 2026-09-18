@@ -1,48 +1,25 @@
-import { useRef } from 'react'
-import { StoryContext } from './context/StoryContext.js'
-import { useStory } from './animations/useStory.js'
-import { useReveal } from './hooks/useReveal.js'
-import Navbar from './components/Navbar.jsx'
-import ScrollProgress from './components/ScrollProgress.jsx'
-import MobileOrderBar from './components/MobileOrderBar.jsx'
-import { WhatsAppOrderProvider } from './components/whatsapp/WhatsAppOrder.jsx'
-import HeroScene from './components/scenes/HeroScene.jsx'
-import ProductScene from './components/scenes/ProductScene.jsx'
-import CoxinhaScene from './components/scenes/CoxinhaScene.jsx'
-import ChurrosScene from './components/scenes/ChurrosScene.jsx'
-import CatalogSection from './components/sections/CatalogSection.jsx'
-import MolhosSection from './components/sections/MolhosSection.jsx'
-import BenefitsSection from './components/sections/BenefitsSection.jsx'
-import OrderSection from './components/sections/OrderSection.jsx'
+import { useCallback } from 'react'
+import { useRota } from './rotas/useRota.js'
+import { existeLoja } from './lojas/carregador.js'
+import LojaProvider from './components/LojaProvider.jsx'
+import LojaPagina from './paginas/LojaPagina.jsx'
+import EscolhaLoja from './paginas/EscolhaLoja.jsx'
+import NaoEncontrada from './paginas/NaoEncontrada.jsx'
 
+// Uma plataforma, várias lojas: a franquia é o primeiro pedaço da URL.
+//   /            -> escolha da loja
+//   /cajamar     -> loja de Cajamar
+//   /naoexiste   -> aviso de loja não encontrada
 export default function App() {
-  const rootRef = useRef(null)
-  const story = useStory(rootRef)
-  useReveal(rootRef, story.isStory)
+  const { slug, navegar } = useRota()
+  const irParaRaiz = useCallback(() => navegar('/'), [navegar])
+
+  if (!slug) return <EscolhaLoja navegar={navegar} />
+  if (!existeLoja(slug)) return <NaoEncontrada slug={slug} navegar={navegar} />
 
   return (
-    <StoryContext.Provider value={story}>
-      <WhatsAppOrderProvider>
-        <a className="skip-link" href="#cardapio" onClick={story.linkTo('cardapio')}>
-          Pular para o cardápio
-        </a>
-        <Navbar />
-        <ScrollProgress />
-        <main ref={rootRef} className="story">
-          {/* Abertura: animada pelo scroll no computador, rolagem normal no celular */}
-          <div className="stage">
-            <HeroScene />
-            <ProductScene />
-            <CoxinhaScene />
-            <ChurrosScene />
-          </div>
-          <CatalogSection />
-          <MolhosSection />
-          <BenefitsSection />
-          <OrderSection />
-        </main>
-        <MobileOrderBar />
-      </WhatsAppOrderProvider>
-    </StoryContext.Provider>
+    <LojaProvider slug={slug} aoFalhar={irParaRaiz}>
+      <LojaPagina />
+    </LojaProvider>
   )
 }

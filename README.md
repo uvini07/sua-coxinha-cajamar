@@ -1,6 +1,16 @@
-﻿# Sua Coxinha Cajamar — site
+﻿# Sua Coxinha — plataforma das lojas
 
-Site da loja Sua Coxinha em Cajamar, com cardápio completo e pedido pelo iFood ou 99Food.
+Um projeto, um código, várias franquias. Cada loja tem a sua página no mesmo domínio:
+
+```
+suacoxinha.com.br/          escolha da loja
+suacoxinha.com.br/cajamar   loja de Cajamar
+suacoxinha.com.br/jundiai   loja de Jundiaí
+```
+
+A franquia é o primeiro pedaço da URL. O sistema carrega os dados daquela loja e
+monta a página com os mesmos componentes: produtos, preços, contatos, endereço,
+links e cores são independentes por loja.
 
 ## Rodar
 
@@ -18,16 +28,36 @@ Publicação: cada `git push` na branch `main` publica automaticamente na Vercel
 - **Movimento reduzido** (configuração do sistema): nenhuma animação.
 - **Cardápio:** texto grande, botões grandes com nome da plataforma e todas as informações visíveis, sem precisar passar o mouse.
 
-## Onde editar
+## Onde editar (por loja)
+
+Cada franquia é uma pasta em `src/lojas/<slug>/`. Mexer numa loja não afeta as outras.
 
 | O que | Arquivo |
 | --- | --- |
-| Produtos, sabores, preços **e links de cada produto** | `src/data/products.js` |
-| Endereço, horários, WhatsApp, **link das lojas no iFood e 99Food** | `src/data/store.js` |
-| Diferenciais ("Pra todo tipo de fome") | `src/data/benefits.js` |
-| Cores e tipografia | `src/styles/tokens.css` |
+| Produtos, sabores, preços **e links de cada produto** | `src/lojas/<slug>/produtos.js` |
+| Endereço, horários, WhatsApp, iFood, 99Food, textos, SEO, seções | `src/lojas/<slug>/loja.js` |
+| Cores, logo e tipografia da loja | `src/lojas/<slug>/tema.js` |
+| Campos possíveis e valores padrão | `src/lojas/_schema.js` |
+| De onde os dados vêm (trocar por banco no futuro) | `src/lojas/carregador.js` |
+| Cores padrão da marca | `src/styles/tokens.css` |
 | Animações da abertura | `src/animations/timelines.js` |
 | Fotos | `public/assets/` |
+
+## Cadastrar uma franquia nova
+
+1. Copie uma pasta de loja: `cp -r src/lojas/cajamar src/lojas/osasco`.
+2. Em `loja.js`, troque `slug`, `unit`, endereço, WhatsApp, horários, links e textos.
+3. Em `tema.js`, ajuste as cores (ou deixe as da marca).
+4. Em `produtos.js`, deixe só o que essa loja vende, com os preços dela.
+5. `npm run dev` e abra `/osasco`.
+
+Não é preciso criar página, componente ou rota: a pasta já vira `suacoxinha.com.br/osasco`,
+entra na lista da página inicial e ganha o seu próprio HTML (com título, descrição e
+imagem de compartilhamento) no `npm run build`.
+
+Seções ligadas/desligadas por loja ficam em `secoes`, no `loja.js`
+(`abertura`, `cardapio`, `molhos`, `sobre`, `pedido`). A seção de molhos some sozinha
+quando a loja não tem molhos cadastrados.
 
 ## Links de pedido por produto
 
@@ -88,14 +118,20 @@ src/
   components/   Navbar, OrderButtons, MobileOrderBar, ScrollProgress, Button, Price, Logo
     whatsapp/   WhatsAppOrder (estado), OrderDialog, StepList, ItemView, ReviewView, orderLogic
     scenes/     HeroScene, ProductScene, CoxinhaScene, ChurrosScene
-    sections/   CatalogSection, BenefitsSection, OrderSection
-  data/         conteúdo editável
+    sections/   CatalogSection, MolhosSection, BenefitsSection, OrderSection
+  lojas/        uma pasta por franquia (loja.js, tema.js, produtos.js)
+  paginas/      LojaPagina, EscolhaLoja, NaoEncontrada
+  rotas/        useRota (a franquia vem da URL)
+  lib/          preço, etapas do pedido, plataformas (código sem loja)
+  context/      LojaContext (dados da loja aberta), StoryContext
+  data/         cenas da abertura animada
   hooks/        useMagnetic, useReveal
   styles/       tokens, base, componentes, scenes/*, sections/*
 ```
 
 ## Pendências
 
-1. Links exatos de cada produto no iFood e no 99Food (`products.js`).
+1. Links exatos de cada produto no iFood e no 99Food (`produtos.js` de cada loja).
+0. Dados reais da loja de Jundiaí (hoje é um exemplo para demonstrar o multi-loja).
 2. Confirmar os horários (vieram da bio do Instagram).
 3. Fotos dos produtos em alta resolução. As atuais foram recortadas do PDF do cardápio (~500px). Troque mantendo o mesmo nome em `public/assets/produtos/`, com fundo transparente e mínimo de 1200px no lado maior.

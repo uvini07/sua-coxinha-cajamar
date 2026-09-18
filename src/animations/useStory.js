@@ -3,7 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import Lenis from 'lenis'
-import { storyScenes } from '../data/scenes.js'
+import { storyScenes } from '../data/cenas.js'
 import { buildStory } from './timelines.js'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)

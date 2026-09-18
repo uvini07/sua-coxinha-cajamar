@@ -1,45 +1,50 @@
-﻿import { store } from '../../data/store.js'
+﻿import { useLoja } from '../../context/LojaContext.js'
 import OrderButtons from '../OrderButtons.jsx'
 import '../../styles/sections/order.css'
 
 export default function OrderSection() {
-  const whatsapp = store.whatsapp ? `https://wa.me/${store.whatsapp}` : null
+  const loja = useLoja()
+  const whatsapp = loja.whatsapp ? `https://wa.me/${loja.whatsapp}` : null
 
   return (
     <section id="pedido" className="order" data-theme="dark" aria-labelledby="pedido-title">
       <div className="order__inner">
         <div className="order__main">
           <h2 id="pedido-title" className="order__title display" data-reveal>
-            Bateu a fome?
+            {loja.textos.pedidoTitulo ?? 'Bateu a fome?'}
           </h2>
           <p className="order__sub" data-reveal>
-            Receba em casa pelo iFood ou 99Food. Ou monte seu pedido pelo WhatsApp e retire na loja.
+            {loja.textos.pedidoSub ?? 'Monte seu pedido pelo WhatsApp e retire na loja.'}
           </p>
           <OrderButtons size="big" className="order__buttons" />
-          <a className="btn btn--ghost order__map" href={store.links.maps} target="_blank" rel="noopener noreferrer">
-            <span className="btn__label">Ver a loja no mapa</span>
-            <span className="sr-only"> (abre em nova aba)</span>
-          </a>
+          {loja.links.maps && (
+            <a className="btn btn--ghost order__map" href={loja.links.maps} target="_blank" rel="noopener noreferrer">
+              <span className="btn__label">Ver a loja no mapa</span>
+              <span className="sr-only"> (abre em nova aba)</span>
+            </a>
+          )}
         </div>
 
-        <figure className="order__photo" data-reveal>
-          <img src="/assets/loja/placa.webp" alt="Placa redonda iluminada da Sua Coxinha, Coxinharia Gourmet, na frente da loja" loading="lazy" decoding="async" />
-          <figcaption>Fachada amarela, com o letreiro da Sua Coxinha.</figcaption>
-        </figure>
+        {loja.fotoLoja && (
+          <figure className="order__photo" data-reveal>
+            <img src={loja.fotoLoja.image} alt={loja.fotoLoja.alt} loading="lazy" decoding="async" />
+            <figcaption>{loja.fotoLoja.caption}</figcaption>
+          </figure>
+        )}
 
         <dl className="order__info">
           <div>
             <dt>Endereço</dt>
             <dd>
-              {store.address.street}
+              {loja.address.street}
               <br />
-              {store.address.district}, {store.address.city}
+              {loja.address.district}, {loja.address.city}
             </dd>
           </div>
           <div>
             <dt>Horário</dt>
             <dd>
-              {store.hours.map((h) => (
+              {loja.hours.map((h) => (
                 <span key={h.days} className="order__hours">
                   {h.days}: {h.time}
                 </span>
@@ -51,24 +56,30 @@ export default function OrderSection() {
             <dd>
               {whatsapp ? (
                 <a href={whatsapp} target="_blank" rel="noopener noreferrer">
-                  WhatsApp {store.phone}
+                  WhatsApp {loja.phone}
                 </a>
               ) : (
-                <a href={`tel:+55${store.phone.replace(/\D/g, '')}`}>Ligar: {store.phone}</a>
+                <a href={`tel:+55${loja.phone.replace(/\D/g, '')}`}>Ligar: {loja.phone}</a>
               )}
-              <br />
-              <a href={store.links.instagram} target="_blank" rel="noopener noreferrer">
-                Instagram @suacoxinhacajamar
-              </a>
+              {loja.links.instagram && (
+                <>
+                  <br />
+                  <a href={loja.links.instagram} target="_blank" rel="noopener noreferrer">
+                    Instagram {loja.instagramHandle || loja.links.instagram.replace(/.*instagram\.com\//, '@').replace(/\/$/, '')}
+                  </a>
+                </>
+              )}
             </dd>
           </div>
         </dl>
 
         <footer className="order__footer">
-          <p>{store.disclaimer}</p>
-          <a href={store.links.franchise} target="_blank" rel="noopener noreferrer">
-            Seja um franqueado
-          </a>
+          <p>{loja.disclaimer}</p>
+          {loja.links.franchise && (
+            <a href={loja.links.franchise} target="_blank" rel="noopener noreferrer">
+              Seja um franqueado
+            </a>
+          )}
         </footer>
       </div>
     </section>

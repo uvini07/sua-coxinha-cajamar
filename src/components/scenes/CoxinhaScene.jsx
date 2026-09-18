@@ -1,5 +1,5 @@
 ﻿import { useEffect, useRef, useState } from 'react'
-import { flavors } from '../../data/products.js'
+import { useLoja } from '../../context/LojaContext.js'
 import Price from '../Price.jsx'
 import '../../styles/scenes/coxinha.css'
 
@@ -23,6 +23,7 @@ function carregar(src) {
 }
 
 export default function CoxinhaScene() {
+  const { flavors } = useLoja()
   const [flavor, setFlavor] = useState(flavors[0])
   const [carregando, setCarregando] = useState(null)
   const imgRef = useRef(null)
@@ -34,7 +35,7 @@ export default function CoxinhaScene() {
     const agendar = window.requestIdleCallback ?? ((fn) => setTimeout(fn, 1200))
     const id = agendar(() => flavors.forEach((f) => carregar(f.image)))
     return () => window.cancelIdleCallback?.(id)
-  }, [])
+  }, [flavors])
 
   // Só troca a foto depois que ela está baixada: sem piscar nem aparecer pela metade.
   const chooseFlavor = async (next) => {

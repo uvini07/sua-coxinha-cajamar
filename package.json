@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/gerar-paginas.mjs",
     "preview": "vite preview",
     "fotos": "python scripts/fotos-sabores.py",
     "molhos": "python scripts/recorta-molhos.py"

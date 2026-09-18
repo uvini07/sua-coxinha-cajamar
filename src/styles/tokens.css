@@ -1,10 +1,18 @@
-/* Cores da loja Sua Coxinha: preto e amarelo (letreiro e fachada). Branco só para textos e cartões. */
+/* Cores da marca. Cada franquia pode trocá-las: o LojaProvider escreve --marca,
+   --tinta e companhia na raiz a partir do tema da loja (src/lojas/<slug>/tema.js).
+   Os nomes antigos continuam valendo como apelido, para o CSS existente não mudar. */
 :root {
-  --preto: #141415;
-  --preto-2: #2a2a2c;
-  --amarelo: #f9c115;
-  --amarelo-hover: #ffd23f;
-  --branco: #ffffff;
+  --marca: #f9c115;
+  --marca-clara: #ffd23f;
+  --tinta: #141415;
+  --tinta-2: #2a2a2c;
+  --papel: #ffffff;
+
+  --preto: var(--tinta);
+  --preto-2: var(--tinta-2);
+  --amarelo: var(--marca);
+  --amarelo-hover: var(--marca-clara);
+  --branco: var(--papel);
 
   --font-display: 'Bricolage Grotesque', 'Arial Narrow', Impact, sans-serif;
   --font-body: 'Satoshi', 'Segoe UI', system-ui, sans-serif;

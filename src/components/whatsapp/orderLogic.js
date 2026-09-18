@@ -1,6 +1,6 @@
-import { priceText } from '../../data/products.js'
-import { store } from '../../data/store.js'
-import { itemIndex, orderSteps } from '../../data/whatsappOrder.js'
+// Regras do pedido pelo WhatsApp. Tudo que depende da franquia recebe `loja`
+// como primeiro parâmetro: a mesma lógica serve para todas as lojas.
+import { priceText } from '../../lib/preco.js'
 
 // Quantas opções o cliente pode marcar num grupo.
 export function groupMax(group, variant) {
@@ -46,8 +46,8 @@ export const lineKey = (itemId, variantIndex, selections, note) =>
   JSON.stringify([itemId, variantIndex, Object.entries(selections).filter(([, v]) => v.length).sort(), note])
 
 // Completa uma linha salva no carrinho com nome, preço atual e detalhes.
-export function resolveLine(line) {
-  const entry = itemIndex.get(line.itemId)
+export function resolveLine(loja, line) {
+  const entry = loja.itemIndex.get(line.itemId)
   if (!entry) return null
   const { item, step } = entry
   const unit = unitPrice(item, line.variantIndex, line.selections)
@@ -62,8 +62,8 @@ export function resolveLine(line) {
   }
 }
 
-export function summarize(lines) {
-  const resolved = lines.map(resolveLine).filter(Boolean)
+export function summarize(loja, lines) {
+  const resolved = lines.map((line) => resolveLine(loja, line)).filter(Boolean)
   return {
     lines: resolved,
     count: resolved.reduce((n, l) => n + l.qty, 0),
@@ -72,12 +72,12 @@ export function summarize(lines) {
   }
 }
 
-export function buildMessage(summary, customer) {
-  const out = [`Olá, ${store.brand} ${store.unit}! Quero fazer um pedido para *retirar na loja*.`, '']
+export function buildMessage(loja, summary, customer) {
+  const out = [`Olá, ${loja.brand} ${loja.unit}! Quero fazer um pedido para *retirar na loja*.`, '']
   out.push(`*Nome:* ${customer.name.trim()}`)
-  out.push(`*Retirada:* ${pickupText(customer)}`)
+  out.push(`*Retirada:* ${pickupText(loja, customer)}`)
 
-  orderSteps.forEach((step) => {
+  loja.orderSteps.forEach((step) => {
     const lines = summary.lines.filter((l) => l.step.id === step.id)
     if (!lines.length) return
     out.push('', `*${step.name}*`)
@@ -93,7 +93,7 @@ export function buildMessage(summary, customer) {
   return out.join('\n')
 }
 
-export const whatsappUrl = (text) => `https://wa.me/${store.whatsapp}?text=${encodeURIComponent(text)}`
+export const whatsappUrl = (loja, text) => `https://wa.me/${loja.whatsapp}?text=${encodeURIComponent(text)}`
 
 /* ---------- Retirada agendada ---------- */
 
@@ -111,22 +111,22 @@ const toDate = (dateValue, timeValue) => {
 // Primeiro horário possível: agora + tempo de preparo, arredondado para os próximos
 // 5 minutos e empurrado para o próximo horário em que a loja está aberta. Se o
 // pedido chega perto de fechar, a retirada cai no próximo dia de atendimento.
-export function earliestPickup(now = new Date()) {
-  const date = new Date(now.getTime() + store.prepMinutes * 60000)
+export function earliestPickup(loja, now = new Date()) {
+  const date = new Date(now.getTime() + loja.prepMinutes * 60000)
   date.setSeconds(0, 0)
   const rest = date.getMinutes() % 5
   if (rest) date.setMinutes(date.getMinutes() + (5 - rest))
-  return proximoAberto(date)
+  return proximoAberto(loja, date)
 }
 
 const emPonto = (data, horaDecimal) =>
   new Date(data.getFullYear(), data.getMonth(), data.getDate(), Math.floor(horaDecimal), Math.round((horaDecimal % 1) * 60), 0, 0)
 
 // Anda no calendário até achar um momento dentro do horário de atendimento.
-function proximoAberto(momento) {
+function proximoAberto(loja, momento) {
   let atual = new Date(momento)
   for (let i = 0; i < 14; i += 1) {
-    const faixa = horarioDoDia(atual)
+    const faixa = horarioDoDia(loja, atual)
     if (faixa) {
       const [abre, fecha] = faixa
       const hora = atual.getHours() + atual.getMinutes() / 60
@@ -140,9 +140,9 @@ function proximoAberto(momento) {
 
 // true quando a loja está fechada: a retirada teve de ser empurrada para depois do
 // tempo normal de preparo (mais tarde no mesmo dia ou no próximo dia de atendimento).
-export function retiradaAdiada(now = new Date()) {
-  const natural = now.getTime() + store.prepMinutes * 60000
-  return earliestPickup(now).getTime() - natural > 60000
+export function retiradaAdiada(loja, now = new Date()) {
+  const natural = now.getTime() + loja.prepMinutes * 60000
+  return earliestPickup(loja, now).getTime() - natural > 60000
 }
 
 const hoursLabel = (open, close) => `das ${open}h às ${close}h`
@@ -168,7 +168,7 @@ function pascoa(ano) {
 
 const somaDias = (data, dias) => new Date(data.getFullYear(), data.getMonth(), data.getDate() + dias)
 
-// Feriados nacionais do ano (os municipais entram em `feriadosLocais`, no store.js).
+// Feriados nacionais do ano (os municipais entram em `feriadosLocais`, no loja.js).
 function feriadosNacionais(ano) {
   const p = pascoa(ano)
   return new Set([
@@ -187,14 +187,14 @@ function feriadosNacionais(ano) {
   ])
 }
 
-export function ehFeriado(data) {
+export function ehFeriado(loja, data) {
   const dia = toDateValue(data)
-  return feriadosNacionais(data.getFullYear()).has(dia) || (store.feriadosLocais ?? []).includes(dia)
+  return feriadosNacionais(data.getFullYear()).has(dia) || (loja.feriadosLocais ?? []).includes(dia)
 }
 
 // Horário de atendimento do dia: feriado funciona como domingo.
-export function horarioDoDia(data) {
-  return ehFeriado(data) ? store.openingHours[0] : store.openingHours[data.getDay()]
+export function horarioDoDia(loja, data) {
+  return ehFeriado(loja, data) ? loja.openingHours[0] : loja.openingHours[data.getDay()]
 }
 
 export const dayLabel = (date, now) => {
@@ -205,38 +205,38 @@ export const dayLabel = (date, now) => {
 }
 
 // Confere a data e a hora escolhidas. Devolve uma mensagem de erro, ou null quando está tudo certo.
-export function pickupError(dateValue, timeValue, now = new Date()) {
+export function pickupError(loja, dateValue, timeValue, now = new Date()) {
   if (!dateValue) return 'Escolha o dia da retirada.'
   if (!timeValue) return 'Escolha o horário da retirada.'
 
   const chosen = toDate(dateValue, timeValue)
   if (Number.isNaN(chosen.getTime())) return 'Escolha o dia e o horário da retirada.'
 
-  const [open, close] = horarioDoDia(chosen) ?? []
+  const [open, close] = horarioDoDia(loja, chosen) ?? []
   if (open === undefined) return 'A loja não abre neste dia.'
   const hour = chosen.getHours() + chosen.getMinutes() / 60
   if (hour < open || hour > close) {
-    const quando = ehFeriado(chosen) ? 'Em feriado' : 'Neste dia'
+    const quando = ehFeriado(loja, chosen) ? 'Em feriado' : 'Neste dia'
     return `${quando} a loja atende ${hoursLabel(open, close)}. Escolha um horário nesse intervalo.`
   }
 
-  const earliest = earliestPickup(now)
+  const earliest = earliestPickup(loja, now)
   if (chosen < earliest) {
     const sameDay = toDateValue(chosen) === toDateValue(earliest)
     const quando = sameDay ? `a partir das ${toTimeValue(earliest)}` : `a partir de ${dayLabel(earliest, now)}, às ${toTimeValue(earliest)}`
-    return `O pedido leva até ${store.prepMinutes} minutos para ficar pronto. Escolha ${quando}.`
+    return `O pedido leva até ${loja.prepMinutes} minutos para ficar pronto. Escolha ${quando}.`
   }
   return null
 }
 
 // Texto da retirada que vai na mensagem do WhatsApp.
-export function pickupText(customer, now = new Date()) {
+export function pickupText(loja, customer, now = new Date()) {
   if (customer.when !== 'agendar') {
-    const earliest = earliestPickup(now)
-    if (retiradaAdiada(now)) {
+    const earliest = earliestPickup(loja, now)
+    if (retiradaAdiada(loja, now)) {
       return `${dayLabel(earliest, now)} (${pad(earliest.getDate())}/${pad(earliest.getMonth() + 1)}), a partir das ${toTimeValue(earliest)} — pedido feito fora do horário da loja`
     }
-    return `assim que ficar pronto (até ${store.prepMinutes} min)`
+    return `assim que ficar pronto (até ${loja.prepMinutes} min)`
   }
   const chosen = toDate(customer.date, customer.time)
   return `${dayLabel(chosen, now)} (${pad(chosen.getDate())}/${pad(chosen.getMonth() + 1)}) às ${customer.time}`

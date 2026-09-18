@@ -1,5 +1,5 @@
 import { useStoryContext } from '../../context/StoryContext.js'
-import { churrosSteps } from '../../data/products.js'
+import { useLoja } from '../../context/LojaContext.js'
 import Button from '../Button.jsx'
 import Price from '../Price.jsx'
 import '../../styles/scenes/churros.css'
@@ -12,6 +12,7 @@ const floats = [
 
 export default function ChurrosScene() {
   const { linkTo } = useStoryContext()
+  const { churrosSteps } = useLoja()
 
   return (
     <section id="churros" className="scene scene--churros" data-theme="light" aria-labelledby="churros-title">

@@ -1,4 +1,4 @@
-import { formatPrice } from '../data/products.js'
+import { formatPrice } from '../lib/preco.js'
 
 // Preço no estilo do cardápio: R$ pequeno, reais grandes e centavos sobrescritos.
 export default function Price({ cents, from = false, className = '' }) {

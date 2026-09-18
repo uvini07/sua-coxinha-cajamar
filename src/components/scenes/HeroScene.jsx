@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { useStoryContext } from '../../context/StoryContext.js'
-import { store } from '../../data/store.js'
+import { useLoja } from '../../context/LojaContext.js'
 import Button from '../Button.jsx'
 import '../../styles/scenes/hero.css'
 
@@ -14,6 +14,7 @@ import '../../styles/scenes/hero.css'
  */
 function HeroContent({ copy = false }) {
   const { linkTo } = useStoryContext()
+  const loja = useLoja()
   const onYellow = copy
 
   return (
@@ -62,7 +63,8 @@ function HeroContent({ copy = false }) {
 
       <div className="hero__copy">
         <p className="hero__lead lead">
-          Da coxinha G de 250g ao copo de mini churros com cobertura. Na loja em {store.unit}, no iFood ou no 99Food.
+          {loja.textos.heroLead ??
+            `Da coxinha G de 250g ao copo de mini churros com cobertura. Na loja em ${loja.unit}, no iFood ou no 99Food.`}
         </p>
         <div className="hero__actions">
           <Button href="#cardapio" variant={onYellow ? 'dark' : 'primary'} onClick={linkTo('cardapio')}>

@@ -1,5 +1,7 @@
-// Cardápio completo, transcrito do cardápio oficial (AF_COX_25_001_Novo_Cardapio.pdf).
-// Para alterar o site, edite apenas este arquivo.
+// CATÁLOGO DA LOJA DE CAJAMAR
+// Cada franquia tem o seu próprio arquivo como este, em src/lojas/<slug>/produtos.js.
+// Mexer aqui muda só Cajamar: nenhuma outra loja é afetada.
+// Transcrito do cardápio oficial (AF_COX_25_001_Novo_Cardapio.pdf).
 //
 // LINKS DE PEDIDO POR PRODUTO
 // Em cada produto, preencha `ifood` e `food99` com o link exato do produto na plataforma.
@@ -381,9 +383,57 @@ export const families = [
   },
 ]
 
-export const formatPrice = (cents) => {
-  const [reais, centavos] = (cents / 100).toFixed(2).split('.')
-  return { reais, centavos }
-}
+// Linha de molhos artesanais desta loja. O nível de ardência é o mesmo impresso no rótulo (de 1 a 5).
+// `pedido` liga cada garrafa ao produto do pedido pelo WhatsApp (products.js).
+export const molhoPrice = 1990
 
-export const priceText = (cents) => `R$ ${(cents / 100).toFixed(2).replace('.', ',')}`
+export const molhos = [
+  {
+    id: 'moderado',
+    pedido: 'molho-moderado',
+    name: 'Molho cremoso',
+    highlight: 'Moderado',
+    image: '/assets/molhos/moderado.webp',
+    alt: 'Garrafa do molho cremoso moderado, de rótulo vermelho',
+    level: 3,
+    quente: false,
+    text: 'Cremoso e equilibrado, com sabor suave e toque de ardência.',
+    combina: 'Coxinha G, porções e lanches',
+  },
+  {
+    id: 'goiabinha',
+    pedido: 'molho-goiabinha',
+    name: 'Pimenta agridoce',
+    highlight: 'Goiabinha',
+    image: '/assets/molhos/goiabinha.webp',
+    alt: 'Garrafa da pimenta agridoce goiabinha, de rótulo verde escuro',
+    level: 4,
+    quente: true,
+    text: 'O equilíbrio perfeito entre o picante da pimenta e o doce da goiabinha.',
+    combina: 'Mini salgados, queijos e carnes',
+  },
+  {
+    id: 'suave',
+    pedido: 'molho-suave',
+    name: 'Molho cremoso',
+    highlight: 'Suave',
+    image: '/assets/molhos/suave.webp',
+    alt: 'Garrafa do molho cremoso suave, de rótulo amarelo',
+    level: 4,
+    quente: true,
+    text: 'Sabor leve e marcante, perfeito para o dia a dia.',
+    combina: 'Coxinha de qualquer tamanho e batata',
+  },
+  {
+    id: 'alho',
+    pedido: 'molho-alho',
+    name: 'Molho de',
+    highlight: 'Alho picante',
+    image: '/assets/molhos/alho.webp',
+    alt: 'Garrafa do molho de alho picante, de rótulo azul turquesa',
+    level: 4,
+    quente: true,
+    text: 'O sabor marcante do alho com um toque picante na medida certa.',
+    combina: 'Salgados fritos, pastel e churrasco',
+  },
+]

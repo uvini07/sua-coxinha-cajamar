@@ -1,16 +1,18 @@
 ﻿import { useCallback, useEffect, useRef, useState } from 'react'
-import { store } from '../../data/store.js'
-import { itemIndex, orderSteps } from '../../data/whatsappOrder.js'
+import { useLoja } from '../../context/LojaContext.js'
 import ItemView from './ItemView.jsx'
 import ReviewView, { WhatsAppIcon } from './ReviewView.jsx'
 import StepList from './StepList.jsx'
 import '../../styles/whatsapp.css'
 
-const REVIEW = orderSteps.length - 1
+
 
 // Pop-up do pedido pelo WhatsApp. No celular ocupa a tela como uma folha que sobe;
 // no computador fica centralizado.
 export default function OrderDialog({ open, target, openedAt, onClose, summary, dispatch, customer, setCustomer }) {
+  const loja = useLoja()
+  const { orderSteps, itemIndex } = loja
+  const REVIEW = orderSteps.length - 1
   const dialogRef = useRef(null)
   const [stepIndex, setStepIndex] = useState(0)
   const [itemId, setItemId] = useState(null)
@@ -136,7 +138,7 @@ export default function OrderDialog({ open, target, openedAt, onClose, summary, 
 
           <p className="wa-head__pickup">
             <strong>Somente retirada na loja</strong>
-            <span>{store.address.street.split(' – ')[0]}</span>
+            <span>{loja.address.street.split(' – ')[0]}</span>
           </p>
 
           {!item && (

@@ -1,10 +1,8 @@
 import { useStoryContext } from '../../context/StoryContext.js'
-import { catalog, drinks, priceText } from '../../data/products.js'
-import { store } from '../../data/store.js'
+import { useLoja } from '../../context/LojaContext.js'
+import { priceText } from '../../lib/preco.js'
 import OrderButtons from '../OrderButtons.jsx'
 import '../../styles/sections/catalog.css'
-
-const groups = [...catalog, drinks]
 
 function ProductCard({ item, tone }) {
   const titleId = `produto-${item.id}`
@@ -51,6 +49,9 @@ function ProductCard({ item, tone }) {
 
 export default function CatalogSection() {
   const { linkTo } = useStoryContext()
+  const loja = useLoja()
+  const { catalog, drinks } = loja
+  const groups = drinks ? [...catalog, drinks] : catalog
 
   return (
     <section id="cardapio" className="catalog" data-theme="light" aria-labelledby="cardapio-title">
@@ -93,30 +94,32 @@ export default function CatalogSection() {
           </section>
         ))}
 
-        <section id={`cat-${drinks.id}`} className="catalog__group" aria-labelledby="titulo-bebidas">
-          <h3 id="titulo-bebidas" className="catalog__group-title">
-            {drinks.name}
-          </h3>
-          <div className="drinks">
-            <ul className="drinks__list">
-              {drinks.items.map((drink) => (
-                <li key={drink.name} className="drinks__item">
-                  <span>{drink.name}</span>
-                  <span className="drinks__price">
-                    {drink.from && <span className="drinks__from">a partir de </span>}
-                    {priceText(drink.price)}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <OrderButtons item={drinks} itemName="bebidas" className="drinks__order" />
-          </div>
-          <a className="catalog__back" href="#categorias" onClick={linkTo('categorias')}>
-            Voltar para as categorias
-          </a>
-        </section>
+        {drinks && (
+          <section id={`cat-${drinks.id}`} className="catalog__group" aria-labelledby="titulo-bebidas">
+            <h3 id="titulo-bebidas" className="catalog__group-title">
+              {drinks.name}
+            </h3>
+            <div className="drinks">
+              <ul className="drinks__list">
+                {drinks.items.map((drink) => (
+                  <li key={drink.name} className="drinks__item">
+                    <span>{drink.name}</span>
+                    <span className="drinks__price">
+                      {drink.from && <span className="drinks__from">a partir de </span>}
+                      {priceText(drink.price)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <OrderButtons item={drinks} itemName="bebidas" className="drinks__order" />
+            </div>
+            <a className="catalog__back" href="#categorias" onClick={linkTo('categorias')}>
+              Voltar para as categorias
+            </a>
+          </section>
+        )}
 
-        <p className="catalog__note">{store.disclaimer} Preços do cardápio da loja; nos aplicativos podem variar.</p>
+        <p className="catalog__note">{loja.disclaimer} Preços do cardápio da loja; nos aplicativos podem variar.</p>
       </div>
     </section>
   )

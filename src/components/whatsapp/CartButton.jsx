@@ -1,4 +1,4 @@
-import { priceText } from '../../data/products.js'
+import { priceText } from '../../lib/preco.js'
 import { useWhatsAppOrder } from './WhatsAppOrder.jsx'
 import '../../styles/cart-button.css'
 

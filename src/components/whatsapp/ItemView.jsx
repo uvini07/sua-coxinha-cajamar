@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { priceText } from '../../data/products.js'
+import { priceText } from '../../lib/preco.js'
 import { groupMax, lineKey, missingGroups, unitPrice } from './orderLogic.js'
 import Stepper from './Stepper.jsx'
 

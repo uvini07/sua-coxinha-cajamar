@@ -1,11 +1,12 @@
 ﻿import { useStoryContext } from '../../context/StoryContext.js'
-import { families } from '../../data/products.js'
+import { useLoja } from '../../context/LojaContext.js'
 import '../../styles/scenes/products.css'
 
 const SPARKS = 6
 
 export default function ProductScene() {
   const { linkTo } = useStoryContext()
+  const { families } = useLoja()
 
   return (
     <section id="produtos" className="scene scene--products" data-theme="light" aria-labelledby="produtos-title">

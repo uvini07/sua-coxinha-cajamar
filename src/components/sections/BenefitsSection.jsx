@@ -1,13 +1,16 @@
-import { benefits } from '../../data/benefits.js'
+import { useLoja } from '../../context/LojaContext.js'
 import ImagePlaceholder from '../ImagePlaceholder.jsx'
 import '../../styles/sections/benefits.css'
 
 export default function BenefitsSection() {
+  const loja = useLoja()
+  const benefits = loja.benefits
+
   return (
     <section id="sobre" className="about" data-theme="dark" aria-labelledby="sobre-title">
       <div className="about__inner">
         <h2 id="sobre-title" className="about__title display" data-reveal>
-          Pra todo tipo de fome.
+          {loja.textos.sobreTitulo ?? 'Pra todo tipo de fome.'}
         </h2>
 
         <ul className="about__grid">

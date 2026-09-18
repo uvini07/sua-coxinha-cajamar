@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react'
-import { priceText } from '../../data/products.js'
-import { store } from '../../data/store.js'
-import { orderSteps } from '../../data/whatsappOrder.js'
+import { useLoja } from '../../context/LojaContext.js'
+import { priceText } from '../../lib/preco.js'
 import {
   buildMessage,
   dayLabel,
@@ -16,6 +15,7 @@ import Stepper from './Stepper.jsx'
 
 // Última etapa: conferir o pedido, dados da retirada e enviar pelo WhatsApp.
 export default function ReviewView({ summary, dispatch, customer, setCustomer, onGoToStep, onSent }) {
+  const loja = useLoja()
   const [showErrors, setShowErrors] = useState(false)
   const nameRef = useRef(null)
   const dateRef = useRef(null)
@@ -30,23 +30,23 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
     setCustomer((c) => ({
       ...c,
       when,
-      date: when === 'agendar' && !c.date ? toDateValue(earliestPickup()) : c.date,
-      time: when === 'agendar' && !c.time ? toTimeValue(earliestPickup()) : c.time,
+      date: when === 'agendar' && !c.date ? toDateValue(earliestPickup(loja)) : c.date,
+      time: when === 'agendar' && !c.time ? toTimeValue(earliestPickup(loja)) : c.time,
     }))
   }
   // O horário mínimo é recalculado a cada abertura da tela: agora + o tempo de preparo,
   // já dentro do horário da loja. Se a loja fechou, a retirada cai no próximo dia.
   const agora = new Date()
-  const earliest = earliestPickup(agora)
-  const adiada = retiradaAdiada(agora)
+  const earliest = earliestPickup(loja, agora)
+  const adiada = retiradaAdiada(loja, agora)
   const quandoAbre = `${dayLabel(earliest, agora)} a partir das ${toTimeValue(earliest)}`
   const errors = {
     empty: summary.count === 0,
     name: !customer.name.trim(),
-    pickup: customer.when === 'agendar' ? pickupError(customer.date, customer.time) : null,
+    pickup: customer.when === 'agendar' ? pickupError(loja, customer.date, customer.time) : null,
   }
   const hasErrors = errors.empty || errors.name || Boolean(errors.pickup)
-  const url = hasErrors ? undefined : whatsappUrl(buildMessage(summary, customer))
+  const url = hasErrors ? undefined : whatsappUrl(loja, buildMessage(loja, summary, customer))
 
   const send = (event) => {
     if (!hasErrors) {
@@ -62,7 +62,7 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
     else timeRef.current?.focus()
   }
 
-  const stepsWithLines = orderSteps.filter((s) => summary.lines.some((l) => l.step.id === s.id))
+  const stepsWithLines = loja.orderSteps.filter((s) => summary.lines.some((l) => l.step.id === s.id))
 
   return (
     <>
@@ -152,11 +152,11 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
             </p>
           )}
           <p className="wa-pickup__address">
-            {store.address.street}
+            {loja.address.street}
             <br />
-            {store.address.district}, {store.address.city}
+            {loja.address.district}, {loja.address.city}
           </p>
-          <a className="wa-pickup__link" href={store.links.maps} target="_blank" rel="noopener noreferrer">
+          <a className="wa-pickup__link" href={loja.links.maps} target="_blank" rel="noopener noreferrer">
             Ver a loja no mapa<span className="sr-only"> (abre em nova aba)</span>
           </a>
         </section>
@@ -198,7 +198,7 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
               <span className="wa-choice__text">
                 {adiada ? 'Assim que a loja abrir' : 'Assim que ficar pronto'}
                 <span className="wa-choice__note">
-                  {adiada ? `Retirada ${quandoAbre}` : `Fica pronto em até ${store.prepMinutes} minutos`}
+                  {adiada ? `Retirada ${quandoAbre}` : `Fica pronto em até ${loja.prepMinutes} minutos`}
                 </span>
               </span>
             </label>
@@ -254,11 +254,11 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
                   <p className="wa-field__help">
                     {adiada
                       ? `A loja está fechada agora. Dá para retirar ${quandoAbre}.`
-                      : `O preparo leva até ${store.prepMinutes} minutos. Hoje dá para retirar a partir das ${toTimeValue(earliest)}.`}
+                      : `O preparo leva até ${loja.prepMinutes} minutos. Hoje dá para retirar a partir das ${toTimeValue(earliest)}.`}
                   </p>
                 )}
                 <p className="wa-field__help">
-                  Loja aberta: {store.hours.map((h) => `${h.days.toLowerCase()}, ${h.time}`).join('; ')}.
+                  Loja aberta: {loja.hours.map((h) => `${h.days.toLowerCase()}, ${h.time}`).join('; ')}.
                 </p>
               </div>
             )}

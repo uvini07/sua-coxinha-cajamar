@@ -1,13 +1,14 @@
 ﻿import { useEffect, useRef, useState } from 'react'
 import { useStoryContext } from '../context/StoryContext.js'
-import { navLinks } from '../data/scenes.js'
-import { store } from '../data/store.js'
+import { useLoja } from '../context/LojaContext.js'
 import Logo from './Logo.jsx'
 import CartButton from './whatsapp/CartButton.jsx'
 import '../styles/navbar.css'
 
 export default function Navbar() {
   const { current, linkTo, goTo } = useStoryContext()
+  const loja = useLoja()
+  const { navLinks } = loja
   const [open, setOpen] = useState(false)
   const burgerRef = useRef(null)
   const menuRef = useRef(null)
@@ -44,10 +45,10 @@ export default function Navbar() {
         <a className="nav__logo" href="#inicio" onClick={linkTo('inicio')}>
           <Logo />
           <span className="nav__unit" aria-hidden="true">
-            {store.unit}
+            {loja.unit}
           </span>
           <span className="sr-only">
-            {store.brand} {store.unit}, voltar ao início
+            {loja.brand} {loja.unit}, voltar ao início
           </span>
         </a>
 
@@ -104,7 +105,7 @@ export default function Navbar() {
         </nav>
         <div className="mmenu__footer" style={{ '--i': navLinks.length + 1 }}>
           <p>
-            {store.address.street}, {store.address.city}
+            {loja.address.street}, {loja.address.city}
           </p>
         </div>
       </div>

@@ -1,4 +1,5 @@
-import { platforms, orderUrl, store } from '../data/store.js'
+import { useLoja } from '../context/LojaContext.js'
+import { linkPedido } from '../lib/plataformas.js'
 import { useWhatsAppOrder } from './whatsapp/WhatsAppOrder.jsx'
 import { WhatsAppIcon } from './whatsapp/ReviewView.jsx'
 import '../styles/order-buttons.css'
@@ -10,7 +11,8 @@ const prepositions = { ifood: 'no', food99: 'no' }
 // abre o pop-up já no produto. `compact` é a versão da barra fixa do celular.
 export default function OrderButtons({ item, itemName, size = 'normal', compact = false, className = '' }) {
   const { open, count } = useWhatsAppOrder()
-  const available = platforms.filter((p) => orderUrl(p, item))
+  const loja = useLoja()
+  const available = loja.platforms.filter((p) => linkPedido(p, item))
 
   return (
     <div
@@ -21,7 +23,7 @@ export default function OrderButtons({ item, itemName, size = 'normal', compact 
         <a
           key={platform.id}
           className={`order-btn order-btn--${platform.id}`}
-          href={orderUrl(platform, item)}
+          href={linkPedido(platform, item)}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -36,7 +38,7 @@ export default function OrderButtons({ item, itemName, size = 'normal', compact 
         </a>
       ))}
 
-      {store.whatsapp && (
+      {loja.whatsapp && (
         <button type="button" className="order-btn order-btn--whatsapp" onClick={() => open({ itemId: item?.id })}>
           {!compact && <WhatsAppIcon />}
           <span className="order-btn__stack">

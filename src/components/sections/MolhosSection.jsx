@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { molhoPrice, molhos } from '../../data/molhos.js'
-import { priceText } from '../../data/products.js'
+import { useLoja } from '../../context/LojaContext.js'
+import { priceText } from '../../lib/preco.js'
 import '../../styles/sections/molhos.css'
 
 // As quatro garrafas ficam sempre na tela, lado a lado. A que recebe o mouse,
 // o toque ou o foco cresce e acende; as outras recuam.
 export default function MolhosSection() {
+  const { molhos, molhoPrice } = useLoja()
   const [escolhido, setEscolhido] = useState(0)
   const [sobre, setSobre] = useState(null)
 

@@ -1,21 +1,22 @@
 ﻿import { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react'
 import { useStoryContext } from '../../context/StoryContext.js'
-import { itemIndex } from '../../data/whatsappOrder.js'
+import { useLoja } from '../../context/LojaContext.js'
 import { summarize } from './orderLogic.js'
 import OrderDialog from './OrderDialog.jsx'
 
 const WhatsAppOrderContext = createContext({ open: () => {}, count: 0, total: 0, isOpen: false })
 export const useWhatsAppOrder = () => useContext(WhatsAppOrderContext)
 
-// O pedido fica salvo no aparelho: se a pessoa sair e voltar, não perde o que escolheu.
-const STORAGE_KEY = 'sua-coxinha:pedido-whatsapp:v1'
+// O pedido fica salvo no aparelho, separado por loja: o carrinho de Cajamar não
+// aparece em Jundiaí (e a mensagem nunca vai para o WhatsApp da loja errada).
+const chaveDoPedido = (slug) => `sua-coxinha:pedido-whatsapp:${slug}:v1`
 const emptyCustomer = { name: '', when: 'pronto', date: '', time: '', notes: '' }
 
-function loadSaved() {
+function loadSaved(loja) {
   try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY))
+    const saved = JSON.parse(localStorage.getItem(chaveDoPedido(loja.slug)))
     return {
-      lines: (saved?.lines ?? []).filter((l) => itemIndex.has(l.itemId) && l.qty > 0),
+      lines: (saved?.lines ?? []).filter((l) => loja.itemIndex.has(l.itemId) && l.qty > 0),
       customer: { ...emptyCustomer, ...saved?.customer },
     }
   } catch {
@@ -40,7 +41,8 @@ function cartReducer(lines, action) {
 }
 
 export function WhatsAppOrderProvider({ children }) {
-  const [initial] = useState(loadSaved)
+  const loja = useLoja()
+  const [initial] = useState(() => loadSaved(loja))
   const [lines, dispatch] = useReducer(cartReducer, initial.lines)
   const [customer, setCustomer] = useState(initial.customer)
   const [dialog, setDialog] = useState({ open: false, target: null, openedAt: 0 })
@@ -48,11 +50,11 @@ export function WhatsAppOrderProvider({ children }) {
 
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ lines, customer }))
+      localStorage.setItem(chaveDoPedido(loja.slug), JSON.stringify({ lines, customer }))
     } catch {
       /* navegador sem armazenamento: o pedido vale só nesta visita */
     }
-  }, [lines, customer])
+  }, [lines, customer, loja.slug])
 
   // Abrir o pop-up cria uma entrada no histórico: o botão "voltar" do celular fecha o pop-up
   // em vez de sair do site.
@@ -86,7 +88,7 @@ export function WhatsAppOrderProvider({ children }) {
     open()
   }, [open])
 
-  const summary = useMemo(() => summarize(lines), [lines])
+  const summary = useMemo(() => summarize(loja, lines), [loja, lines])
   const value = useMemo(
     () => ({ open, count: summary.count, total: summary.total, isOpen: dialog.open }),
     [open, summary.count, summary.total, dialog.open],

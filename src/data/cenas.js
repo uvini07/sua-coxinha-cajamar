@@ -6,10 +6,3 @@ export const storyScenes = [
   { id: 'coxinha', label: 'Coxinha', theme: 'dark' },
   { id: 'churros', label: 'Churros', theme: 'light' },
 ]
-
-export const navLinks = [
-  { id: 'cardapio', label: 'Cardápio' },
-  { id: 'molhos', label: 'Molhos' },
-  { id: 'sobre', label: 'Sobre' },
-  { id: 'pedido', label: 'Onde pedir' },
-]

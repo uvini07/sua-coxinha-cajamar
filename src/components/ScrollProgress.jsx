@@ -1,5 +1,5 @@
 import { useStoryContext } from '../context/StoryContext.js'
-import { storyScenes } from '../data/scenes.js'
+import { storyScenes } from '../data/cenas.js'
 import '../styles/progress.css'
 
 const pad = (n) => String(n).padStart(2, '0')

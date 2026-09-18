@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef } from 'react'
-import { priceText } from '../../data/products.js'
+import { priceText } from '../../lib/preco.js'
 import Stepper from './Stepper.jsx'
 
 // Lista de produtos de uma etapa (Salgados, Doces ou Bebidas).
