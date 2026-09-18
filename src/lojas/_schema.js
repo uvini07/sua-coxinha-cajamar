@@ -27,7 +27,6 @@ const TEMA_PADRAO = {
   tinta2: '#2a2a2c',
   papel: '#ffffff',
   logo: '/assets/marca/logo-sua-coxinha.svg',
-  favicon: '/favicon.ico',
   fonteTitulo: null,
   fonteTexto: null,
 }

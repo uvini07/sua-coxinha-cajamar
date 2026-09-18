@@ -10,7 +10,6 @@ export default {
   tinta2: '#2a2a2c',
   papel: '#ffffff',
   logo: '/assets/marca/logo-sua-coxinha.svg',
-  favicon: '/favicon.ico',
   fonteTitulo: "'Bricolage Grotesque', 'Arial Narrow', Impact, sans-serif",
   fonteTexto: "'Satoshi', 'Segoe UI', system-ui, sans-serif",
 }

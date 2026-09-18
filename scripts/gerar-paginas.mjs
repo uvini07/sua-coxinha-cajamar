@@ -16,8 +16,12 @@ const escapar = (texto = '') =>
 
 const trocarTag = (html, regex, novo) => html.replace(regex, novo)
 
+// String.raw: sem ele o \s da expressão viraria a letra "s" dentro do template.
 const trocarMeta = (html, atributo, nome, valor) =>
-  html.replace(new RegExp(`(<meta\s+${atributo}="${nome}"\s+content=")[^"]*(")`), `$1${escapar(valor)}$2`)
+  html.replace(
+    new RegExp(String.raw`(<meta\s+${atributo}="${nome}"\s+content=")[^"]*(")`),
+    `$1${escapar(valor)}$2`,
+  )
 
 async function lerLojas() {
   const pastas = await readdir(resolve(raiz, 'src/lojas'), { withFileTypes: true })
@@ -49,7 +53,8 @@ for (const loja of lojas) {
   html = trocarMeta(html, 'property', 'og:url', url)
   html = trocarMeta(html, 'property', 'og:image', `${SITE}${seo.shareImage ?? '/compartilhar.jpg'}`)
   html = trocarMeta(html, 'property', 'og:image:alt', seo.shareImageAlt ?? nome)
-  html = trocarMeta(html, 'name', 'theme-color', loja.tema?.tinta ?? '#141415')
+  html = trocarMeta(html, 'property', 'og:site_name', nome)
+  html = html.replace(/(<link\s+rel="canonical"\s+href=")[^"]*(")/, `$1${escapar(url)}$2`)
 
   const destino = resolve(raiz, 'dist', loja.slug)
   await mkdir(destino, { recursive: true })

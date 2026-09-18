@@ -55,6 +55,19 @@ Não é preciso criar página, componente ou rota: a pasta já vira `suacoxinha.
 entra na lista da página inicial e ganha o seu próprio HTML (com título, descrição e
 imagem de compartilhamento) no `npm run build`.
 
+### Ícones e imagem de compartilhamento
+
+São da marca e valem para todas as lojas — franquia nova não precisa de nada:
+
+| O que | Arquivo | Vale para |
+| --- | --- | --- |
+| Ícone da aba e do atalho | `public/favicon.ico`, `favicon-192.png`, `favicon-512.png`, `apple-touch-icon.png` | todas as lojas |
+| Imagem ao compartilhar o link | `public/compartilhar.jpg` | todas as lojas |
+
+Se uma loja quiser a própria imagem de compartilhamento (uma foto da fachada, por
+exemplo), coloque o arquivo em `public/` e aponte em `seo.shareImage` no `loja.js`
+daquela franquia. O ícone da aba é sempre o da marca.
+
 Seções ligadas/desligadas por loja ficam em `secoes`, no `loja.js`
 (`abertura`, `cardapio`, `molhos`, `sobre`, `pedido`). A seção de molhos some sozinha
 quando a loja não tem molhos cadastrados.
