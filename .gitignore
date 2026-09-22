@@ -7,3 +7,5 @@ dist
 frenteLoja*.jpeg
 # fotos originais dos sabores (o site usa os .webp gerados por "npm run fotos")
 public/assets/sabores/*.png
+# fotos originais da galeria (o site usa os .webp de public/assets/galeria)
+fotos-originais/

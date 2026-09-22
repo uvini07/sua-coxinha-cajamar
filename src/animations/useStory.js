@@ -9,9 +9,9 @@ import { buildStory } from './timelines.js'
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 ScrollTrigger.config({ ignoreMobileResize: true })
 
-// A abertura animada só roda em computador (mouse, tela larga) e sem "reduzir movimento".
+// A abertura animada só roda em computador (mouse, tela larga).
 // No celular e no tablet a página rola normalmente do início ao fim.
-const STORY_QUERY = '(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)'
+const STORY_QUERY = '(min-width: 1024px) and (hover: hover) and (pointer: fine)'
 
 const navOffset = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72
 
@@ -117,9 +117,8 @@ export function useStory(rootRef) {
     if (lenis) {
       lenis.scrollTo(el, { offset: -navOffset() + 1, duration: 1.4 })
     } else {
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       const top = el.getBoundingClientRect().top + window.scrollY - navOffset() + 1
-      window.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' })
+      window.scrollTo({ top, behavior: 'smooth' })
     }
     // Leva o foco junto, para quem navega pelo teclado ou leitor de tela.
     el.setAttribute('tabindex', '-1')

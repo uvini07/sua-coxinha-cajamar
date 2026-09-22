@@ -384,13 +384,3 @@ html:not(.is-story) .stage .scene:not(.scene--hero) .scene__inner {
   margin-top: 0.5em;
   font-weight: 500;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-  }
-}

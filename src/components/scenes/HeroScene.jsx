@@ -91,18 +91,14 @@ export default function HeroScene() {
   // Os seletores pegam as duas camadas, que animam juntas.
   useGSAP(
     () => {
-      const mm = gsap.matchMedia()
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
-        gsap
-          .timeline({ defaults: { ease: 'power4.out' }, delay: 0.15 })
-          .from('.hero__split', { clipPath: 'polygon(100% 0, 100% 0, 100% 100%, 100% 100%)', duration: 1.3, ease: 'power3.inOut' }, 0)
-          .from('.hero__word-inner', { yPercent: 110, duration: 1.2, stagger: 0.12 }, 0.2)
-          .from('.hero__coxinha img', { y: -120, rotate: -40, scale: 0.6, opacity: 0, duration: 1.4 }, 0.45)
-          .from('.hero__churros img', { y: 140, rotate: 30, scale: 0.6, opacity: 0, duration: 1.4 }, 0.55)
-          .from('.hero__copy > *', { y: 30, opacity: 0, duration: 0.9, stagger: 0.1 }, 0.85)
-          .from('.hero__hint', { opacity: 0, duration: 0.8 }, 1.3)
-      })
-      return () => mm.revert()
+      gsap
+        .timeline({ defaults: { ease: 'power4.out' }, delay: 0.15 })
+        .from('.hero__split', { clipPath: 'polygon(100% 0, 100% 0, 100% 100%, 100% 100%)', duration: 1.3, ease: 'power3.inOut' }, 0)
+        .from('.hero__word-inner', { yPercent: 110, duration: 1.2, stagger: 0.12 }, 0.2)
+        .from('.hero__coxinha img', { y: -120, rotate: -40, scale: 0.6, opacity: 0, duration: 1.4 }, 0.45)
+        .from('.hero__churros img', { y: 140, rotate: 30, scale: 0.6, opacity: 0, duration: 1.4 }, 0.55)
+        .from('.hero__copy > *', { y: 30, opacity: 0, duration: 0.9, stagger: 0.1 }, 0.85)
+        .from('.hero__hint', { opacity: 0, duration: 0.8 }, 1.3)
     },
     { scope: ref },
   )

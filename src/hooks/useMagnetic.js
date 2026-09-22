@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import gsap from 'gsap'
 
 const canHover = () =>
-  window.matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches
+  window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
 // Botão acompanha levemente o cursor. Só em mouse, nunca no toque.
 export function useMagnetic(ref, enabled, strength = 0.28) {

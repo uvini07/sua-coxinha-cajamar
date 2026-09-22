@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 
 // Aparição suave e única (sobe 24px e surge) para elementos com data-reveal.
-// Não roda com "reduzir movimento" nem dentro da abertura animada do computador.
+// Não roda dentro da abertura animada do computador.
 export function useReveal(rootRef, isStory) {
   useEffect(() => {
     const root = rootRef.current
-    if (!root || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (!root) return
 
     const targets = [...root.querySelectorAll('[data-reveal]')].filter((el) => !(isStory && el.closest('.stage')))
     document.documentElement.classList.add('reveal-ready')

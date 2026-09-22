@@ -298,15 +298,3 @@
   }
 
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .garrafa,
-  .garrafa__chao,
-  .garrafa__nome {
-    transition-duration: 0.01ms;
-  }
-
-  .molhos__cartao {
-    animation: none;
-  }
-}

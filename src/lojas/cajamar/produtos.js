@@ -437,3 +437,185 @@ export const molhos = [
     combina: 'Salgados fritos, pastel e churrasco',
   },
 ]
+
+// GALERIA DE FOTOS (entre "Para casa" e "Bebidas" no cardápio)
+// As fotos ficam em public/assets/galeria/<album>/, em dois tamanhos: <nome>.webp
+// (até 1400px) e <nome>-sm.webp (até 720px, para o celular). `w` e `h` são o
+// tamanho da versão grande, para a página não pular enquanto a foto carrega.
+// `tamanho` define o bloco na grade do computador: destaque (2x2), alta (1x2),
+// larga (2x1) ou normal. `foco` é o ponto da foto que nunca pode ser cortado.
+// `categoria` liga a foto à categoria do cardápio (botão "Ver no cardápio").
+const foto = (album, nome, w, h) => ({
+  src: `/assets/galeria/${album}/${nome}.webp`,
+  srcSm: `/assets/galeria/${album}/${nome}-sm.webp`,
+  w,
+  h,
+})
+
+export const galeria = {
+  id: 'fotos',
+  name: 'Fotos',
+  intro: 'A loja, os produtos de verdade e quem passa por aqui.',
+  albuns: [
+    {
+      id: 'produtos',
+      nome: 'Produtos',
+      layout: 'grade',
+      fotos: [
+        {
+          ...foto('produtos', 'coxinha-bacon', 1080, 1350),
+          tamanho: 'destaque',
+          foco: '50% 45%',
+          etiqueta: 'Coxinhas',
+          titulo: 'Crocante por fora, recheada até a ponta.',
+          texto: 'Massa de batata e casquinha dourada. Tem de frango, costela, cheddar com bacon e mais.',
+          alt: 'Coxinha dourada em um banquinho de madeira, com pedaços de bacon caindo por cima',
+          categoria: 'coxinhas',
+        },
+        {
+          ...foto('produtos', 'copo-magico-cheddar', 720, 1280),
+          tamanho: 'alta',
+          foco: '50% 45%',
+          etiqueta: 'Copo Mágico',
+          titulo: 'Mini coxinhas com cheddar.',
+          alt: 'Mão segurando o copo amarelo da Sua Coxinha cheio de mini coxinhas com cheddar, em frente à vitrine',
+          categoria: 'coxinhas',
+        },
+        {
+          ...foto('produtos', 'mini-churros-cesta', 1080, 1350),
+          tamanho: 'alta',
+          foco: '50% 45%',
+          etiqueta: 'Churros',
+          titulo: 'Mini churros no açúcar e canela.',
+          alt: 'Mini churros saltando de uma cesta de palha com pano xadrez vermelho',
+          categoria: 'churros',
+        },
+        {
+          ...foto('produtos', 'churros-na-caixa', 1080, 1350),
+          tamanho: 'larga',
+          foco: '50% 72%',
+          etiqueta: 'Churros Gourmet',
+          titulo: 'Chocolate ou doce de leite, na caixinha.',
+          alt: 'Dois churros gourmet na embalagem rosa e amarela da Sua Coxinha, um com chocolate e outro com doce de leite',
+          categoria: 'churros',
+        },
+        {
+          ...foto('produtos', 'mini-salgados-e-churros', 1050, 1400),
+          tamanho: 'larga',
+          foco: '50% 72%',
+          etiqueta: 'Para festa',
+          titulo: 'Salgado, doce e molho na mesma mesa.',
+          alt: 'Cesta de mini coxinhas e bolinhas de queijo, cesta de mini churros, molhos e uma lata de refrigerante',
+          categoria: 'festa',
+        },
+        {
+          ...foto('produtos', 'cesta-mini-coxinhas', 1080, 1350),
+          foco: '50% 72%',
+          etiqueta: 'Linha Degust',
+          titulo: 'Mini salgados.',
+          alt: 'Cesta de palha com mini coxinhas e bolinhas de queijo, com três molhos ao fundo',
+          categoria: 'festa',
+        },
+        {
+          ...foto('produtos', 'coxinha-g-na-embalagem', 500, 500),
+          foco: '50% 50%',
+          etiqueta: 'Coxinha G',
+          titulo: '250g na mão.',
+          alt: 'Mão segurando uma coxinha grande na embalagem da Sua Coxinha',
+          categoria: 'coxinhas',
+        },
+        {
+          ...foto('produtos', 'mini-salgados-no-papel', 1080, 1350),
+          tamanho: 'larga',
+          foco: '50% 38%',
+          etiqueta: 'Na embalagem',
+          titulo: 'Sai quentinho, do jeito que chega pra você.',
+          alt: 'Mão segurando mini coxinhas no papel amarelo e branco da Sua Coxinha, com coxinhas abertas ao fundo',
+          categoria: 'festa',
+        },
+      ],
+    },
+    {
+      id: 'loja',
+      nome: 'A loja',
+      layout: 'grade',
+      fotos: [
+        {
+          ...foto('loja', 'balcao-retire-aqui', 630, 1400),
+          tamanho: 'alta',
+          foco: '50% 55%',
+          etiqueta: 'Retire aqui',
+          titulo: 'Pediu no WhatsApp? Retira no balcão.',
+          alt: 'Balcão da loja com teto amarelo, letreiro Retire Aqui, vitrine de salgados e mesa com banquetas',
+        },
+        {
+          ...foto('loja', 'salao-atendimento', 1400, 1050),
+          tamanho: 'larga',
+          foco: '50% 55%',
+          etiqueta: 'O salão',
+          titulo: 'Senta, pede e come quentinho.',
+          alt: 'Salão da loja com clientes no caixa, balcão de azulejo preto e mesas com banquetas pretas e amarelas',
+        },
+        {
+          ...foto('loja', 'equipe-degustacao', 960, 1280),
+          tamanho: 'alta',
+          foco: '50% 40%',
+          etiqueta: 'Equipe',
+          titulo: 'Tem degustação.',
+          alt: 'Atendente sorrindo com uma bandeja de mini coxinhas para degustação, em frente à parede com o logo da marca',
+        },
+        {
+          ...foto('loja', 'parede-melhor-coxinha', 1400, 1050),
+          tamanho: 'larga',
+          foco: '65% 40%',
+          etiqueta: 'Portal dos Ipês',
+          titulo: 'A melhor coxinha do mundo é feita aqui.',
+          alt: 'Parede cinza com a frase A melhor coxinha do mundo é feita aqui e o logo amarelo iluminado',
+        },
+      ],
+    },
+    {
+      id: 'clientes',
+      nome: 'Clientes',
+      layout: 'leque',
+      fotos: [
+        {
+          ...foto('clientes', 'turma-com-mascote', 1400, 1050),
+          foco: '50% 45%',
+          titulo: 'A turma toda com o mascote.',
+          alt: 'Grupo de amigos sorrindo com o mascote de coxinha na frente da loja amarela',
+        },
+        {
+          ...foto('clientes', 'copo-magico-na-mesa', 934, 1400),
+          foco: '50% 45%',
+          titulo: 'Copo Mágico com nome.',
+          alt: 'Menina sorrindo segurando uma mini coxinha, com o copo mágico personalizado na mesa',
+        },
+        {
+          ...foto('clientes', 'abraco-no-mascote', 1050, 1400),
+          foco: '40% 45%',
+          titulo: 'Abraço no mascote.',
+          alt: 'Menino de camisa xadrez abraçando o mascote de coxinha em frente à loja',
+        },
+        {
+          ...foto('clientes', 'dupla-com-mascote', 1068, 1400),
+          foco: '50% 40%',
+          titulo: 'Foto obrigatória na porta.',
+          alt: 'Casal fazendo joinha ao lado do mascote de coxinha na frente da loja',
+        },
+        {
+          ...foto('clientes', 'churros-na-mesa', 960, 1280),
+          foco: '45% 45%',
+          titulo: 'Churros com confete.',
+          alt: 'Menino sorrindo sentado à mesa com um churros coberto de chocolate e confeitos',
+        },
+        {
+          ...foto('clientes', 'amigos-com-mascote', 1050, 1400),
+          foco: '50% 45%',
+          titulo: 'Passou, tirou foto.',
+          alt: 'Dois amigos posando com o mascote de coxinha em frente à fachada amarela',
+        },
+      ],
+    },
+  ],
+}

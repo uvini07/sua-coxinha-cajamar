@@ -60,6 +60,8 @@ const CATALOGO_PADRAO = {
   families: [],
   flavors: [],
   churrosSteps: [],
+  // Álbuns de fotos mostrados no cardápio, antes das bebidas. Sem galeria, a seção some.
+  galeria: null,
 }
 
 // Junta config + tema + catálogo numa única loja pronta para a interface usar.

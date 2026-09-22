@@ -46,7 +46,6 @@ export default function CoxinhaScene() {
       setCarregando(null)
     }
     setFlavor(next)
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     requestAnimationFrame(() =>
       imgRef.current?.animate?.(
         [

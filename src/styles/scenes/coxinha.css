@@ -380,9 +380,3 @@
     transform: rotate(360deg);
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .cx__flavor-spinner {
-    animation-duration: 2s;
-  }
-}

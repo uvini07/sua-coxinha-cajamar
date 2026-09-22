@@ -6,6 +6,8 @@
   background: var(--preto);
   color: var(--branco);
   font-size: 1.125rem;
+  /* A faixa inclinada da galeria passa da borda da tela; corta só na horizontal */
+  overflow-x: clip;
 }
 
 /* Borda serrilhada do cardápio no topo da seção */

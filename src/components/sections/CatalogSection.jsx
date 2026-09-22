@@ -2,6 +2,7 @@ import { useStoryContext } from '../../context/StoryContext.js'
 import { useLoja } from '../../context/LojaContext.js'
 import { priceText } from '../../lib/preco.js'
 import OrderButtons from '../OrderButtons.jsx'
+import GallerySection from './GallerySection.jsx'
 import '../../styles/sections/catalog.css'
 
 function ProductCard({ item, tone }) {
@@ -50,76 +51,87 @@ function ProductCard({ item, tone }) {
 export default function CatalogSection() {
   const { linkTo } = useStoryContext()
   const loja = useLoja()
-  const { catalog, drinks } = loja
-  const groups = drinks ? [...catalog, drinks] : catalog
+  const { catalog, drinks, galeria } = loja
+  // Ordem do menu de categorias: produtos, bebidas e as fotos por último.
+  const groups = [...catalog, drinks, galeria].filter(Boolean)
 
   return (
     <section id="cardapio" className="catalog" data-theme="light" aria-labelledby="cardapio-title">
       <div className="catalog__inner">
-        <header className="catalog__head">
-          <h2 id="cardapio-title" className="catalog__title display">
-            Cardápio
-          </h2>
-          <p className="catalog__intro">
-            Todos os produtos e preços da loja. Escolha o que quiser e toque em <strong>Pedir no iFood</strong> ou{' '}
-            <strong>Pedir no 99Food</strong>.
-          </p>
-        </header>
+        {/* A barra de categorias fica presa só até aqui; na galeria ela some. */}
+        <div className="catalog__menu">
+          <header className="catalog__head">
+            <h2 id="cardapio-title" className="catalog__title display">
+              Cardápio
+            </h2>
+            <p className="catalog__intro">
+              Todos os produtos e preços da loja. Escolha o que quiser e toque em <strong>Pedir no iFood</strong> ou{' '}
+              <strong>Pedir no 99Food</strong>.
+            </p>
+          </header>
 
-        <nav className="catalog__nav" id="categorias" aria-label="Categorias do cardápio">
-          <ul>
-            {groups.map((group) => (
-              <li key={group.id}>
-                <a href={`#cat-${group.id}`} onClick={linkTo(`cat-${group.id}`)}>
-                  {group.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        {catalog.map((group) => (
-          <section key={group.id} id={`cat-${group.id}`} className="catalog__group" aria-labelledby={`titulo-${group.id}`}>
-            <h3 id={`titulo-${group.id}`} className="catalog__group-title">
-              {group.name}
-            </h3>
-            <ul className="catalog__grid">
-              {group.items.map((item) => (
-                <ProductCard key={item.id} item={item} tone={group.id} />
+          <nav className="catalog__nav" id="categorias" aria-label="Categorias do cardápio">
+            <ul>
+              {groups.map((group) => (
+                <li key={group.id}>
+                  <a href={`#cat-${group.id}`} onClick={linkTo(`cat-${group.id}`)}>
+                    {group.name}
+                  </a>
+                </li>
               ))}
             </ul>
-            <a className="catalog__back" href="#categorias" onClick={linkTo('categorias')}>
-              Voltar para as categorias
-            </a>
-          </section>
-        ))}
+          </nav>
 
-        {drinks && (
-          <section id={`cat-${drinks.id}`} className="catalog__group" aria-labelledby="titulo-bebidas">
-            <h3 id="titulo-bebidas" className="catalog__group-title">
-              {drinks.name}
-            </h3>
-            <div className="drinks">
-              <ul className="drinks__list">
-                {drinks.items.map((drink) => (
-                  <li key={drink.name} className="drinks__item">
-                    <span>{drink.name}</span>
-                    <span className="drinks__price">
-                      {drink.from && <span className="drinks__from">a partir de </span>}
-                      {priceText(drink.price)}
-                    </span>
-                  </li>
+          {catalog.map((group) => (
+            <section
+              key={group.id}
+              id={`cat-${group.id}`}
+              className="catalog__group"
+              aria-labelledby={`titulo-${group.id}`}
+            >
+              <h3 id={`titulo-${group.id}`} className="catalog__group-title">
+                {group.name}
+              </h3>
+              <ul className="catalog__grid">
+                {group.items.map((item) => (
+                  <ProductCard key={item.id} item={item} tone={group.id} />
                 ))}
               </ul>
-              <OrderButtons item={drinks} itemName="bebidas" className="drinks__order" />
-            </div>
-            <a className="catalog__back" href="#categorias" onClick={linkTo('categorias')}>
-              Voltar para as categorias
-            </a>
-          </section>
-        )}
+              <a className="catalog__back" href="#categorias" onClick={linkTo('categorias')}>
+                Voltar para as categorias
+              </a>
+            </section>
+          ))}
 
-        <p className="catalog__note">{loja.disclaimer} Preços do cardápio da loja; nos aplicativos podem variar.</p>
+          {drinks && (
+            <section id={`cat-${drinks.id}`} className="catalog__group" aria-labelledby="titulo-bebidas">
+              <h3 id="titulo-bebidas" className="catalog__group-title">
+                {drinks.name}
+              </h3>
+              <div className="drinks">
+                <ul className="drinks__list">
+                  {drinks.items.map((drink) => (
+                    <li key={drink.name} className="drinks__item">
+                      <span>{drink.name}</span>
+                      <span className="drinks__price">
+                        {drink.from && <span className="drinks__from">a partir de </span>}
+                        {priceText(drink.price)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <OrderButtons item={drinks} itemName="bebidas" className="drinks__order" />
+              </div>
+              <a className="catalog__back" href="#categorias" onClick={linkTo('categorias')}>
+                Voltar para as categorias
+              </a>
+            </section>
+          )}
+
+          <p className="catalog__note">{loja.disclaimer} Preços do cardápio da loja; nos aplicativos podem variar.</p>
+        </div>
+
+        {galeria && <GallerySection />}
       </div>
     </section>
   )
