@@ -10,6 +10,15 @@
     />
     <meta name="theme-color" content="#141415" />
 
+    <!-- PWA: cada franquia instala como um app próprio. O link abaixo aponta pro
+         manifest da rede (página de escolha); o build por loja (gerar-paginas.mjs)
+         troca para /<loja>/manifest.webmanifest e os metas de nome/cor da loja. -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Sua Coxinha" />
+
     <!-- Imagem e textos que aparecem ao compartilhar o link (WhatsApp, Instagram, Facebook).
          Esta é a página da rede. O HTML de cada franquia (/cajamar, /jundiai...) é gerado
          no build por scripts/gerar-paginas.mjs, com as metas próprias de cada loja. -->

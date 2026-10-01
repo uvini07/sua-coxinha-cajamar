@@ -1,10 +1,23 @@
+import { useEffect } from 'react'
 import { lojasResumo } from '../lojas/carregador.js'
 import Logo from '../components/Logo.jsx'
 import '../styles/paginas/escolha.css'
 
+// Volta o título, a cor e o manifest pros da rede, caso a pessoa tenha navegado
+// de uma loja (LojaProvider troca esses metas) de volta pra cá, pela SPA.
+function resetarMetasDaRede() {
+  document.title = 'Sua Coxinha | Escolha a sua loja'
+  const meta = (seletor, valor) => document.head.querySelector(seletor)?.setAttribute('content', valor)
+  meta('meta[name="theme-color"]', '#141415')
+  meta('meta[name="apple-mobile-web-app-title"]', 'Sua Coxinha')
+  document.head.querySelector('link[rel="manifest"]')?.setAttribute('href', '/manifest.webmanifest')
+}
+
 // Raiz do site (suacoxinha.com.br): lista as franquias e leva para a página de cada uma.
 // Cresce sozinha: toda loja cadastrada aparece aqui.
 export default function EscolhaLoja({ navegar, aviso = null }) {
+  useEffect(resetarMetasDaRede, [])
+
   const abrir = (slug) => (e) => {
     e.preventDefault()
     navegar(`/${slug}`)
