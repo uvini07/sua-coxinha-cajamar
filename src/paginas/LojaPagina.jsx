@@ -51,6 +51,7 @@ export default function LojaPagina() {
         </main>
         <MobileOrderBar />
       </WhatsAppOrderProvider>
+
     </StoryContext.Provider>
   )
 }
