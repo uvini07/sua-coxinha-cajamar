@@ -1,12 +1,14 @@
-/* Cores da marca. Cada franquia pode trocá-las: o LojaProvider escreve --marca,
-   --tinta e companhia na raiz a partir do tema da loja (src/lojas/<slug>/tema.js).
+/* Cores da marca, do manual de identidade. Cada franquia pode trocá-las: o
+   LojaProvider escreve --marca, --tinta e companhia na raiz a partir do tema da
+   loja (src/lojas/<slug>/tema.js).
    Os nomes antigos continuam valendo como apelido, para o CSS existente não mudar. */
 :root {
-  --marca: #f9c115;
-  --marca-clara: #ffd23f;
-  --tinta: #141415;
-  --tinta-2: #2a2a2c;
+  --marca: #f9c115; /* amarelo coxinha */
+  --marca-clara: #ffeb4a; /* amarelo mágico */
+  --tinta: #131313; /* preto gourmet */
+  --tinta-2: #262626; /* preto gourmet clareado, para fundos de segundo plano */
   --papel: #ffffff;
+  --marrom: #462302; /* marrom churros */
 
   --preto: var(--tinta);
   --preto-2: var(--tinta-2);
@@ -14,7 +16,7 @@
   --amarelo-hover: var(--marca-clara);
   --branco: var(--papel);
 
-  --font-display: 'Bricolage Grotesque', 'Arial Narrow', Impact, sans-serif;
+  --font-display: 'Brown Beige', 'Arial Black', Impact, sans-serif;
   --font-body: 'Satoshi', 'Segoe UI', system-ui, sans-serif;
 
   /* Tamanhos mínimos altos: o público inclui pessoas com pouca visão */
@@ -23,7 +25,7 @@
   --step-1: clamp(1.2rem, 1.1rem + 0.5vw, 1.5rem);
   --step-2: clamp(1.5rem, 1.25rem + 1.2vw, 2.25rem);
   --step-h2: clamp(2.5rem, 1.4rem + 5vw, 6.25rem);
-  --step-h1: clamp(4.25rem, 1rem + 15vw, 17rem);
+  --step-h1: clamp(4rem, 0.5rem + 11.5vw, 13rem);
 
   --pad-x: clamp(1.25rem, 4vw, 4rem);
   --nav-h: 72px;

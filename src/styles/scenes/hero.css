@@ -1,125 +1,97 @@
-﻿.scene--hero {
+.scene--hero {
   --scene-bg: var(--preto);
   --scene-fg: var(--branco);
   z-index: 1;
 }
 
-/* Metade amarela: cópia do conteúdo recortada na diagonal, com cores invertidas */
-.hero__split {
-  --cut: polygon(64% 0, 100% 0, 100% 100%, 36% 100%);
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  background: var(--amarelo);
-  color: var(--preto);
-  clip-path: var(--cut);
-  pointer-events: none;
-}
-
-/* A cópia precisa ter exatamente a altura da camada de baixo */
-.hero__split > .scene__inner {
-  height: 100%;
-}
-
-.hero .hero__title {
-  color: var(--amarelo);
-}
-
-.hero--on-yellow .hero__title {
-  color: var(--preto);
-}
-
-.hero--on-yellow .hero__product img {
-  filter: drop-shadow(0 30px 34px rgba(0, 0, 0, 0.35));
-}
+/* O padding lateral sai do bloco inteiro e passa só para o texto: assim o
+   amarelo das fotos sangra até a borda da tela. */
 .hero {
   display: flex;
   flex-direction: column;
+  padding-inline: 0;
+  padding-bottom: 0;
 }
 
-.hero__main {
-  position: relative;
+/* flex-grow em vez de height: 100% — o pai só tem min-height, então uma altura
+   em porcentagem não resolveria e a faixa amarela ficaria com zero de altura. */
+.hero__grid {
+  display: grid;
   flex: 1;
   min-height: 0;
 }
 
-.hero__title {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  font-size: var(--step-h1);
-  line-height: 0.8;
-  text-transform: lowercase;
-  pointer-events: none;
+.hero__texto {
+  display: grid;
+  align-content: start;
+  gap: clamp(1.25rem, 3.5svh, 2.25rem);
+  padding-inline: var(--pad-x);
 }
 
+.hero__title {
+  font-size: var(--step-h1);
+  line-height: 0.82;
+  text-transform: lowercase;
+  color: var(--amarelo);
+}
+
+/* Máscara de onde a palavra sobe na entrada. O padding dá folga para o acento
+   e para a barriga das letras não encostarem na borda do corte. */
 .hero__word {
   display: block;
   overflow: hidden;
-  padding: 0.02em 0.04em 0.1em;
-  margin: 0 -0.04em;
+  padding: 0.06em 0.04em 0.12em;
+  margin: -0.06em -0.04em -0.12em;
 }
 
 .hero__word-inner {
   display: block;
+  /* O "e" não pode cair sozinho numa terceira linha */
+  white-space: nowrap;
 }
 
-.hero__word--bottom {
-  align-self: flex-end;
-}
-
-.hero__product {
-  position: absolute;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.hero__product img {
-  width: 100%;
-  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.45));
-}
-
-.hero__coxinha {
-  right: 9%;
-  top: -2%;
-  width: clamp(200px, 25vw, 400px);
-  rotate: 8deg;
-}
-
-/* O churros fica atrás da palavra, a coxinha na frente: cria camadas de profundidade */
-.hero__churros {
-  z-index: 0;
-  left: 30%;
-  bottom: 4%;
-  width: clamp(240px, 30vw, 500px);
-  rotate: -10deg;
-}
-
-.hero__title {
-  z-index: 1;
+/* O "e" entra pequeno e em branco: liga as duas palavras sem roubar largura
+   da linha, que é o que limita o tamanho do título no celular. */
+.hero__e {
+  font-size: 0.42em;
+  color: var(--branco);
+  margin-right: 0.1em;
 }
 
 .hero__copy {
-  position: absolute;
-  z-index: 3;
-  left: var(--pad-x);
-  top: 50%;
-  translate: 0 -40%;
   display: grid;
-  gap: 1.5rem;
-  max-width: min(400px, 30vw);
+  gap: clamp(1rem, 2.5svh, 1.75rem);
 }
 
 .hero__lead {
   font-weight: 500;
+  max-width: 34ch;
 }
 
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
+}
+
+/* ---------- Palco: a faixa amarela e, por cima dela, as fotos ---------- */
+
+.hero__palco {
+  min-height: 0;
+  background: var(--amarelo);
+}
+
+.hero__fotos {
+  position: relative;
+  z-index: 1;
+  min-height: 0;
+  pointer-events: none;
+}
+
+.hero__product {
+  position: absolute;
+  width: auto;
+  filter: drop-shadow(0 26px 34px rgba(0, 0, 0, 0.34));
 }
 
 .hero__hint {
@@ -131,6 +103,7 @@
   justify-items: center;
   gap: 0.5rem;
   translate: -50% 0;
+  color: var(--preto);
   font-size: var(--step--1);
   font-weight: 500;
   opacity: 0.7;
@@ -161,74 +134,224 @@
   }
 }
 
-/* Notebook: título menor para caber na altura */
-@media (min-width: 900px) and (max-height: 760px) {
-  .hero__title {
-    font-size: clamp(4rem, 26vh, 15rem);
-  }
-}
+/* ---------- Celular e tablet: texto em cima, fotos embaixo ---------- */
 
-/* ---------- Tablet e celular: coluna ---------- */
 @media (max-width: 899.98px) {
-  /* No celular a linha é mais deitada: preto em cima, amarelo embaixo */
-  .hero__split {
-    --cut: polygon(0 60%, 100% 40%, 100% 100%, 0 100%);
+  .hero__grid {
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: clamp(1.25rem, 3.5svh, 2rem);
   }
 
+  /* 17.5vw é o teto para "e churros" caber inteira na largura: com a Brown
+     Beige essa linha ocupa cerca de 4,8 em. */
   .hero__title {
-    font-size: clamp(4rem, 26vw, 11rem);
+    font-size: clamp(3rem, 17.5vw, 7rem);
+  }
+
+  .hero__palco,
+  .hero__fotos {
+    grid-row: 2;
+    grid-column: 1;
+  }
+
+  .hero__palco {
+    /* Diagonal da marca: o amarelo sobe mais à direita. */
+    clip-path: polygon(0 16%, 100% 0, 100% 100%, 0 100%);
+  }
+
+  /* As duas fotos viram um par centralizado na faixa, em vez de cada uma
+     presa a uma borda: o conjunto fica no meio em qualquer largura de tela.
+     O tamanho sai da altura da faixa, com teto de largura, para encolher
+     junto em celular baixinho sem ninguém vazar pelos lados. */
+  .hero__fotos {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    /* A faixa é mais alta do que o par de fotos consegue preencher sem passar
+       da largura da tela. O respiro embaixo tira o par do chão e deixa a sobra
+       de amarelo parecida em cima e embaixo. */
+    padding-bottom: 16%;
+  }
+
+  .hero__product {
+    position: static;
+  }
+
+  /* order: o churros vem na frente e à esquerda, a coxinha atrás e à direita */
+  .hero__churros {
+    order: -1;
+    z-index: 1;
+    height: 52%;
+    max-width: 48%;
+    /* O giro joga a caixa do churros para a esquerda; a margem devolve o par
+       para o meio da faixa. */
+    margin-left: 1.2%;
+    margin-right: -13%;
+    rotate: -7deg;
   }
 
   .hero__coxinha {
-    right: 2%;
-    top: 18%;
-    width: min(46vw, 30svh, 300px);
+    height: 78%;
+    max-width: 50%;
   }
 
-  .hero__churros {
-    left: 0;
-    bottom: 16%;
-    width: min(62vw, 36svh, 420px);
-  }
-
-  .hero__copy {
-    position: relative;
-    left: auto;
-    top: auto;
-    translate: none;
-    max-width: 34rem;
-    padding-top: clamp(12px, 2.5svh, 24px);
-    gap: 1rem;
+  .hero__hint {
+    display: none;
   }
 
   .hero__actions .btn {
     flex: 1 1 0;
     min-width: 0;
   }
-
-  .hero__hint {
-    display: none;
-  }
 }
 
-@media (max-width: 899.98px) and (min-width: 600px) {
-  .hero__actions {
-    max-width: 30rem;
-  }
-}
-
-@media (max-width: 380px), (max-height: 640px) and (max-width: 899.98px) {
+/* Telas estreitas: o texto encolhe para sobrar faixa de foto */
+@media (max-width: 380px), (max-height: 680px) and (max-width: 899.98px) {
   .hero__lead {
     font-size: var(--step-0);
   }
+
+  .hero__title {
+    font-size: clamp(2.5rem, 15.5vw, 6rem);
+  }
 }
 
-@media (max-width: 899.98px) and (max-height: 700px) {
-  .hero__coxinha {
-    width: min(40vw, 25svh);
+/* Tablet: sobra largura, então as fotos crescem e os botões param de esticar */
+@media (min-width: 600px) and (max-width: 899.98px) {
+  .hero__actions {
+    max-width: 32rem;
+  }
+
+  .hero__fotos {
+    padding-bottom: 12%;
   }
 
   .hero__churros {
-    width: min(56vw, 29svh);
+    height: 56%;
+    max-width: 42%;
+    margin-right: -10%;
+  }
+
+  .hero__coxinha {
+    height: 82%;
+    max-width: 40%;
+  }
+}
+
+/* Celular deitado: não cabe empilhar, vira o mesmo arranjo do computador */
+@media (max-width: 899.98px) and (orientation: landscape) and (max-height: 540px) {
+  .hero__grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .hero__texto,
+  .hero__palco,
+  .hero__fotos {
+    grid-area: 1 / 1;
+  }
+
+  .hero__texto {
+    z-index: 2;
+    align-content: center;
+    max-width: 52%;
+    padding-bottom: clamp(16px, 4vh, 32px);
+  }
+
+  /* Com a tela baixa quem manda no tamanho do título é a altura */
+  .hero__title {
+    font-size: clamp(1.75rem, min(13vh, 6.5vw), 4rem);
+  }
+
+  .hero__palco {
+    clip-path: polygon(50% 0, 100% 0, 100% 100%, 28% 100%);
+  }
+
+  /* O par continua em flex, como no celular em pé, mas empurrado para a
+     metade amarela: o padding à esquerda é o que o mantém fora do texto. */
+  .hero__fotos {
+    padding: 0 4% 6% 52%;
+  }
+
+  .hero__churros {
+    height: 54%;
+    max-width: 30%;
+    margin-left: 0;
+    margin-right: -7%;
+    rotate: -9deg;
+  }
+
+  .hero__coxinha {
+    height: 84%;
+    max-width: 28%;
+  }
+}
+
+/* ---------- Computador: texto à esquerda, fotos no amarelo à direita ---------- */
+
+@media (min-width: 900px) {
+  /* As duas camadas ocupam a mesma célula: o amarelo cobre a tela inteira e é
+     o recorte que decide onde ele aparece, então a diagonal pode passar por
+     baixo do texto sem empurrar o layout. */
+  .hero__grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .hero__texto,
+  .hero__palco,
+  .hero__fotos {
+    grid-area: 1 / 1;
+  }
+
+  .hero__texto {
+    z-index: 2;
+    align-content: center;
+    max-width: min(46%, 40rem);
+    padding-bottom: clamp(24px, 5vh, 56px);
+  }
+
+  .hero__title {
+    font-size: clamp(3.5rem, 7.5vw, 9.5rem);
+  }
+
+  .hero__palco {
+    clip-path: polygon(56% 0, 100% 0, 100% 100%, 32% 100%);
+  }
+
+  /* Embaixo da coluna de texto, no preto: ao centro ele cairia sobre as fotos. */
+  .hero__hint {
+    left: var(--pad-x);
+    translate: none;
+    justify-items: start;
+    color: var(--branco);
+  }
+
+  .hero__coxinha {
+    right: 6%;
+    top: 8%;
+    height: 56%;
+    rotate: 8deg;
+  }
+
+  /* Começa depois da coluna de texto: as fotos nunca passam por cima da frase
+     nem dos botões. */
+  .hero__churros {
+    left: 46%;
+    bottom: 4%;
+    width: 31%;
+    rotate: -10deg;
+  }
+}
+
+/* Notebook: janela baixa, título menor para o bloco inteiro caber na altura */
+@media (min-width: 900px) and (max-height: 760px) {
+  .hero__title {
+    font-size: clamp(3rem, min(13vh, 7vw), 7rem);
+  }
+
+  .hero__coxinha {
+    height: 50%;
   }
 }

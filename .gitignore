@@ -9,3 +9,6 @@ frenteLoja*.jpeg
 public/assets/sabores/*.png
 # fotos originais da galeria (o site usa os .webp de public/assets/galeria)
 fotos-originais/
+# guia de marca do cliente: a Brown Beige e licenciada e nao vai pro repositorio
+# (o site usa os .woff2 gerados por "npm run fontes")
+guia_de_marca/

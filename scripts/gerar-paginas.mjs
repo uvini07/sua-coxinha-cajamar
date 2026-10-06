@@ -7,7 +7,7 @@
 import { readdir, readFile, writeFile, mkdir } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { SITE_URL } from '../site.config.js'
+import { SITE_URL, IMAGEM_COMPARTILHAR } from '../site.config.js'
 
 const raiz = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const SITE = process.env.SITE_URL ?? SITE_URL
@@ -52,7 +52,7 @@ for (const loja of lojas) {
   html = trocarMeta(html, 'property', 'og:title', seo.shareTitle ?? titulo)
   html = trocarMeta(html, 'property', 'og:description', seo.shareDescription ?? descricao)
   html = trocarMeta(html, 'property', 'og:url', url)
-  html = trocarMeta(html, 'property', 'og:image', `${SITE}${seo.shareImage ?? '/compartilhar.jpg'}`)
+  html = trocarMeta(html, 'property', 'og:image', `${SITE}${seo.shareImage ?? IMAGEM_COMPARTILHAR}`)
   html = trocarMeta(html, 'property', 'og:image:alt', seo.shareImageAlt ?? nome)
   html = trocarMeta(html, 'property', 'og:site_name', nome)
   html = html.replace(/(<link\s+rel="canonical"\s+href=")[^"]*(")/, `$1${escapar(url)}$2`)

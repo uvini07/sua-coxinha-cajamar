@@ -213,16 +213,18 @@
     padding: 0.3em 0.75em;
   }
 
+  /* No celular a foto ocupa quase toda a largura e o texto toma a metade de
+     baixo: não sobra lugar para este enfeite. Ele vinha por trás do título,
+     fatiado pelas letras. Fica só o pote de molho, que cabe acima da foto. */
   .ch__float--a {
-    top: auto;
-    bottom: 42%;
-    left: -4%;
+    display: none;
   }
 
   .ch__float--b {
     left: auto;
-    right: 4%;
-    top: 12%;
+    right: 3%;
+    top: 7%;
+    width: clamp(70px, 18vw, 120px);
   }
 
   .ch__float--c {

@@ -24,22 +24,35 @@ export function missingGroups(item, selections) {
   return (item.order ?? []).filter((g) => g.required && !selections[g.id]?.length).map((g) => g.id)
 }
 
-// "Escolha o sabor" -> "Sabor"
+// O título do grupo é uma pergunta para o cliente ("Escolha até 2 sabores
+// (1 para cada coxinha)"); na mensagem e no resumo vira só o assunto ("Sabores").
 const shortLabel = (title) => {
-  const text = title.replace(/^Escolha (?:o|os|a|as|um|uma|\d+) /, '')
+  const text = title
+    .replace(/^escolha\s+(?:até\s+)?(?:os|as|o|a|um|uma|\d+)?\s*/i, '')
+    .replace(/\s*\([^)]*\)\s*$/, '')
+    .trim()
   return text.charAt(0).toUpperCase() + text.slice(1)
 }
 
-export function lineDetails(item, variantIndex, selections) {
-  const details = []
-  if (item.variants) details.push(item.variants[variantIndex].label)
+// Escolhas do cliente já com o rótulo curto. Serve tanto para o resumo na tela
+// quanto para a mensagem do WhatsApp, que monta cada uma do seu jeito.
+export function lineChoices(item, variantIndex, selections) {
+  const groups = []
+  // A variante já se explica sozinha ("50 unidades (até 5 sabores)") e nem
+  // sempre é tamanho — às vezes é quantidade. Por isso vai sem rótulo.
+  if (item.variants) groups.push({ label: '', options: [item.variants[variantIndex].label], extra: '' })
   ;(item.order ?? []).forEach((g) => {
     const chosen = selections[g.id]
     if (!chosen?.length) return
-    const extra = g.price ? ` (+ ${priceText(g.price)})` : ''
-    details.push(`${shortLabel(g.title)}: ${chosen.join(', ')}${extra}`)
+    groups.push({ label: shortLabel(g.title), options: chosen, extra: g.price ? ` (+ ${priceText(g.price)})` : '' })
   })
-  return details
+  return groups
+}
+
+export function lineDetails(item, variantIndex, selections) {
+  return lineChoices(item, variantIndex, selections).map(
+    (g) => `${g.label ? `${g.label}: ` : ''}${g.options.join(', ')}${g.extra}`,
+  )
 }
 
 export const lineKey = (itemId, variantIndex, selections, note) =>
@@ -59,6 +72,7 @@ export function resolveLine(loja, line) {
     unit,
     total: unit * line.qty,
     details: lineDetails(item, line.variantIndex, line.selections),
+    choices: lineChoices(item, line.variantIndex, line.selections),
   }
 }
 
@@ -72,6 +86,12 @@ export function summarize(loja, lines) {
   }
 }
 
+const REGUA = '━━━━━━━━━━━━━━━'
+
+// Mensagem que chega no WhatsApp da loja. Quem lê do outro lado está montando o
+// pedido, então cada produto é um bloco e cada escolha fica na sua própria
+// linha: em lista separada por vírgula, um combo de cinco sabores vira um borrão
+// e é fácil pular um.
 export function buildMessage(loja, summary, customer) {
   const out = [`Olá, ${loja.brand} ${loja.unit}! Quero fazer um pedido para *retirar na loja*.`, '']
   out.push(`*Nome:* ${customer.name.trim()}`)
@@ -80,15 +100,28 @@ export function buildMessage(loja, summary, customer) {
   loja.orderSteps.forEach((step) => {
     const lines = summary.lines.filter((l) => l.step.id === step.id)
     if (!lines.length) return
-    out.push('', `*${step.name}*`)
+
+    out.push('', REGUA, `*${step.name.toUpperCase()}*`)
     lines.forEach((l) => {
-      out.push(`${l.qty}x ${l.name}: ${priceText(l.total)}`)
-      l.details.forEach((d) => out.push(`   ${d}`))
-      if (l.note) out.push(`   Obs.: ${l.note}`)
+      const cada = l.qty > 1 ? ` (${priceText(l.unit)} cada)` : ''
+      out.push('', `*${l.qty}x ${l.name}* — ${priceText(l.total)}${cada}`)
+
+      l.choices.forEach((g) => {
+        // Escolha única cabe na mesma linha; de duas em diante, uma por linha.
+        if (g.options.length === 1) {
+          out.push(`${g.label ? `${g.label}: ` : ''}${g.options[0]}${g.extra}`)
+          return
+        }
+        out.push(`${g.label}:${g.extra}`)
+        g.options.forEach((o) => out.push(`• ${o}`))
+      })
+
+      if (l.note) out.push(`_Obs.: ${l.note}_`)
     })
   })
 
-  out.push('', `*Total estimado: ${priceText(summary.total)}*`)
+  const itens = summary.count === 1 ? '1 item' : `${summary.count} itens`
+  out.push('', REGUA, `*TOTAL: ${priceText(summary.total)}* · ${itens}`)
   if (customer.notes.trim()) out.push('', `*Observações:* ${customer.notes.trim()}`)
   return out.join('\n')
 }

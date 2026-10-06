@@ -68,6 +68,9 @@ export default function CatalogSection() {
               Todos os produtos e preços da loja. Escolha o que quiser e toque em <strong>Pedir no iFood</strong> ou{' '}
               <strong>Pedir no 99Food</strong>.
             </p>
+            {/* Fica aqui em cima, antes das fotos: no rodapé do cardápio quase
+                ninguém chega a ler. */}
+            <p className="catalog__ilustrativas">As fotos dos produtos são meramente ilustrativas.</p>
           </header>
 
           <nav className="catalog__nav" id="categorias" aria-label="Categorias do cardápio">

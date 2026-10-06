@@ -1,0 +1,25 @@
+/* Fontes da marca, servidas pelo próprio site (geradas por "npm run fontes").
+
+   Brown Beige é o display da marca e Satoshi é a de texto — as duas do manual
+   de identidade. Ficam aqui em vez de virem do Google Fonts ou do Fontshare
+   porque a Brown Beige é um arquivo do cliente, que não existe em CDN nenhuma,
+   e porque assim a primeira tela não depende de um terceiro responder. */
+
+@font-face {
+  font-family: 'Brown Beige';
+  src: url('/assets/fontes/brown-beige.woff2') format('woff2');
+  /* A fonte tem um peso só, mas já é bem pesada. A faixa faz o navegador
+     aceitar qualquer font-weight que o CSS pedir sem engordar a letra por
+     conta própria — negrito sintético borraria o desenho. */
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/assets/fontes/satoshi.woff2') format('woff2-variations');
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}

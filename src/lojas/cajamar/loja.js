@@ -76,7 +76,6 @@ export default {
     shareTitle: 'Sua Coxinha Cajamar | Coxinhas e churros',
     shareDescription:
       'Cardápio completo, do mini salgado à coxinha G. Peça pelo iFood, pelo 99Food ou pelo WhatsApp com retirada na loja.',
-    shareImage: '/compartilhar.jpg',
     shareImageAlt: 'Logo da Sua Coxinha em fundo amarelo',
   },
 

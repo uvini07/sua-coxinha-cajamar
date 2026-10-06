@@ -8,7 +8,7 @@
       name="description"
       content="Coxinhas, churros gourmet e kits para festa. Escolha a loja Sua Coxinha mais perto de você e peça pelo WhatsApp, pelo iFood ou pelo 99Food."
     />
-    <meta name="theme-color" content="#141415" />
+    <meta name="theme-color" content="#131313" />
 
     <!-- Imagem e textos que aparecem ao compartilhar o link (WhatsApp, Instagram, Facebook).
          Esta é a página da rede. O HTML de cada franquia (/cajamar, /jundiai...) é gerado
@@ -22,7 +22,7 @@
       property="og:description"
       content="Cardápio completo, do mini salgado à coxinha G. Escolha a sua loja e peça pelo WhatsApp, pelo iFood ou pelo 99Food."
     />
-    <meta property="og:image" content="%SITE_URL%/compartilhar.jpg?v=3" />
+    <meta property="og:image" content="%SITE_URL%%IMAGEM_COMPARTILHAR%" />
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -36,14 +36,10 @@
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&display=swap"
-    />
-    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" />
+    <!-- Fontes da marca servidas pelo próprio site (src/styles/fontes.css).
+         Vêm carregadas na frente porque são o primeiro texto que aparece. -->
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fontes/brown-beige.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fontes/satoshi.woff2" crossorigin />
 
     <link rel="preload" as="image" href="/assets/produtos/coxinha-g.webp" />
     <link rel="preload" as="image" href="/assets/produtos/churros-gourmet.webp" />

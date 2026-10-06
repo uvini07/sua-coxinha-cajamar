@@ -8,7 +8,9 @@
     "build": "vite build && node scripts/gerar-paginas.mjs",
     "preview": "vite preview",
     "fotos": "python scripts/fotos-sabores.py",
-    "molhos": "python scripts/recorta-molhos.py"
+    "molhos": "python scripts/recorta-molhos.py",
+    "produtos": "python scripts/recorta-produtos.py",
+    "fontes": "python scripts/fonte-marca.py"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

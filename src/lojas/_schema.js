@@ -19,12 +19,13 @@ export const SECOES = {
   pedido: { id: 'pedido', label: 'Onde pedir' },
 }
 
-// Cores da marca, usadas por toda loja que não tiver um tema.js próprio.
+// Cores da marca (manual de identidade), usadas por toda loja que não tiver um
+// tema.js próprio.
 const TEMA_PADRAO = {
   marca: '#f9c115',
-  marcaClara: '#ffd23f',
-  tinta: '#141415',
-  tinta2: '#2a2a2c',
+  marcaClara: '#ffeb4a',
+  tinta: '#131313',
+  tinta2: '#262626',
   papel: '#ffffff',
   logo: '/assets/marca/logo-sua-coxinha.svg',
   fonteTitulo: null,

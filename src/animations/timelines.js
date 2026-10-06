@@ -46,10 +46,10 @@ export function buildStory(root) {
 function hero({ q }, { tl, blur }) {
   tl.addLabel('inicio', 0)
   tl.to(q('.hero__copy, .hero__hint'), { y: -50, autoAlpha: 0, duration: 0.55, ease: 'power2.in', ...blur(10) }, 0.12)
-  tl.to(q('.hero__word--top'), { xPercent: -24, duration: 1.4, ease: 'none' }, 0)
-  tl.to(q('.hero__word--bottom'), { xPercent: 24, duration: 1.4, ease: 'none' }, 0)
-  tl.to(q('.hero__coxinha'), { scale: 1.55, rotate: 14, yPercent: -18, duration: 1.4, ease: 'power1.in' }, 0)
-  tl.to(q('.hero__churros'), { scale: 1.3, rotate: -16, xPercent: 18, yPercent: 26, duration: 1.4, ease: 'power1.in' }, 0)
+  tl.to(q('.hero__word--top'), { xPercent: -14, duration: 1.4, ease: 'none' }, 0)
+  tl.to(q('.hero__word--bottom'), { xPercent: 14, duration: 1.4, ease: 'none' }, 0)
+  tl.to(q('.hero__coxinha'), { scale: 1.5, rotate: 14, yPercent: -14, duration: 1.4, ease: 'power1.in' }, 0)
+  tl.to(q('.hero__churros'), { scale: 1.3, rotate: -16, xPercent: 16, yPercent: 22, duration: 1.4, ease: 'power1.in' }, 0)
   return 0.7
 }
 

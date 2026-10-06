@@ -5,11 +5,11 @@
 // Campos possíveis e valores padrão: src/lojas/_schema.js
 export default {
   marca: '#f9c115',
-  marcaClara: '#ffd23f',
-  tinta: '#141415',
-  tinta2: '#2a2a2c',
+  marcaClara: '#ffeb4a',
+  tinta: '#131313',
+  tinta2: '#262626',
   papel: '#ffffff',
   logo: '/assets/marca/logo-sua-coxinha.svg',
-  fonteTitulo: "'Bricolage Grotesque', 'Arial Narrow', Impact, sans-serif",
+  fonteTitulo: "'Brown Beige', 'Arial Black', Impact, sans-serif",
   fonteTexto: "'Satoshi', 'Segoe UI', system-ui, sans-serif",
 }

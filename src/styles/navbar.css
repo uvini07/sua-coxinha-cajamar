@@ -168,7 +168,6 @@
   font-family: var(--font-display);
   font-size: clamp(2.75rem, 13vw, 4.5rem);
   font-weight: 800;
-  font-stretch: 75%;
   line-height: 1;
   text-decoration: none;
 }

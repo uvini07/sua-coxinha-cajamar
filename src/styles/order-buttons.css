@@ -43,7 +43,7 @@
 
 .order-btn--food99 {
   --bg: #ffd100;
-  --fg: #141415;
+  --fg: var(--preto);
 }
 
 /* WhatsApp ocupa a linha inteira: é o canal próprio da loja, com retirada */

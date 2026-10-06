@@ -1,4 +1,5 @@
 // Estilos globais primeiro, para os estilos dos componentes poderem sobrescrevê-los.
+import './styles/fontes.css'
 import './styles/tokens.css'
 import './styles/base.css'
 import { StrictMode } from 'react'

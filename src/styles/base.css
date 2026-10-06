@@ -108,8 +108,6 @@ button {
 .display {
   font-family: var(--font-display);
   font-weight: 800;
-  font-stretch: 75%;
-  font-variation-settings: 'opsz' 96;
   line-height: 0.88;
   letter-spacing: -0.015em;
   text-wrap: balance;
@@ -265,7 +263,6 @@ button {
   align-items: flex-start;
   font-family: var(--font-display);
   font-weight: 800;
-  font-stretch: 75%;
   line-height: 1;
   white-space: nowrap;
 }
@@ -276,7 +273,6 @@ button {
   font-family: var(--font-body);
   font-size: 0.42em;
   font-weight: 500;
-  font-stretch: 100%;
 }
 
 .price__currency {
