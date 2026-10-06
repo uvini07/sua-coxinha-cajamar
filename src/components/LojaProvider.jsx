@@ -34,6 +34,12 @@ function aplicarSeo(loja) {
   meta('meta[property="og:title"]', loja.seo.shareTitle)
   meta('meta[property="og:description"]', loja.seo.shareDescription)
   meta('meta[name="theme-color"]', loja.tema.tinta)
+  meta('meta[name="apple-mobile-web-app-title"]', loja.nomeCompleto)
+
+  // PWA: troca pro manifest da loja (nome e atalho próprios), só quem chegou
+  // direto em /<loja> já tem isso certo no HTML; quem navegou pela SPA, não.
+  const manifest = document.head.querySelector('link[rel="manifest"]')
+  if (manifest) manifest.setAttribute('href', `/${loja.slug}/manifest.webmanifest`)
 }
 
 export default function LojaProvider({ slug, children, aoFalhar }) {

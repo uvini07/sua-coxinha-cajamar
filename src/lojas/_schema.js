@@ -7,6 +7,7 @@
 // Para cadastrar uma franquia nova: copie uma pasta existente, troque o slug e o
 // conteúdo. A rota /<slug> passa a existir sozinha, sem mexer em componente nenhum.
 
+import { IMAGEM_COMPARTILHAR } from '../../site.config.js'
 import { montarEtapas } from '../lib/etapas.js'
 import { montarPlataformas } from '../lib/plataformas.js'
 
@@ -92,7 +93,7 @@ export function criarLoja({ slug, loja = {}, tema = {}, produtos = {} }) {
       description: config.seo.description ?? '',
       shareTitle: config.seo.shareTitle ?? config.seo.title ?? `${config.brand} ${config.unit}`.trim(),
       shareDescription: config.seo.shareDescription ?? config.seo.description ?? '',
-      shareImage: config.seo.shareImage ?? '/compartilhar.jpg',
+      shareImage: config.seo.shareImage ?? IMAGEM_COMPARTILHAR,
       shareImageAlt: config.seo.shareImageAlt ?? `${config.brand} ${config.unit}`.trim(),
     },
   }
