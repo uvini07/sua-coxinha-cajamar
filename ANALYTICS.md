@@ -16,7 +16,7 @@ Só o painel `/painel` tem login: entra quem é **franqueado** no app (`equipe/{
 2. **Dimensões personalizadas** (Administrador → Definições personalizadas), escopo *Evento*:
    - `loja` (parâmetro `loja`) — obrigatória
    - `item` (parâmetro `item`) — opcional, mostra "Produtos mais clicados"
-3. **Vercel** (projeto do site) → Environment Variables: `VITE_GA_MEASUREMENT_ID=G-XXXX`. Faça um novo deploy.
+3. ID do fluxo já está no código (`G-MCD6NPQGCK`, em `src/analytics/ga.js`). Para trocar, use `VITE_GA_MEASUREMENT_ID` na Vercel.
 4. **Acesso da função ao GA**: GA4 → Administrador → Gerenciamento de acesso à propriedade → adicione como **Leitor**:
    `132936922966-compute@developer.gserviceaccount.com` e `suacoxinhaapp@appspot.gserviceaccount.com`.
 5. **Google Cloud** (projeto suacoxinhaapp): ative a *Google Analytics Data API*.

@@ -6,11 +6,12 @@
 // — é por ela que o painel /painel filtra os números de cada franqueado.
 //
 // O script do Google só é baixado depois do aceite de cookies (consentimento.js).
-// Sem o ID (VITE_GA_MEASUREMENT_ID) ou em desenvolvimento, nada é enviado.
+// Em desenvolvimento nada é enviado. O ID é público (aparece no código de
+// qualquer site com GA); VITE_GA_MEASUREMENT_ID troca por outro, se precisar.
 
 import { aoMudarConsentimento, lerConsentimento } from './consentimento.js'
 
-const ID = import.meta.env.VITE_GA_MEASUREMENT_ID
+const ID = import.meta.env.VITE_GA_MEASUREMENT_ID || 'G-MCD6NPQGCK' // fluxo Web "Site Sua Coxinha"
 const ATIVO = Boolean(ID) && !import.meta.env.DEV
 
 let carregado = false
