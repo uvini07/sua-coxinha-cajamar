@@ -111,3 +111,22 @@ for (const loja of lojas) {
 }
 
 console.log(`${lojas.length} loja(s) no ar.`)
+
+// Rotas que não são loja: um HTML de verdade em cada uma. Sem isso, a Vercel
+// devolve o 404 dela antes de o app abrir (só existiam /, /cajamar e /jundiai).
+// O painel não entra no Google: noindex já no HTML.
+const ROTAS_FIXAS = {
+  painel: { titulo: 'Painel do franqueado | Sua Coxinha', robots: 'noindex, nofollow' },
+  cookies: { titulo: 'Política de cookies | Sua Coxinha' },
+  'jogo-coxinha': { titulo: 'Jogo da Coxinha | Sua Coxinha' },
+}
+
+for (const [rota, { titulo, robots }] of Object.entries(ROTAS_FIXAS)) {
+  let html = trocarTag(base, /<title>[^<]*<\/title>/, `<title>${escapar(titulo)}</title>`)
+  html = html.replace(/(<link\s+rel="canonical"\s+href=")[^"]*(")/, `$1${escapar(`${SITE}/${rota}`)}$2`)
+  if (robots) html = html.replace('</head>', `  <meta name="robots" content="${robots}" />\n  </head>`)
+  const destino = resolve(raiz, 'dist', rota)
+  await mkdir(destino, { recursive: true })
+  await writeFile(resolve(destino, 'index.html'), html, 'utf8')
+  console.log(`página gerada: /${rota}`)
+}
