@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { rastrear } from '../../analytics/ga.js'
 import { useLoja } from '../../context/LojaContext.js'
 import { priceText } from '../../lib/preco.js'
 import {
@@ -50,6 +51,7 @@ export default function ReviewView({ summary, dispatch, customer, setCustomer, o
 
   const send = (event) => {
     if (!hasErrors) {
+      rastrear('pedido_whatsapp', { itens: summary.count, value: summary.total / 100, currency: 'BRL' })
       // Deixa o navegador abrir o link antes de limpar o pedido (o link sumiria com o carrinho vazio).
       setTimeout(() => onSent(url), 0)
       return

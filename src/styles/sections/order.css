@@ -122,3 +122,15 @@
     grid-column: 1 / -1;
   }
 }
+
+.order__cookies {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}

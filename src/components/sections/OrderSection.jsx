@@ -1,5 +1,7 @@
 ﻿import { useLoja } from '../../context/LojaContext.js'
 import OrderButtons from '../OrderButtons.jsx'
+import { abrirPreferencias } from '../../analytics/consentimento.js'
+import { rastrear } from '../../analytics/ga.js'
 import '../../styles/sections/order.css'
 
 export default function OrderSection() {
@@ -18,7 +20,7 @@ export default function OrderSection() {
           </p>
           <OrderButtons size="big" className="order__buttons" />
           {loja.links.maps && (
-            <a className="btn btn--ghost order__map" href={loja.links.maps} target="_blank" rel="noopener noreferrer">
+            <a className="btn btn--ghost order__map" href={loja.links.maps} target="_blank" rel="noopener noreferrer" onClick={() => rastrear('contato_mapa')}>
               <span className="btn__label">Ver a loja no mapa</span>
               <span className="sr-only"> (abre em nova aba)</span>
             </a>
@@ -55,16 +57,16 @@ export default function OrderSection() {
             <dt>Contato</dt>
             <dd>
               {whatsapp ? (
-                <a href={whatsapp} target="_blank" rel="noopener noreferrer">
+                <a href={whatsapp} target="_blank" rel="noopener noreferrer" onClick={() => rastrear('contato_whatsapp')}>
                   WhatsApp {loja.phone}
                 </a>
               ) : (
-                <a href={`tel:+55${loja.phone.replace(/\D/g, '')}`}>Ligar: {loja.phone}</a>
+                <a href={`tel:+55${loja.phone.replace(/\D/g, '')}`} onClick={() => rastrear('contato_telefone')}>Ligar: {loja.phone}</a>
               )}
               {loja.links.instagram && (
                 <>
                   <br />
-                  <a href={loja.links.instagram} target="_blank" rel="noopener noreferrer">
+                  <a href={loja.links.instagram} target="_blank" rel="noopener noreferrer" onClick={() => rastrear('contato_instagram')}>
                     Instagram {loja.instagramHandle || loja.links.instagram.replace(/.*instagram\.com\//, '@').replace(/\/$/, '')}
                   </a>
                 </>
@@ -80,6 +82,9 @@ export default function OrderSection() {
               Seja um franqueado
             </a>
           )}
+          <button type="button" className="order__cookies" onClick={abrirPreferencias}>
+            Cookies
+          </button>
         </footer>
       </div>
     </section>

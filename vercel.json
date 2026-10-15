@@ -16,6 +16,9 @@
       "permanent": true
     }
   ],
+  "headers": [
+    { "source": "/painel", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] }
+  ],
   "rewrites": [
     { "source": "/((?!assets/|favicon|apple-touch-icon|compartilhar).*)", "destination": "/index.html" }
   ]

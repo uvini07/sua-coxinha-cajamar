@@ -2,6 +2,7 @@ import { useLoja } from '../context/LojaContext.js'
 import { linkPedido } from '../lib/plataformas.js'
 import { useWhatsAppOrder } from './whatsapp/WhatsAppOrder.jsx'
 import { WhatsAppIcon } from './whatsapp/ReviewView.jsx'
+import { rastrear } from '../analytics/ga.js'
 import '../styles/order-buttons.css'
 
 const prepositions = { ifood: 'no', food99: 'no' }
@@ -26,6 +27,7 @@ export default function OrderButtons({ item, itemName, size = 'normal', compact 
           href={linkPedido(platform, item)}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => rastrear(`pedido_${platform.id}`, { item: item?.id ?? 'loja' })}
         >
           {/* Um único bloco de texto: evita que "Pedir no" e o nome quebrem separados */}
           <span className="order-btn__label">
@@ -39,7 +41,10 @@ export default function OrderButtons({ item, itemName, size = 'normal', compact 
       ))}
 
       {loja.whatsapp && (
-        <button type="button" className="order-btn order-btn--whatsapp" onClick={() => open({ itemId: item?.id })}>
+        <button type="button" className="order-btn order-btn--whatsapp" onClick={() => {
+            rastrear('abrir_whatsapp', { item: item?.id ?? 'loja' })
+            open({ itemId: item?.id })
+          }}>
           {!compact && <WhatsAppIcon />}
           <span className="order-btn__stack">
             <span className="order-btn__label">

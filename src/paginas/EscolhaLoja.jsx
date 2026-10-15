@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { abrirPreferencias } from '../analytics/consentimento.js'
 import { lojasResumo } from '../lojas/carregador.js'
 import Logo from '../components/Logo.jsx'
 import '../styles/paginas/escolha.css'
@@ -61,6 +62,9 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
         <a href="https://franquia.suacoxinha.com.br" target="_blank" rel="noopener noreferrer">
           Seja um franqueado
         </a>
+        <button type="button" className="escolha__cookies" onClick={abrirPreferencias}>
+          Cookies
+        </button>
       </footer>
     </main>
   )
