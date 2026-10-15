@@ -2,8 +2,9 @@
 //
 // O site não tem login para clientes. Só o painel do franqueado usa o Firebase:
 // a pessoa entra com o Google usando o e-mail cadastrado como franqueado no app
-// (equipe/{email}), e a função /api/relatorio (na Vercel, gratuita) devolve os
-// números da loja dela.
+// (equipe/{email}), e o painel lê os contadores da loja dela em
+// sitePorLoja/{loja}/dias (gravados pelo site, ver src/analytics/contadores.js).
+// Tudo no plano gratuito do Firebase: sem servidor, sem chave.
 //
 // Esta configuração é pública por natureza (viaja em qualquer app web do
 // Firebase). Quem protege os dados é a função, que confere o cadastro no banco.
@@ -11,6 +12,7 @@
 
 import { getApp, getApps, initializeApp } from 'firebase/app'
 import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth'
+import { collection, doc, documentId, getDoc, getDocs, getFirestore, query, where } from 'firebase/firestore'
 
 const env = import.meta.env
 
@@ -23,6 +25,7 @@ const config = {
 
 const app = getApps().length ? getApp() : initializeApp(config)
 const auth = getAuth(app)
+const db = getFirestore(app)
 auth.languageCode = 'pt-BR'
 
 export const observarUsuario = (fn) => onAuthStateChanged(auth, fn)
@@ -42,21 +45,114 @@ class ErroRelatorio extends Error {
   }
 }
 
-// O token do login vai junto: é com ele que a função confere quem é a pessoa.
+const EMAIL_ADMIN = 'marcelinhojordao07@gmail.com' // igual a souAdmin() em firestore.rules do app
+
+const diaISO = (data) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(data)
+const somarDias = (iso, n) => {
+  const d = new Date(`${iso}T12:00:00Z`)
+  d.setUTCDate(d.getUTCDate() + n)
+  return d.toISOString().slice(0, 10)
+}
+
+// Quem está logado e quais lojas pode ver. As regras do Firestore conferem de novo.
+async function quemSou() {
+  const email = String(auth.currentUser?.email || '').toLowerCase()
+  if (email === EMAIL_ADMIN) {
+    const snap = await getDocs(collection(db, 'lojas'))
+    const lojas = snap.docs
+      .map((d) => ({ id: d.id, nome: d.get('nome') || d.id }))
+      .sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'))
+    return { email, papel: 'admin', nome: 'Administrador', lojas }
+  }
+  const membro = await getDoc(doc(db, 'equipe', email)).catch(() => null)
+  if (!membro?.exists() || membro.get('ativo') !== true || membro.get('papel') !== 'franqueado') {
+    throw new ErroRelatorio('permission-denied', 'Esta conta não é de franqueado. Use o e-mail cadastrado no app.')
+  }
+  const loja = membro.get('loja')
+  const docLoja = await getDoc(doc(db, 'lojas', loja)).catch(() => null)
+  return { email, papel: 'franqueado', nome: membro.get('nome') || email, lojas: [{ id: loja, nome: docLoja?.get('nome') || loja }] }
+}
+
+// Contadores de uma loja entre dois dias (inclusive): { 'AAAA-MM-DD': { pv, visita, ... } }
+async function lerDias(loja, de, ate) {
+  const snap = await getDocs(
+    query(collection(db, 'sitePorLoja', loja, 'dias'), where(documentId(), '>=', de), where(documentId(), '<=', ate)),
+  )
+  const out = {}
+  snap.docs.forEach((d) => {
+    const { _k, ...resto } = d.data()
+    out[d.id] = resto
+  })
+  return out
+}
+
 export async function buscarRelatorio({ loja, dias }) {
-  const token = await auth.currentUser?.getIdToken()
-  const params = new URLSearchParams({ dias: String(dias), loja: loja || '' })
-  let resp
+  let quem
   try {
-    resp = await fetch(`/api/relatorio?${params}`, { headers: { Authorization: `Bearer ${token}` } })
+    quem = await quemSou()
+  } catch (erro) {
+    if (erro instanceof ErroRelatorio) throw erro
+    throw new ErroRelatorio('unavailable', 'Não foi possível ler o cadastro agora. Tente de novo.')
+  }
+  const escolhida = quem.papel === 'franqueado' ? quem.lojas[0].id
+    : loja === 'todas' || quem.lojas.some((l) => l.id === loja) ? loja : quem.lojas[0]?.id || 'todas'
+  const ids = escolhida === 'todas' ? quem.lojas.map((l) => l.id) : [escolhida]
+
+  const fim = diaISO(new Date())
+  const inicio = somarDias(fim, -(dias - 1))
+  const inicioAntes = somarDias(inicio, -dias)
+
+  let porLoja
+  try {
+    porLoja = await Promise.all(ids.map((id) => lerDias(id, inicioAntes, fim)))
   } catch {
-    throw new ErroRelatorio('network', 'Sem conexão. Confira a internet e tente de novo.')
+    throw new ErroRelatorio('unavailable', 'Não foi possível ler os números agora. Tente de novo.')
   }
-  const corpo = await resp.json().catch(() => null)
-  if (!resp.ok) {
-    throw new ErroRelatorio(corpo?.erro?.codigo || 'internal', corpo?.erro?.mensagem || 'Algo deu errado. Tente de novo.')
+
+  // Soma as lojas dia a dia.
+  const porDia = {}
+  porLoja.forEach((diasDaLoja) =>
+    Object.entries(diasDaLoja).forEach(([dia, cont]) => {
+      porDia[dia] ??= {}
+      Object.entries(cont).forEach(([k, v]) => (porDia[dia][k] = (porDia[dia][k] || 0) + (Number(v) || 0)))
+    }),
+  )
+
+  const somar = (de, ate) => {
+    const t = {}
+    Object.entries(porDia).forEach(([dia, cont]) => {
+      if (dia < de || dia > ate) return
+      Object.entries(cont).forEach(([k, v]) => (t[k] = (t[k] || 0) + v))
+    })
+    return t
   }
-  return corpo
+  const atual = somar(inicio, fim)
+  const anterior = somar(inicioAntes, somarDias(inicio, -1))
+  const grupo = (prefixo) =>
+    Object.entries(atual)
+      .filter(([k]) => k.startsWith(`${prefixo}__`))
+      .map(([k, v]) => ({ nome: k.slice(prefixo.length + 2), valor: v }))
+      .sort((a, b) => b.valor - a.valor)
+
+  const diario = []
+  for (let d = inicio; d <= fim; d = somarDias(d, 1)) {
+    const c = porDia[d] || {}
+    diario.push({ data: d, visitantes: c.visita || 0, visualizacoes: c.pv || 0, pedidos: (c.pedido_ifood || 0) + (c.pedido_food99 || 0) + (c.pedido_whatsapp || 0) })
+  }
+
+  return {
+    usuario: { email: quem.email, nome: quem.nome, papel: quem.papel },
+    loja: escolhida,
+    lojas: quem.lojas,
+    dias,
+    geradoEm: new Date().toISOString(),
+    atual,
+    anterior,
+    diario,
+    origens: grupo('src'),
+    aparelhos: grupo('dev'),
+    itens: grupo('item'),
+  }
 }
 
 // Mensagem legível para os erros do login e da função.

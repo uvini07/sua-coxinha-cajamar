@@ -15,26 +15,21 @@ const PERIODOS = [
   { dias: 90, nome: '90 dias' },
 ]
 
-const CANAIS = {
-  'Organic Search': 'Busca no Google',
-  Direct: 'Direto (link ou digitado)',
-  'Organic Social': 'Redes sociais',
-  'Paid Social': 'Redes sociais (pago)',
-  Referral: 'Outros sites',
-  'Paid Search': 'Busca paga',
-  Email: 'E-mail',
-  'Organic Maps': 'Google Maps',
-  Unassigned: 'Não identificado',
+const ORIGENS = {
+  direto: 'Direto (link ou digitado)',
+  google: 'Google',
+  instagram: 'Instagram',
+  facebook: 'Facebook',
+  whatsapp: 'WhatsApp',
+  tiktok: 'TikTok',
+  ifood: 'iFood',
+  outro: 'Outros sites',
 }
-const APARELHOS = { mobile: 'Celular', desktop: 'Computador', tablet: 'Tablet', 'smart tv': 'TV' }
+const APARELHOS = { celular: 'Celular', computador: 'Computador', tablet: 'Tablet' }
 
 const inteiro = (n) => Math.round(n || 0).toLocaleString('pt-BR')
 const reais = (n) => (n || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 const porcento = (n) => `${((n || 0) * 100).toLocaleString('pt-BR', { maximumFractionDigits: 1 })}%`
-const duracao = (s) => {
-  const t = Math.round(s || 0)
-  return t < 60 ? `${t}s` : `${Math.floor(t / 60)}min ${String(t % 60).padStart(2, '0')}s`
-}
 
 export default function Painel({ navegar }) {
   const [usuario, setUsuario] = useState(undefined) // undefined = conferindo a sessão
@@ -178,38 +173,34 @@ function Relatorio({ usuario }) {
 }
 
 function Conteudo({ dados }) {
-  const r = dados.resumo.atual
-  const ra = dados.resumo.anterior
-  const a = dados.acoes.atual
-  const aa = dados.acoes.anterior
+  // Contadores ausentes valem zero.
+  const a = new Proxy(dados.atual, { get: (o, k) => o[k] || 0 })
+  const aa = new Proxy(dados.anterior, { get: (o, k) => o[k] || 0 })
   const pedidos = a.pedido_ifood + a.pedido_food99 + a.pedido_whatsapp
   const pedidosAntes = aa.pedido_ifood + aa.pedido_food99 + aa.pedido_whatsapp
-  const conversao = r.visitantes ? pedidos / r.visitantes : 0
-  const conversaoAntes = ra.visitantes ? pedidosAntes / ra.visitantes : 0
-  const semDados = r.visitantes === 0 && r.visualizacoes === 0
+  const conversao = a.visita ? pedidos / a.visita : 0
+  const conversaoAntes = aa.visita ? pedidosAntes / aa.visita : 0
+  const semDados = a.visita === 0 && a.pv === 0
 
   return (
     <>
       <p className="painel-nota">
         Últimos {dados.dias} dias, comparado aos {dados.dias} dias anteriores. Atualizado{' '}
-        {new Date(dados.geradoEm).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}. Só conta quem
-        aceitou os cookies de estatística.
+        {new Date(dados.geradoEm).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}. Contagem anônima, sem
+        dados pessoais.
       </p>
 
       {semDados && (
         <p className="painel-vazio">
-          Ainda não há visitas registradas neste período. Os números começam a aparecer algumas horas depois das
-          primeiras visitas.
+          Ainda não há visitas registradas neste período. A contagem começa na primeira visita à página da loja.
         </p>
       )}
 
       <section aria-labelledby="t-visitas">
         <h2 id="t-visitas" className="painel-titulo">Visitas ao site</h2>
         <div className="painel-kpis">
-          <Kpi nome="Visitantes" valor={inteiro(r.visitantes)} atual={r.visitantes} antes={ra.visitantes} />
-          <Kpi nome="Visitantes novos" valor={inteiro(r.novos)} atual={r.novos} antes={ra.novos} />
-          <Kpi nome="Páginas vistas" valor={inteiro(r.visualizacoes)} atual={r.visualizacoes} antes={ra.visualizacoes} />
-          <Kpi nome="Tempo médio" valor={duracao(r.duracaoMedia)} atual={r.duracaoMedia} antes={ra.duracaoMedia} />
+          <Kpi nome="Visitas" valor={inteiro(a.visita)} atual={a.visita} antes={aa.visita} />
+          <Kpi nome="Páginas vistas" valor={inteiro(a.pv)} atual={a.pv} antes={aa.pv} />
         </div>
       </section>
 
@@ -224,9 +215,9 @@ function Conteudo({ dados }) {
             valor={inteiro(a.pedido_whatsapp)}
             atual={a.pedido_whatsapp}
             antes={aa.pedido_whatsapp}
-            extra={a.valorWhatsapp ? `${reais(a.valorWhatsapp)} em pedidos` : null}
+            extra={a.valor_whatsapp ? `${reais(a.valor_whatsapp / 100)} em pedidos` : null}
           />
-          <Kpi nome="Conversão" valor={porcento(conversao)} atual={conversao} antes={conversaoAntes} extra="cliques para pedir ÷ visitantes" />
+          <Kpi nome="Conversão" valor={porcento(conversao)} atual={conversao} antes={conversaoAntes} extra="cliques para pedir ÷ visitas" />
         </div>
         <p className="painel-nota">
           iFood e 99Food: quem clicou para pedir (o pedido é fechado no app deles). WhatsApp: pedidos montados no site e
@@ -240,9 +231,8 @@ function Conteudo({ dados }) {
       </section>
 
       <div className="painel-grade">
-        <Lista id="t-origem" titulo="De onde vêm" itens={dados.origens.map((o) => ({ ...o, nome: CANAIS[o.nome] || o.nome }))} />
+        <Lista id="t-origem" titulo="De onde vêm" itens={dados.origens.map((o) => ({ ...o, nome: ORIGENS[o.nome] || o.nome }))} />
         <Lista id="t-aparelho" titulo="Aparelho" itens={dados.aparelhos.map((o) => ({ ...o, nome: APARELHOS[o.nome] || o.nome }))} />
-        <Lista id="t-cidade" titulo="Cidades" itens={dados.cidades} />
         {dados.itens && dados.itens.length > 0 && (
           <Lista id="t-itens" titulo="Produtos mais clicados" unidade="cliques" itens={dados.itens.map((i) => ({ ...i, nome: i.nome === 'loja' ? 'Botão geral da loja' : i.nome.replace(/-/g, ' ') }))} />
         )}
@@ -284,7 +274,7 @@ function Kpi({ nome, valor, atual, antes, extra, destaque }) {
   )
 }
 
-function Lista({ id, titulo, itens, unidade = 'visitantes' }) {
+function Lista({ id, titulo, itens, unidade = 'visitas' }) {
   const max = Math.max(1, ...itens.map((i) => i.valor))
   return (
     <section className="painel-lista" aria-labelledby={id}>

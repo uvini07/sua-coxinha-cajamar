@@ -10,6 +10,7 @@
 // qualquer site com GA); VITE_GA_MEASUREMENT_ID troca por outro, se precisar.
 
 import { aoMudarConsentimento, lerConsentimento } from './consentimento.js'
+import { contarEvento, contarPagina } from './contadores.js'
 
 const ID = import.meta.env.VITE_GA_MEASUREMENT_ID || 'G-MCD6NPQGCK' // fluxo Web "Site Sua Coxinha"
 const ATIVO = Boolean(ID) && !import.meta.env.DEV
@@ -59,6 +60,8 @@ export function definirLoja(slug) {
 }
 
 export function rastrear(nome, params = {}) {
+  // Contadores anônimos do painel: valem sempre, sem cookie (contadores.js).
+  if (lojaAtual && nome !== 'page_view') contarEvento(lojaAtual, nome, params)
   if (!ATIVO) return
   const completo = { loja: lojaAtual ?? 'rede', ...params }
   const consent = lerConsentimento()
@@ -71,6 +74,7 @@ export function rastrear(nome, params = {}) {
 }
 
 export function rastrearPagina() {
+  if (lojaAtual) contarPagina(lojaAtual)
   rastrear('page_view', {
     page_location: location.href,
     page_path: location.pathname,
