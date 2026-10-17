@@ -113,6 +113,90 @@
   font-size: 0.9375rem;
 }
 
+/* --- Ver mapa e busca --------------------------------------------------- */
+.escolha__vermapa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 20px;
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--papel);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.escolha__busca {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.escolha__busca > .escolha__svg {
+  position: absolute;
+  left: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+}
+
+.escolha__busca input {
+  width: 100%;
+  min-height: 54px;
+  padding: 0 52px 0 48px;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  border-radius: 16px;
+  background: var(--tinta-2);
+  color: var(--papel);
+  font: inherit;
+  font-size: 1.0625rem; /* 16px ou mais: o iPhone não dá zoom ao focar */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.escolha__busca input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.escolha__busca input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.escolha__busca input:focus {
+  outline: none;
+  border-color: var(--marca);
+}
+
+.escolha__limpar {
+  position: absolute;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  background: none;
+  color: var(--papel);
+  cursor: pointer;
+}
+
+.escolha__limpar svg {
+  width: 20px;
+  height: 20px;
+}
+
+.escolha__vazio {
+  margin: 0;
+  padding: 18px;
+  border-radius: 16px;
+  background: var(--tinta-2);
+  color: rgba(255, 255, 255, 0.8);
+}
+
 /* --- Mapa e cartão flutuante --------------------------------------------- */
 .escolha__mapa {
   position: relative;
@@ -430,26 +514,36 @@
 /* --- Computador: lista à esquerda, mapa fixo ocupando a direita ----------- */
 @media (min-width: 960px) {
   .escolha__painel {
+    max-width: 640px;
+    padding: 24px 32px;
+  }
+
+  /* Com o mapa aberto: lista à esquerda, mapa fixo ocupando a direita */
+  .escolha__painel--mapa {
     grid-template-columns: minmax(380px, 440px) 1fr;
     grid-template-areas:
       'topo mapa'
       'aviso mapa'
       'intro mapa'
+      'busca mapa'
       'cidades mapa'
       'lista mapa'
       'rodape mapa';
     align-content: start;
     column-gap: 32px;
     max-width: 1320px;
-    padding: 24px 32px;
   }
 
-  .escolha__topo { grid-area: topo; }
-  .escolha__aviso { grid-area: aviso; }
-  .escolha__intro { grid-area: intro; }
-  .escolha__cidades { grid-area: cidades; flex-wrap: wrap; margin: 0; padding: 0; mask-image: none; }
-  .escolha__lista { grid-area: lista; }
-  .escolha__rodape { grid-area: rodape; justify-content: start; }
+  .escolha__painel--mapa .escolha__topo { grid-area: topo; }
+  .escolha__painel--mapa .escolha__aviso { grid-area: aviso; }
+  .escolha__painel--mapa .escolha__intro { grid-area: intro; }
+  .escolha__painel--mapa .escolha__busca { grid-area: busca; }
+  .escolha__painel--mapa .escolha__cidades { grid-area: cidades; }
+  .escolha__painel--mapa .escolha__lista { grid-area: lista; }
+  .escolha__painel--mapa .escolha__rodape { grid-area: rodape; }
+
+  .escolha__cidades { flex-wrap: wrap; margin: 0; padding: 0; mask-image: none; }
+  .escolha__rodape { justify-content: start; }
 
   .escolha__mapa {
     grid-area: mapa;

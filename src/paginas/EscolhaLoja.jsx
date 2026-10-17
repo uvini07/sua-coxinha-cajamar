@@ -28,6 +28,9 @@ const cidades = Object.entries(
   .map(([nome, total]) => ({ nome, total }))
   .sort((a, b) => b.total - a.total || a.nome.localeCompare(b.nome, 'pt-BR'))
 
+// Busca sem acento e sem diferença de maiúscula: "jundiai" acha "Jundiaí".
+const normalizar = (t) => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim()
+
 const linkWhatsapp = (numero) => `https://wa.me/${numero}`
 
 // Raiz do site: encontra a loja mais perto, no mapa ou na lista, e leva para o cardápio dela.
@@ -40,6 +43,10 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
   const [localizando, setLocalizando] = useState(false)
   const [erroLocal, setErroLocal] = useState(null)
   const [selecionada, setSelecionada] = useState(null)
+  const [busca, setBusca] = useState('')
+  // O mapa começa fechado (e o Leaflet nem é baixado): abre em "Achar a loja
+  // mais perto", "Ver no mapa" ou no ícone de mapa de um cartão.
+  const [mapaAberto, setMapaAberto] = useState(false)
   const [foco, setFoco] = useState(() => ({ pontos: lojasNoMapa.map((l) => l.coords) }))
   const mapaRef = useRef(null)
 
@@ -50,10 +57,15 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
 
   // Lista visível: filtrada pela cidade; com localização, da mais perto para a mais longe.
   const lojas = useMemo(() => {
-    const base = cidade ? lojasResumo.filter((l) => l.municipio === cidade) : lojasResumo
+    const termo = normalizar(busca)
+    const base = lojasResumo.filter(
+      (l) =>
+        (!cidade || l.municipio === cidade) &&
+        (!termo || normalizar(`${l.unit} ${l.municipio} ${l.bairro} ${l.endereco}`).includes(termo)),
+    )
     const comDistancia = base.map((l) => ({ ...l, km: posicao && l.coords ? distanciaKm(posicao, l.coords) : null }))
     return posicao ? [...comDistancia].sort((a, b) => (a.km ?? 1e9) - (b.km ?? 1e9)) : comDistancia
-  }, [cidade, posicao])
+  }, [cidade, posicao, busca])
 
   // Para a bolinha "Pedir": todas as lojas, a mais perto primeiro quando há localização.
   const todasPorDistancia = useMemo(() => {
@@ -86,6 +98,9 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
         const perto = [...lojasNoMapa].sort((a, b) => distanciaKm(aqui, a.coords) - distanciaKm(aqui, b.coords))
         setPosicao(aqui)
         setCidade(null)
+        setBusca('')
+        setMapaAberto(true)
+        setTimeout(() => mapaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 80)
         // a lista volta a mostrar todas, da mais perto para a mais longe
         setSelecionada(perto[0]?.slug ?? null)
         setFoco({ pontos: [aqui, ...perto.slice(0, 2).map((l) => l.coords)] })
@@ -105,7 +120,9 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
 
   const verNoMapa = useCallback((slug) => {
     setSelecionada(slug)
-    mapaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    setMapaAberto(true)
+    // espera o mapa aparecer na tela antes de rolar até ele
+    setTimeout(() => mapaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 80)
   }, [])
 
   // Agrupa por cidade quando não há localização (com localização, a ordem é a distância).
@@ -118,7 +135,7 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
 
   return (
     <main className="escolha">
-      <div className="escolha__painel">
+      <div className={`escolha__painel${mapaAberto ? ' escolha__painel--mapa' : ''}`}>
         <header className="escolha__topo">
           <Logo className="escolha__logo" />
           <a className="escolha__franquia" href="https://franquia.suacoxinha.com.br" target="_blank" rel="noopener noreferrer">
@@ -139,9 +156,35 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
             <IconeAlvo />
             {localizando ? 'Procurando você…' : posicao ? 'Atualizar minha localização' : 'Achar a loja mais perto'}
           </button>
+          <button type="button" className="escolha__vermapa" onClick={() => setMapaAberto((v) => !v)} aria-expanded={mapaAberto}>
+            <IconeMapa />
+            {mapaAberto ? 'Esconder o mapa' : 'Ver as lojas no mapa'}
+          </button>
           {erroLocal && <p className="escolha__erro" role="alert">{erroLocal}</p>}
         </section>
 
+        <div className="escolha__busca" role="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true" className="escolha__svg">
+            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" strokeWidth="2.2" />
+            <path d="m20 20-3.5-3.5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+          <input
+            type="search"
+            inputMode="search"
+            enterKeyHint="search"
+            placeholder="Buscar cidade, bairro ou loja"
+            aria-label="Buscar loja por cidade, bairro ou nome"
+            value={busca}
+            onChange={(e) => setBusca(e.target.value)}
+          />
+          {busca && (
+            <button type="button" className="escolha__limpar" onClick={() => setBusca('')} aria-label="Limpar busca">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" /></svg>
+            </button>
+          )}
+        </div>
+
+        {mapaAberto && (
         <div className="escolha__mapa" ref={mapaRef}>
           <Suspense fallback={<div className="mapa-lojas mapa-lojas--carregando" aria-hidden="true" />}>
             <MapaLojas lojas={noMapa} selecionada={selecionada} posicao={posicao} foco={foco} onSelecionar={setSelecionada} />
@@ -170,6 +213,7 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
             </article>
           )}
         </div>
+        )}
 
         <nav className="escolha__cidades" aria-label="Filtrar por cidade">
           <button type="button" className="escolha__chip" aria-pressed={!cidade} onClick={() => filtrar(null)}>
@@ -182,7 +226,12 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
           ))}
         </nav>
 
-        <div className="escolha__lista" ref={listaRef}>
+        <div className="escolha__lista" ref={listaRef} aria-live="polite">
+          {lojas.length === 0 && (
+            <p className="escolha__vazio">
+              Nenhuma loja encontrada para “{busca}”. Tente o nome da cidade, como Jundiaí ou Campinas.
+            </p>
+          )}
           {posicao && <h2 className="escolha__grupo">{cidade ? `${cidade}, da mais perto` : 'Mais perto de você'}</h2>}
           {grupos.map((g) => (
             <section key={g.nome ?? 'perto'} aria-label={g.nome ?? 'Lojas mais perto'}>
@@ -249,6 +298,14 @@ function IconeAlvo() {
       <circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" strokeWidth="2.2" />
       <circle cx="12" cy="12" r="2.6" fill="currentColor" />
       <path d="M12 1.5v3.5M12 19v3.5M1.5 12H5M19 12h3.5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function IconeMapa() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className="escolha__svg">
+      <path d="M9 4 3 6.5v13L9 17l6 2.5 6-2.5v-13L15 6.5 9 4Zm0 0v13m6-10.5v13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
     </svg>
   )
 }
