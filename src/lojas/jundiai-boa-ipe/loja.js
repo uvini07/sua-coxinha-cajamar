@@ -13,9 +13,9 @@ export default criarUnidade({
     city: 'Jundiaí – SP',
     cep: '',
   },
-  // Posição no mapa da página inicial (aproximada: centro do bairro). Para acertar:
-  // Google Maps → botão direito no ponto da loja → copie os dois números.
-  coords: [-23.216, -46.908],
+  // Posição no mapa da página inicial — conferida: Boa Supermercados, Av. Osmundo dos Santos Pellegrini, 1000.
+  // Para acertar: Google Maps → aperte no ponto da loja → copie os dois números.
+  coords: [-23.18383, -46.91541],
   whatsapp: '5511955544870',
   ifood: 'https://www.ifood.com.br/delivery/jundiai-sp/sua-coxinha-ipe-recanto-quarto-centenario/43341d2a-150b-42e2-8043-327e9c9a52c5',
   food99: '',

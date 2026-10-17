@@ -13,9 +13,9 @@ export default criarUnidade({
     city: 'Ubatuba – SP',
     cep: '',
   },
-  // Posição no mapa da página inicial (aproximada: centro do bairro). Para acertar:
-  // Google Maps → botão direito no ponto da loja → copie os dois números.
-  coords: [-23.433, -45.083],
+  // Posição no mapa da página inicial — estimada: Shibata, Rod. Oswaldo Cruz, 754.
+  // Para acertar: Google Maps → aperte no ponto da loja → copie os dois números.
+  coords: [-23.4255, -45.089],
   whatsapp: '5512992096637',
   ifood: 'https://www.ifood.com.br/delivery/ubatuba-sp/sua-coxinha-ubatuba-salgados-premium-mato-dentro/69273ef8-2b69-45a5-9f8f-78d10425c86d',
   food99: '',

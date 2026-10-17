@@ -13,9 +13,9 @@ export default criarUnidade({
     city: 'Jundiaí – SP',
     cep: '',
   },
-  // Posição no mapa da página inicial (aproximada: centro do bairro). Para acertar:
-  // Google Maps → botão direito no ponto da loja → copie os dois números.
-  coords: [-23.179, -46.912],
+  // Posição no mapa da página inicial — conferida: Carrefour, Av. Profa. Maria do Carmo G. Pellegrini, 800.
+  // Para acertar: Google Maps → aperte no ponto da loja → copie os dois números.
+  coords: [-23.18262, -46.90805],
   whatsapp: '5511910044999',
   ifood: 'https://www.ifood.com.br/delivery/jundiai-sp/sua-coxinha-salgados---carrefour-vila-viotto/813471d3-7bef-4792-99ba-f26a259f1380',
   food99: '',

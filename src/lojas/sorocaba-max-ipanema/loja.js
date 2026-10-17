@@ -13,9 +13,9 @@ export default criarUnidade({
     city: 'Sorocaba – SP',
     cep: '',
   },
-  // Posição no mapa da página inicial (aproximada: centro do bairro). Para acertar:
-  // Google Maps → botão direito no ponto da loja → copie os dois números.
-  coords: [-23.481, -47.479],
+  // Posição no mapa da página inicial — estimada: Max Atacadista, Av. Ipanema.
+  // Para acertar: Google Maps → aperte no ponto da loja → copie os dois números.
+  coords: [-23.4775, -47.4845],
   whatsapp: '5515991873396',
   ifood: 'https://www.ifood.com.br/delivery/sorocaba-sp/sua-coxinha-max-ipanema-jardim-planalto/ed207ce2-5328-4d96-8310-b7257597cea9',
   food99: '',

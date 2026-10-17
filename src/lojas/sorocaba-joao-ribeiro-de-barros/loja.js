@@ -13,9 +13,9 @@ export default criarUnidade({
     city: 'Sorocaba – SP',
     cep: '',
   },
-  // Posição no mapa da página inicial (aproximada: centro do bairro). Para acertar:
-  // Google Maps → botão direito no ponto da loja → copie os dois números.
-  coords: [-23.505, -47.472],
+  // Posição no mapa da página inicial — estimada: R. João Ribeiro de Barros.
+  // Para acertar: Google Maps → aperte no ponto da loja → copie os dois números.
+  coords: [-23.4807, -47.4553],
   whatsapp: '5515997921122',
   ifood: 'https://www.ifood.com.br/delivery/sorocaba-sp/sua-coxinha-sorocaba---salgados-vila-odim-antao/788e0582-2857-4c18-968c-30e978409a60',
   food99: '',

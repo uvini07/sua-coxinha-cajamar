@@ -13,8 +13,8 @@ export default criarUnidade({
     city: 'Jacareí – SP',
     cep: '',
   },
-  // Posição no mapa da página inicial (aproximada: centro do bairro). Para acertar:
-  // Google Maps → botão direito no ponto da loja → copie os dois números.
+  // Posição no mapa da página inicial — APROXIMADA: só o centro do bairro, endereço desconhecido.
+  // Para acertar: Google Maps → aperte no ponto da loja → copie os dois números.
   coords: [-23.305, -45.966],
   whatsapp: '5512936182614',
   ifood: 'https://www.ifood.com.br/delivery/jacarei-sp/sua-coxinha---salgados-fritos-delivery-premium-sao-joao/18efb101-fdd4-4124-b660-45089e491f13',
