@@ -1,0 +1,218 @@
+/* Divulgação dos jogos: seção "Jogue enquanto ela chega" e a bolinha flutuante. */
+
+.jogos {
+  padding: clamp(3rem, 8vw, 6rem) var(--pad-x);
+  background: var(--marca);
+  color: var(--tinta);
+}
+.jogos__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.jogos__olho {
+  margin: 0;
+  font-weight: 700;
+  font-size: var(--step-0);
+}
+.jogos__titulo {
+  margin: 0.2em 0 0.3em;
+  font-size: clamp(2.2rem, 1.2rem + 4vw, 4.5rem);
+  line-height: 0.95;
+}
+.jogos__sub {
+  margin: 0 0 1.6rem;
+  font-size: var(--step-0);
+}
+.jogos__lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.jogo-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius-md);
+  background: var(--tinta);
+  color: var(--papel);
+  text-decoration: none;
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+.jogo-card:hover,
+.jogo-card:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+.jogo-card:focus-visible {
+  outline: 3px solid var(--papel);
+  outline-offset: 3px;
+}
+.jogo-card__arte {
+  display: flex;
+  width: 76px;
+  height: 76px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--marca-clara);
+}
+.jogo-card--duelo .jogo-card__arte {
+  background: #0e1240;
+}
+.jogo-card__arte img {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.jogo-card--coxinha .jogo-card__arte img {
+  object-fit: contain;
+}
+.jogo-card__texto {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+.jogo-card__nome {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+}
+.jogo-card__chamada {
+  font-size: var(--step--1);
+  opacity: 0.85;
+}
+.jogo-card__jogar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.6rem 0.95rem;
+  border-radius: var(--radius-pill);
+  background: var(--marca);
+  color: var(--tinta);
+  font-weight: 800;
+}
+.jogo-card__jogar svg {
+  width: 1em;
+  height: 1em;
+}
+@media (max-width: 519.98px) {
+  .jogo-card {
+    grid-template-columns: auto 1fr;
+  }
+  .jogo-card__jogar {
+    grid-column: 1 / -1;
+    justify-content: center;
+  }
+}
+.jogo-card--compacto {
+  grid-template-columns: auto 1fr;
+  padding: 0.7rem;
+  gap: 0.75rem;
+}
+.jogo-card--compacto .jogo-card__arte {
+  width: 56px;
+  height: 56px;
+}
+.jogo-card--compacto .jogo-card__jogar {
+  display: none;
+}
+
+/* Bolinha: canto inferior esquerdo (o direito é do "Pedir" na raiz). */
+.bolinha-jogos {
+  position: fixed;
+  z-index: 90;
+  left: 16px;
+  bottom: max(16px, env(safe-area-inset-bottom));
+}
+@media (max-width: 899.98px) {
+  .bolinha-jogos--barra {
+    bottom: calc(96px + env(safe-area-inset-bottom));
+  }
+}
+.bolinha-jogos__botao {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: 3px solid var(--tinta);
+  border-radius: 50%;
+  background: var(--marca);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  animation: bolinha-voa 3.2s var(--ease-in-out) infinite;
+}
+.bolinha-jogos[data-aberta='true'] .bolinha-jogos__botao {
+  animation: none;
+}
+.bolinha-jogos__botao:focus-visible {
+  outline: 3px solid var(--papel);
+  outline-offset: 3px;
+}
+.bolinha-jogos__botao img {
+  width: 82%;
+  height: 82%;
+  object-fit: contain;
+}
+.bolinha-jogos__selo {
+  position: absolute;
+  top: -8px;
+  right: -14px;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--tinta);
+  color: var(--marca);
+  font: 800 0.75rem/1.4 var(--font-body);
+  text-transform: uppercase;
+}
+.bolinha-jogos__balao {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 12px);
+  display: grid;
+  gap: 0.5rem;
+  width: min(320px, calc(100vw - 32px));
+  padding: 0.8rem;
+  border-radius: 20px;
+  background: var(--papel);
+  color: var(--tinta);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  animation: balao-entra 0.22s var(--ease-out);
+}
+.bolinha-jogos__titulo {
+  margin: 0 0.2rem 0.1rem;
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+}
+
+@keyframes bolinha-voa {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50% { transform: translateY(-10px) rotate(4deg); }
+}
+@keyframes balao-entra {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bolinha-jogos__botao,
+  .bolinha-jogos__balao { animation: none; }
+  .jogo-card { transition: none; }
+}
+
+/* Na raiz a seção fica dentro da coluna estreita: vira um cartão. */
+.jogos--escolha {
+  padding: 1.5rem 1.1rem;
+  border-radius: var(--radius-lg);
+}
+.jogos--escolha .jogos__titulo {
+  font-size: clamp(2rem, 1.4rem + 2.5vw, 2.8rem);
+}
+.jogos--escolha .jogos__lista {
+  grid-template-columns: 1fr;
+}

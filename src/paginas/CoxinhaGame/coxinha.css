@@ -8,7 +8,7 @@
      1. página e topo
      2. palco
      3. cenário (céu, clima, parallax, chão)
-     4. Sr. Coxinha e os pratos
+     4. Coxinildo e os pratos
      5. itens e efeitos
      6. painel, combo e controles
      7. telas (menu, pausa, fim)
@@ -560,11 +560,11 @@ body.jogo-aberto {
 
 .barraca__telhado i {
   flex: 1;
-  background: #e8372c;
+  background: #f9c115;
 }
 
 .barraca__telhado i:nth-child(even) {
-  background: #fff4d8;
+  background: #131313;
 }
 
 .barraca__placa {

@@ -118,7 +118,7 @@ console.log(`${lojas.length} loja(s) no ar.`)
 const ROTAS_FIXAS = {
   painel: { titulo: 'Painel do franqueado | Sua Coxinha', robots: 'noindex, nofollow' },
   cookies: { titulo: 'Política de cookies | Sua Coxinha' },
-  'jogo-coxinha': { titulo: 'Jogo da Coxinha | Sua Coxinha' },
+  'jogo-coxinha': { titulo: 'Coxinildo, o jogo | Sua Coxinha' },
 }
 
 for (const [rota, { titulo, robots }] of Object.entries(ROTAS_FIXAS)) {

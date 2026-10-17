@@ -25,6 +25,8 @@ export default defineConfig({
         // primeiro, pra sempre pegar o HTML e o SEO certos; cai pro cache só
         // quando não tem internet.
         navigateFallback: null,
+        // O Duelo (public/duelo) é outro app, com 11 MB de sprites: fica fora do precache.
+        globIgnores: ['duelo/**'],
         runtimeCaching: [
           {
             urlPattern: ({ request }) => request.mode === 'navigate',

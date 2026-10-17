@@ -154,3 +154,17 @@ src/
 0. Dados reais da loja de Jundiaí (hoje é um exemplo para demonstrar o multi-loja).
 2. Confirmar os horários (vieram da bio do Instagram).
 3. Fotos dos produtos em alta resolução. As atuais foram recortadas do PDF do cardápio (~500px). Troque mantendo o mesmo nome em `public/assets/produtos/`, com fundo transparente e mínimo de 1200px no lado maior.
+
+## Jogos
+
+A raiz e cada loja mostram a seção "Jogue enquanto ela chega" e a bolinha flutuante
+do mascote (`src/components/jogos/`). A lista de jogos fica em `jogos.js`.
+
+- **Coxinildo** — rota `/jogo-coxinha`, código em `src/paginas/CoxinhaGame/`.
+- **Duelo Presidencial** — vem do repositório `jogo`, já compilado, em `public/duelo/`.
+  Para atualizar, no repositório do jogo:
+  ```bash
+  npx vite build --base=/duelo/
+  ```
+  e copie `dist/` para `public/duelo/` aqui, mantendo a linha `<base href="/duelo/" />`
+  no `index.html`.

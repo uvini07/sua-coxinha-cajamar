@@ -89,7 +89,7 @@ function Pagina({ slug, navegar, irParaRaiz }) {
       slug={slug}
       aoFalhar={irParaRaiz}
     >
-      <LojaPagina />
+      <LojaPagina navegar={navegar} />
     </LojaProvider>
   )
 }
