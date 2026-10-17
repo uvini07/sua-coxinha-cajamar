@@ -4,6 +4,8 @@ import { lojasResumo } from '../lojas/carregador.js'
 import Logo from '../components/Logo.jsx'
 import { distanciaKm, formatarDistancia } from './escolha/distancia.js'
 import PedirRapido from './escolha/PedirRapido.jsx'
+import SecaoJogos from '../components/jogos/SecaoJogos.jsx'
+import BolinhaJogos from '../components/jogos/BolinhaJogos.jsx'
 import '../styles/paginas/escolha.css'
 
 // O Leaflet só é baixado quando a página abre, sem travar a lista.
@@ -281,6 +283,9 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
         </div>
 
         <PedirRapido lojas={todasPorDistancia} aoAbrirLoja={() => listaRef.current?.scrollIntoView({ behavior: 'smooth' })} />
+
+        <SecaoJogos navegar={navegar} className="jogos--escolha" />
+        <BolinhaJogos navegar={navegar} />
 
         <footer className="escolha__rodape">
           <button type="button" className="escolha__cookies" onClick={abrirPreferencias}>

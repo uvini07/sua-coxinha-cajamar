@@ -20,6 +20,6 @@
     { "source": "/painel", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] }
   ],
   "rewrites": [
-    { "source": "/((?!assets/|favicon|apple-touch-icon|compartilhar).*)", "destination": "/" }
+    { "source": "/((?!assets/|duelo|favicon|apple-touch-icon|compartilhar).*)", "destination": "/" }
   ]
 }

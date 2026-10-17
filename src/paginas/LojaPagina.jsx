@@ -15,10 +15,12 @@ import CatalogSection from '../components/sections/CatalogSection.jsx'
 import MolhosSection from '../components/sections/MolhosSection.jsx'
 import BenefitsSection from '../components/sections/BenefitsSection.jsx'
 import OrderSection from '../components/sections/OrderSection.jsx'
+import SecaoJogos from '../components/jogos/SecaoJogos.jsx'
+import BolinhaJogos from '../components/jogos/BolinhaJogos.jsx'
 
 // Página de uma franquia. Os componentes são os mesmos para todas as lojas;
 // o que muda são os dados, que vêm do contexto da loja, e as seções ativas.
-export default function LojaPagina() {
+export default function LojaPagina({ navegar }) {
   const loja = useLoja()
   const rootRef = useRef(null)
   const story = useStory(rootRef)
@@ -47,9 +49,11 @@ export default function LojaPagina() {
           {loja.temSecao('cardapio') && <CatalogSection />}
           {loja.temSecao('molhos') && <MolhosSection />}
           {loja.temSecao('sobre') && <BenefitsSection />}
+          <SecaoJogos navegar={navegar} />
           {loja.temSecao('pedido') && <OrderSection />}
         </main>
         <MobileOrderBar />
+        <BolinhaJogos navegar={navegar} acimaDaBarra />
       </WhatsAppOrderProvider>
 
     </StoryContext.Provider>

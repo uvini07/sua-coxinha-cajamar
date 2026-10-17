@@ -528,6 +528,7 @@
       'busca mapa'
       'cidades mapa'
       'lista mapa'
+      'jogos mapa'
       'rodape mapa';
     align-content: start;
     column-gap: 32px;
@@ -541,6 +542,7 @@
   .escolha__painel--mapa .escolha__cidades { grid-area: cidades; }
   .escolha__painel--mapa .escolha__lista { grid-area: lista; }
   .escolha__painel--mapa .escolha__rodape { grid-area: rodape; }
+  .escolha__painel--mapa .jogos--escolha { grid-area: jogos; }
 
   .escolha__cidades { flex-wrap: wrap; margin: 0; padding: 0; mask-image: none; }
   .escolha__rodape { justify-content: start; }
