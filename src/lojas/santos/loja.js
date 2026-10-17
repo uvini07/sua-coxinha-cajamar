@@ -13,6 +13,9 @@ export default criarUnidade({
     city: 'Santos – SP',
     cep: '',
   },
+  // Posição no mapa da página inicial (aproximada: centro do bairro). Para acertar:
+  // Google Maps → botão direito no ponto da loja → copie os dois números.
+  coords: [-23.986, -46.3],
   whatsapp: '5513997890161',
   ifood: 'https://www.ifood.com.br/delivery/santos-sp/sua-coxinha-santos---salgados-premium-delivery-ponta-da-praia/254899ad-4e48-465d-84dc-cf3d7abf9423',
   food99: '',

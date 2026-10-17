@@ -13,6 +13,9 @@ export default criarUnidade({
     city: 'Jandira – SP',
     cep: '',
   },
+  // Posição no mapa da página inicial (aproximada: centro do bairro). Para acertar:
+  // Google Maps → botão direito no ponto da loja → copie os dois números.
+  coords: [-23.5275, -46.9025],
   whatsapp: '5511988720153',
   ifood: 'https://www.ifood.com.br/delivery/jandira-sp/sua-coxinha-jandira---salgados-centro/95e860bf-6dda-484f-8e32-96dab50526a3',
   food99: '',

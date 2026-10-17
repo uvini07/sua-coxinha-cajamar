@@ -13,6 +13,9 @@ export default criarUnidade({
     city: 'Jundiaí – SP',
     cep: '',
   },
+  // Posição no mapa da página inicial (aproximada: centro do bairro). Para acertar:
+  // Google Maps → botão direito no ponto da loja → copie os dois números.
+  coords: [-23.172, -46.896],
   whatsapp: '5511934811973',
   ifood: 'https://www.ifood.com.br/delivery/jundiai-sp/sua-coxinha-premium-imigrantes---coxinhas-e-delivery-ponte-de-sao-joao/c80ab405-7627-4be7-9345-b06f49da3cac',
   food99: '',

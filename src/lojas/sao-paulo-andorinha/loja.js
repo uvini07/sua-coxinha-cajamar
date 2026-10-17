@@ -13,6 +13,9 @@ export default criarUnidade({
     city: 'São Paulo – SP',
     cep: '',
   },
+  // Posição no mapa da página inicial (aproximada: centro do bairro). Para acertar:
+  // Google Maps → botão direito no ponto da loja → copie os dois números.
+  coords: [-23.472, -46.645],
   whatsapp: '5511925172047',
   ifood: 'https://www.ifood.com.br/delivery/sao-paulo-sp/sua-coxinha---salgados-premium-delivery-lauzane-paulista/7aa61a46-0732-4054-ad50-35f3bc4d9346',
   food99: '',
