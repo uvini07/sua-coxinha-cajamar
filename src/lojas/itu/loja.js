@@ -13,9 +13,9 @@ export default criarUnidade({
     city: 'Itu – SP',
     cep: '',
   },
-  // Posição no mapa da página inicial (aproximada: centro do bairro). Para acertar:
-  // Google Maps → botão direito no ponto da loja → copie os dois números.
-  coords: [-23.27, -47.3],
+  // Posição no mapa da página inicial — conferida: Pague Menos, R. Ana Eufrosina de Almeida Prado, 240.
+  // Para acertar: Google Maps → aperte no ponto da loja → copie os dois números.
+  coords: [-23.26781, -47.30359],
   whatsapp: '5511914958941',
   ifood: 'https://www.ifood.com.br/delivery/itu-sp/sua-coxinha-itu-vila-cleto/337fbd92-3e7a-4e52-95c1-c6e40fd66dbd',
   food99: '',
