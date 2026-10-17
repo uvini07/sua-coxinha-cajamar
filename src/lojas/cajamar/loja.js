@@ -44,6 +44,10 @@ export default {
   prepMinutes: 45,
 
   // WhatsApp confirmado pelo letreiro da loja.
+  // Posição no mapa da página inicial (aproximada: centro do bairro). Para acertar:
+  // Google Maps → botão direito no ponto da loja → copie os dois números.
+  coords: [-23.3995, -46.8385],
+
   phone: '(11) 97640-3209',
   whatsapp: '5511976403209',
 

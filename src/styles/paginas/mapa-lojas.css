@@ -1,0 +1,92 @@
+/* Mapa da página inicial (MapaLojas.jsx) */
+.mapa-lojas {
+  height: min(46svh, 400px);
+  min-height: 280px;
+  background: #e8e4dc;
+  font-family: var(--font-body);
+}
+
+.mapa-lojas--carregando {
+  background: linear-gradient(110deg, #262626 30%, #333 50%, #262626 70%) 0 0 / 300% 100%;
+  animation: mapa-brilho 1.4s linear infinite;
+}
+
+@keyframes mapa-brilho {
+  to {
+    background-position: -300% 0;
+  }
+}
+
+/* A gota da coxinha: amarela, com contorno escuro para aparecer em qualquer rua. */
+.pin-coxinha {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: var(--marca);
+  filter: drop-shadow(0 0 0 #131313) drop-shadow(1.5px 0 0 #131313) drop-shadow(-1.5px 0 0 #131313)
+    drop-shadow(0 1.5px 0 #131313) drop-shadow(0 -1.5px 0 #131313) drop-shadow(0 4px 4px rgb(0 0 0 / 0.35));
+  transition: transform 0.2s var(--ease-out);
+  transform-origin: 50% 100%;
+  cursor: pointer;
+}
+
+.pin-coxinha svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.pin-coxinha--ativa {
+  animation: pin-pula 0.35s var(--ease-out);
+}
+
+@keyframes pin-pula {
+  40% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Várias lojas juntas: círculo amarelo com o número. */
+.pin-grupo {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 3px solid #131313;
+  border-radius: 50%;
+  background: var(--marca);
+  color: #131313;
+  font-size: 1rem;
+  font-weight: 800;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 0.3);
+}
+
+/* Onde a pessoa está */
+.pin-voce {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: #2f7cf6;
+  box-shadow: 0 0 0 8px rgb(47 124 246 / 0.25);
+}
+
+/* Controles do Leaflet com o tamanho de toque do celular */
+.mapa-lojas .leaflet-control-zoom a {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 20px;
+}
+
+.mapa-lojas .leaflet-control-attribution {
+  font-size: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pin-coxinha--ativa,
+  .mapa-lojas--carregando {
+    animation: none;
+  }
+}

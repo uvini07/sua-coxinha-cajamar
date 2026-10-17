@@ -13,6 +13,9 @@ export default criarUnidade({
     city: 'Campinas – SP',
     cep: '',
   },
+  // Posição no mapa da página inicial (aproximada: centro do bairro). Para acertar:
+  // Google Maps → botão direito no ponto da loja → copie os dois números.
+  coords: [-22.8475, -47.063],
   whatsapp: '5511999687349',
   ifood: 'https://www.ifood.com.br/delivery/campinas-sp/sua-coxinha---dom-pedro-campinas-parque-imperador/2e25dab5-fafe-4021-b0c7-790e30137b73',
   food99: '',

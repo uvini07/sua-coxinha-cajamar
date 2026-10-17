@@ -27,16 +27,27 @@ const carregadas = new Map()
 
 // Lista curta para a página de escolha da loja e para o menu de franquias.
 export const lojasResumo = Object.values(porSlug)
-  .map(({ slug, config, tema }) => ({
-    slug,
-    brand: config.brand,
-    unit: config.unit,
-    nome: `${config.brand} ${config.unit}`.trim(),
-    cidade: config.address?.city ?? '',
-    endereco: config.address?.street ?? '',
-    bairro: config.address?.district ?? '',
-    tema,
-  }))
+  .map(({ slug, config, tema }) => {
+    const cidade = config.address?.city ?? ''
+    const municipio = cidade.split(' – ')[0].trim()
+    // "Jundiaí Boa Imigrantes" → "Boa Imigrantes": a cidade já aparece no agrupamento.
+    const apelido = config.unit.startsWith(`${municipio} `) ? config.unit.slice(municipio.length + 1) : config.unit
+    return {
+      slug,
+      brand: config.brand,
+      unit: config.unit,
+      nome: `${config.brand} ${config.unit}`.trim(),
+      apelido,
+      cidade,
+      municipio,
+      endereco: config.address?.street ?? '',
+      bairro: config.address?.district ?? '',
+      coords: config.coords ?? null,
+      whatsapp: config.whatsapp ?? '',
+      maps: config.links?.maps ?? '',
+      tema,
+    }
+  })
   .sort((a, b) => a.unit.localeCompare(b.unit, 'pt-BR'))
 
 export const existeLoja = (slug) => Boolean(slug && porSlug[slug])

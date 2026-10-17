@@ -13,6 +13,9 @@ export default criarUnidade({
     city: 'São Paulo – SP',
     cep: '',
   },
+  // Posição no mapa da página inicial (aproximada: centro do bairro). Para acertar:
+  // Google Maps → botão direito no ponto da loja → copie os dois números.
+  coords: [-23.518, -46.525],
   whatsapp: '5511958117896',
   ifood: 'https://www.ifood.com.br/delivery/sao-paulo-sp/sua-coxinha-delivery---assai-penha-jardim-america-da-penha/a0bdb0a1-926c-43d1-9313-d12839e80eb2',
   food99: '',

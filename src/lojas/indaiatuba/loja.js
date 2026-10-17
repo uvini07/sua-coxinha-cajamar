@@ -13,6 +13,9 @@ export default criarUnidade({
     city: 'Indaiatuba – SP',
     cep: '',
   },
+  // Posição no mapa da página inicial (aproximada: centro do bairro). Para acertar:
+  // Google Maps → botão direito no ponto da loja → copie os dois números.
+  coords: [-23.07, -47.21],
   whatsapp: '5519981063932',
   ifood: 'https://www.ifood.com.br/delivery/indaiatuba-sp/sua-coxinha---salgados-premium-delivery-joao-pioli/e30efaf2-59de-46e0-a415-0482d1fe99a1',
   food99: '',

@@ -13,6 +13,9 @@ export default criarUnidade({
     city: 'Jundiaí – SP',
     cep: '',
   },
+  // Posição no mapa da página inicial (aproximada: centro do bairro). Para acertar:
+  // Google Maps → botão direito no ponto da loja → copie os dois números.
+  coords: [-23.2055, -46.896],
   whatsapp: '5511945041001',
   ifood: 'https://www.ifood.com.br/delivery/jundiai-sp/sua-coxinha-pirapora-salgados-vila-rami/78a90b85-15ea-47cf-8160-839dadd190da',
   food99: '',

@@ -13,6 +13,9 @@ export default criarUnidade({
     city: 'Campinas – SP',
     cep: '',
   },
+  // Posição no mapa da página inicial (aproximada: centro do bairro). Para acertar:
+  // Google Maps → botão direito no ponto da loja → copie os dois números.
+  coords: [-22.877, -47.063],
   whatsapp: '5519991367022',
   ifood: 'https://www.ifood.com.br/delivery/campinas-sp/sua-coxinha-enxuto---salgados-premium-jardim-aurelia/e4f50a78-4623-4ad8-aca3-a4f75bb539f8',
   food99: '',
