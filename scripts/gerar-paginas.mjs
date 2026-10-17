@@ -130,3 +130,26 @@ for (const [rota, { titulo, robots }] of Object.entries(ROTAS_FIXAS)) {
   await writeFile(resolve(destino, 'index.html'), html, 'utf8')
   console.log(`página gerada: /${rota}`)
 }
+
+// Pacotes que os jogos mostram na pausa (Coxinildo e Duelo, em /duelo).
+// Um arquivo só, com os links de pedido de cada loja; o jogo usa a loja que a
+// pessoa abriu por último (localStorage 'sua-coxinha:loja') ou a que ela escolher.
+const PACOTES = ['combo-casal', 'combo-dupla-fome', 'combo-pra-voce', 'coxinha-m', 'coxinha-g', 'churros-gourmet', 'copo-doce']
+
+const pacotesDasLojas = []
+for (const loja of lojas) {
+  // produtos.js exporta `catalog` com nome (não default), por isso não usa importarOpcional
+  const modulo = await import(pathToFileURL(resolve(raiz, 'src/lojas', loja.slug, 'produtos.js')).href).catch(() => ({}))
+  const itens = (modulo.catalog ?? []).flatMap((c) => c.items ?? [])
+  pacotesDasLojas.push({
+    slug: loja.slug,
+    nome: `${loja.brand} ${loja.unit}`.trim(),
+    ifood: loja.links?.ifood ?? '',
+    whatsapp: loja.whatsapp ?? '',
+    pacotes: PACOTES.map((id) => itens.find((i) => i.id === id))
+      .filter(Boolean)
+      .map((i) => ({ id: i.id, nome: i.name, descricao: i.description, preco: i.price, imagem: i.image, ifood: i.ifood || '' })),
+  })
+}
+await writeFile(resolve(raiz, 'dist/pacotes.json'), JSON.stringify({ lojas: pacotesDasLojas }), 'utf8')
+console.log(`pacotes dos jogos: ${pacotesDasLojas.length} loja(s)`)

@@ -3,6 +3,7 @@ import { useCallback, useEffect } from 'react'
 import './coxinha.css'
 import Cenario from './Cenario.jsx'
 import SrCoxinha from './SrCoxinha.jsx'
+import Pacotes from './Pacotes.jsx'
 import { CATALOGO, BONS, RUINS, ItemCaindo } from './itens.jsx'
 import { useJogo } from './useJogo.js'
 
@@ -258,8 +259,8 @@ export default function CoxinhaGame({ navegar }) {
 
         {estado === 'pausado' && (
           <div className="tela">
-            <div className="quadro">
-              <h2 className="quadro__titulo quadro__titulo--medio">Pausa</h2>
+            <div className="quadro quadro--pausa">
+              <h2 className="quadro__titulo quadro__titulo--medio">Intervalo</h2>
               <p className="quadro__texto">O Coxinildo aproveitou para respirar.</p>
               <button type="button" className="botao-principal" onClick={retomar}>
                 Continuar
@@ -267,6 +268,7 @@ export default function CoxinhaGame({ navegar }) {
               <button type="button" className="botao-secundario" onClick={voltarAoMenu}>
                 Sair da partida
               </button>
+              <Pacotes />
             </div>
           </div>
         )}
