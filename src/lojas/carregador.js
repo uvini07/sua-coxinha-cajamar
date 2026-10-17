@@ -45,6 +45,8 @@ export const lojasResumo = Object.values(porSlug)
       coords: config.coords ?? null,
       whatsapp: config.whatsapp ?? '',
       maps: config.links?.maps ?? '',
+      ifood: config.links?.ifood ?? '',
+      food99: config.links?.food99 ?? '',
       tema,
     }
   })

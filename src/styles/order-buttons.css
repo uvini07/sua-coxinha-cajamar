@@ -93,13 +93,16 @@
   border-radius: 18px;
 }
 
-/* Barra do celular: três botões lado a lado, nome da plataforma em destaque */
+/* Barra do celular: todos os botões numa linha só, dividindo a largura igualmente
+   (2 botões = metade cada; 3 = um terço). Sem buraco quando falta uma plataforma. */
 .order-buttons--compact {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
   gap: 0.45rem;
 }
 
 .order-buttons--compact .order-btn {
+  flex: 1 1 0;
+  min-width: 0;
   grid-column: auto;
   flex-direction: column;
   gap: 0;

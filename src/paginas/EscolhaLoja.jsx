@@ -3,6 +3,7 @@ import { abrirPreferencias } from '../analytics/consentimento.js'
 import { lojasResumo } from '../lojas/carregador.js'
 import Logo from '../components/Logo.jsx'
 import { distanciaKm, formatarDistancia } from './escolha/distancia.js'
+import PedirRapido from './escolha/PedirRapido.jsx'
 import '../styles/paginas/escolha.css'
 
 // O Leaflet só é baixado quando a página abre, sem travar a lista.
@@ -53,6 +54,13 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
     const comDistancia = base.map((l) => ({ ...l, km: posicao && l.coords ? distanciaKm(posicao, l.coords) : null }))
     return posicao ? [...comDistancia].sort((a, b) => (a.km ?? 1e9) - (b.km ?? 1e9)) : comDistancia
   }, [cidade, posicao])
+
+  // Para a bolinha "Pedir": todas as lojas, a mais perto primeiro quando há localização.
+  const todasPorDistancia = useMemo(() => {
+    const comKm = lojasResumo.map((l) => ({ ...l, km: posicao && l.coords ? distanciaKm(posicao, l.coords) : null }))
+    return posicao ? comKm.sort((a, b) => (a.km ?? 1e9) - (b.km ?? 1e9)) : comKm
+  }, [posicao])
+  const listaRef = useRef(null)
 
   const noMapa = useMemo(() => lojas.filter((l) => l.coords), [lojas])
   const loja = selecionada ? lojas.find((l) => l.slug === selecionada) : null
@@ -174,7 +182,7 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
           ))}
         </nav>
 
-        <div className="escolha__lista">
+        <div className="escolha__lista" ref={listaRef}>
           {posicao && <h2 className="escolha__grupo">{cidade ? `${cidade}, da mais perto` : 'Mais perto de você'}</h2>}
           {grupos.map((g) => (
             <section key={g.nome ?? 'perto'} aria-label={g.nome ?? 'Lojas mais perto'}>
@@ -222,6 +230,8 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
             </section>
           ))}
         </div>
+
+        <PedirRapido lojas={todasPorDistancia} aoAbrirLoja={() => listaRef.current?.scrollIntoView({ behavior: 'smooth' })} />
 
         <footer className="escolha__rodape">
           <button type="button" className="escolha__cookies" onClick={abrirPreferencias}>

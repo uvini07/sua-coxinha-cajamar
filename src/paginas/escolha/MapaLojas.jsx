@@ -57,9 +57,9 @@ export default function MapaLojas({ lojas, selecionada, posicao, foco, onSelecio
       tap: true,
     })
     L.control.zoom({ position: 'topright' }).addTo(m)
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
-      subdomains: 'abcd',
+    // Mapa padrão do OpenStreetMap: gratuito e sem chave (o da CARTO passou a exigir chave).
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       maxZoom: 19,
     }).addTo(m)
     m.setView([-23.3, -46.7], 7)
