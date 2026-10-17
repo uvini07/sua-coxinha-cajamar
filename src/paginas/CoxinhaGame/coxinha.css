@@ -1528,3 +1528,114 @@ body.jogo-aberto {
 @media (pointer: coarse) {
   .quadro__teclas { display: none; }
 }
+
+/* ---------- pacotes na pausa ---------- */
+
+.quadro--pausa {
+  width: min(680px, 100%);
+  padding-top: 16px;
+  padding-bottom: 16px;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.quadro--pausa .quadro__texto { margin-bottom: 10px; }
+
+.pacotes {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 2px dashed rgba(93, 56, 23, 0.35);
+  text-align: left;
+}
+
+.pacotes__topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.pacotes__topo strong {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+}
+
+.pacotes__topo label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.pacotes__topo select {
+  max-width: 220px;
+  padding: 6px 8px;
+  border: 2px solid var(--madeira-escura);
+  border-radius: 10px;
+  background: #fffdf4;
+  color: #3a2208;
+  font: inherit;
+}
+
+.pacotes__lista {
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  padding: 2px 2px 8px;
+  overflow-x: auto;
+  list-style: none;
+  scroll-snap-type: x mandatory;
+}
+
+.pacote {
+  display: grid;
+  flex: 0 0 140px;
+  gap: 3px;
+  font-family: var(--font-body);
+  padding: 8px;
+  border: 2px solid var(--madeira-escura);
+  border-radius: 14px;
+  background: #fffdf4;
+  scroll-snap-align: start;
+}
+
+.pacote img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.pacote__nome {
+  font-weight: 800;
+  font-size: 0.82rem;
+  line-height: 1.15;
+}
+
+.pacote__preco {
+  font-size: 0.85rem;
+}
+
+.pacote__botoes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.pacote__btn {
+  padding: 5px 0;
+  font-family: var(--font-body);
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.72rem;
+  text-align: center;
+  text-decoration: none;
+}
+
+.pacote__btn--ifood { background: #ea1d2c; }
+.pacote__btn--wa { background: #1fa855; }

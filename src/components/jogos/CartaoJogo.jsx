@@ -1,6 +1,10 @@
 import { abrirJogo } from './jogos.js'
+import { usePlacarDuelo } from './usePlacarDuelo.js'
+
+const numero = (n) => n.toLocaleString('pt-BR')
 
 export default function CartaoJogo({ jogo, navegar, compacto = false }) {
+  const placar = usePlacarDuelo(jogo.id === 'duelo')
   return (
     <a
       className={`jogo-card jogo-card--${jogo.id}${compacto ? ' jogo-card--compacto' : ''}`}
@@ -22,6 +26,14 @@ export default function CartaoJogo({ jogo, navegar, compacto = false }) {
           <path d="M8 5v14l11-7Z" fill="currentColor" />
         </svg>
       </span>
+      {placar && (
+        <span className="jogo-card__placar">
+          <small>Placar do Brasil</small>
+          <span className="jogo-card__placar-bolso">BolsoTudo {numero(placar.bolso)}</span>
+          <span aria-hidden="true">×</span>
+          <span className="jogo-card__placar-lula">{numero(placar.lula)} Lalulu</span>
+        </span>
+      )}
     </a>
   )
 }
