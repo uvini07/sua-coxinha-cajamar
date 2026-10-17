@@ -6,7 +6,7 @@ import SrCoxinha from './SrCoxinha.jsx'
 import { CATALOGO, BONS, RUINS, ItemCaindo } from './itens.jsx'
 import { useJogo } from './useJogo.js'
 
-/* Sr. Coxinha — o joguinho da Sua Coxinha.
+/* Coxinildo — o joguinho da Sua Coxinha.
 
    O mascote passeia pelo Vale da Coxinha com um prato em cada mão. Do céu cai
    coxinha, churros, refri e copo mágico (ponto), misturados com brócolis,
@@ -112,7 +112,7 @@ export default function CoxinhaGame({ navegar }) {
         </button>
 
         <div className="jogo__titulo">
-          <strong>Sr. Coxinha</strong>
+          <strong>Coxinildo</strong>
           <span>Vale da Coxinha</span>
         </div>
 
@@ -221,9 +221,9 @@ export default function CoxinhaGame({ navegar }) {
           <div className="tela">
             <div className="quadro quadro--largo">
               <span className="quadro__faixa">Sua Coxinha apresenta</span>
-              <h1 className="quadro__titulo">Sr. Coxinha</h1>
+              <h1 className="quadro__titulo">Coxinildo</h1>
               <p className="quadro__texto">
-                O Sr. Coxinha saiu para passear com um prato em cada mão. Do céu começou a cair comida —
+                O Coxinildo saiu para passear com um prato em cada mão. Do céu começou a cair comida —
                 e também umas coisas que coxinha nenhuma merece. Encha os pratos, desvie do resto.
               </p>
 
@@ -260,7 +260,7 @@ export default function CoxinhaGame({ navegar }) {
           <div className="tela">
             <div className="quadro">
               <h2 className="quadro__titulo quadro__titulo--medio">Pausa</h2>
-              <p className="quadro__texto">O Sr. Coxinha aproveitou para respirar.</p>
+              <p className="quadro__texto">O Coxinildo aproveitou para respirar.</p>
               <button type="button" className="botao-principal" onClick={retomar}>
                 Continuar
               </button>

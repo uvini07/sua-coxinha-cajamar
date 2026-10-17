@@ -1,6 +1,6 @@
 import { forwardRef, memo } from 'react'
 
-/* O Sr. Coxinha. O mascote é a foto oficial da loja; os dois pratos são
+/* O Coxinildo. O mascote é a foto oficial da loja; os dois pratos são
    desenhados por cima das luvas, que é onde ele já segura as plaquinhas.
 
    Quem move este bloco é o laço do jogo, direto no DOM (transform no `.heroi`),
@@ -17,7 +17,7 @@ const SrCoxinha = forwardRef(function SrCoxinha({ altura }, ref) {
           <img
             className="heroi__mascote"
             src="/assets/produtos/mascote.webp"
-            alt="Sr. Coxinha, o mascote da Sua Coxinha"
+            alt="Coxinildo, o mascote da Sua Coxinha"
             draggable="false"
           />
 

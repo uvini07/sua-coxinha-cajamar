@@ -160,7 +160,7 @@ src/
 A raiz e cada loja mostram a seção "Jogue enquanto ela chega" e a bolinha flutuante
 do mascote (`src/components/jogos/`). A lista de jogos fica em `jogos.js`.
 
-- **Sr. Coxinha** — rota `/jogo-coxinha`, código em `src/paginas/CoxinhaGame/`.
+- **Coxinildo** — rota `/jogo-coxinha`, código em `src/paginas/CoxinhaGame/`.
 - **Duelo Presidencial** — vem do repositório `jogo`, já compilado, em `public/duelo/`.
   Para atualizar, no repositório do jogo:
   ```bash

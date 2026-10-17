@@ -1,10 +1,10 @@
-// Os jogos da casa. O Sr. Coxinha é uma rota da SPA (/jogo-coxinha); o Duelo é
+// Os jogos da casa. O Coxinildo é uma rota da SPA (/jogo-coxinha); o Duelo é
 // outro app, copiado já pronto para public/duelo (veja o README), então abre
 // com link normal, sem passar pelo roteador.
 export const JOGOS = [
   {
     id: 'coxinha',
-    nome: 'Sr. Coxinha',
+    nome: 'Coxinildo',
     chamada: 'Pegue as coxinhas, fuja do brócolis',
     href: '/jogo-coxinha',
     spa: true,
