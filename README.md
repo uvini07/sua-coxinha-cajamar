@@ -168,3 +168,8 @@ do mascote (`src/components/jogos/`). A lista de jogos fica em `jogos.js`.
   ```
   e copie `dist/` para `public/duelo/` aqui, mantendo a linha `<base href="/duelo/" />`
   no `index.html`.
+
+### Fliperama do Coxinildo
+O jogo do Coxinildo (Pega Pega, Coxinha Ninja e Coxinha Pong) vem do projeto `coxinhagame`, já
+compilado, em `public/fliperama/` (`npx vite build --base=/fliperama/` e copiar `dist/`).
+O endereço antigo `/jogo-coxinha` redireciona para `/fliperama` (vercel.json).
