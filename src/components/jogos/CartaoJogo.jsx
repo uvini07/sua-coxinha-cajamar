@@ -1,14 +1,14 @@
-import { abrirJogo } from './jogos.js'
+import { abrirJogo, linkDoJogo } from './jogos.js'
 import { usePlacarDuelo } from './usePlacarDuelo.js'
 
 const numero = (n) => n.toLocaleString('pt-BR')
 
-export default function CartaoJogo({ jogo, navegar, compacto = false }) {
+export default function CartaoJogo({ jogo, navegar, loja = null, compacto = false }) {
   const placar = usePlacarDuelo(jogo.id === 'duelo')
   return (
     <a
       className={`jogo-card jogo-card--${jogo.id}${compacto ? ' jogo-card--compacto' : ''}`}
-      href={jogo.href}
+      href={linkDoJogo(jogo, loja)}
       onClick={abrirJogo(jogo, navegar)}
     >
       <span className="jogo-card__arte" aria-hidden="true">
