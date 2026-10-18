@@ -575,3 +575,6 @@
   min-height: 100svh;
   background: var(--tinta);
 }
+
+/* Cartão sem link para a página da loja (LINK_PARA_LOJA em EscolhaLoja.jsx) */
+.escolha__card-link--sem-link { cursor: default; }
