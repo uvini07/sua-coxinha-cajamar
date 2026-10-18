@@ -19,6 +19,10 @@ export const JOGOS = [
   },
 ]
 
+// Na página de uma loja, os jogos sabem de onde a pessoa veio (?loja=cajamar):
+// o "voltar" volta para a loja e os pedidos vão para ela. Na raiz, sem nada.
+export const linkDoJogo = (jogo, loja) => (loja ? `${jogo.href}?loja=${loja}` : jogo.href)
+
 // Clique num jogo: o da SPA troca de rota sem recarregar; o outro segue o link.
 export const abrirJogo = (jogo, navegar) => (e) => {
   if (!jogo.spa || !navegar || e.metaKey || e.ctrlKey || e.shiftKey) return

@@ -145,6 +145,7 @@ for (const loja of lojas) {
     slug: loja.slug,
     nome: `${loja.brand} ${loja.unit}`.trim(),
     ifood: loja.links?.ifood ?? '',
+    food99: loja.links?.food99 ?? '',
     whatsapp: loja.whatsapp ?? '',
     pacotes: PACOTES.map((id) => itens.find((i) => i.id === id))
       .filter(Boolean)

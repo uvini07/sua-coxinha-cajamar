@@ -5,7 +5,7 @@ import '../../styles/jogos.css'
 
 // Bolinha flutuante com o mascote: abre um balão com os jogos.
 // `acimaDaBarra` sobe a bolinha no celular, onde a loja tem a barra de pedido no rodapé.
-export default function BolinhaJogos({ navegar, acimaDaBarra = false }) {
+export default function BolinhaJogos({ navegar, loja = null, acimaDaBarra = false }) {
   const [aberta, setAberta] = useState(false)
   const raiz = useRef(null)
 
@@ -27,7 +27,7 @@ export default function BolinhaJogos({ navegar, acimaDaBarra = false }) {
         <div className="bolinha-jogos__balao" id="bolinha-jogos-balao" role="dialog" aria-label="Jogos da Sua Coxinha">
           <p className="bolinha-jogos__titulo">Bora jogar?</p>
           {JOGOS.map((j) => (
-            <CartaoJogo key={j.id} jogo={j} navegar={navegar} compacto />
+            <CartaoJogo key={j.id} jogo={j} navegar={navegar} loja={loja} compacto />
           ))}
         </div>
       )}
