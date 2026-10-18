@@ -3,7 +3,7 @@ import CartaoJogo from './CartaoJogo.jsx'
 import '../../styles/jogos.css'
 
 // Bloco "Hora do intervalo": os jogos da casa, na raiz e no fim de cada loja.
-export default function SecaoJogos({ navegar, className = '' }) {
+export default function SecaoJogos({ navegar, className = '', children = null }) {
   return (
     <section id="jogos" className={`jogos ${className}`} aria-labelledby="jogos-titulo">
       <div className="jogos__inner">
@@ -17,6 +17,7 @@ export default function SecaoJogos({ navegar, className = '' }) {
             </li>
           ))}
         </ul>
+        {children}
       </div>
     </section>
   )

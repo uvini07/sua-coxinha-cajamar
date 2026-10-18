@@ -35,6 +35,10 @@ const normalizar = (t) => String(t || '').normalize('NFD').replace(/[\u0300-\u03
 
 const linkWhatsapp = (numero) => `https://wa.me/${numero}`
 
+// Por enquanto a raiz não leva para a página de cada loja (/cajamar, /jundiai…):
+// os cartões mostram a loja com WhatsApp e mapa. Para religar, troque para true.
+const LINK_PARA_LOJA = false
+
 // Raiz do site: encontra a loja mais perto, no mapa ou na lista, e leva para o cardápio dela.
 // Cresce sozinha: toda loja cadastrada em src/lojas aparece aqui (e no mapa, se tiver `coords`).
 export default function EscolhaLoja({ navegar, aviso = null }) {
@@ -51,6 +55,7 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
   const [mapaAberto, setMapaAberto] = useState(false)
   const [foco, setFoco] = useState(() => ({ pontos: lojasNoMapa.map((l) => l.coords) }))
   const mapaRef = useRef(null)
+  const introRef = useRef(null)
 
   const abrir = (slug) => (e) => {
     e.preventDefault()
@@ -145,14 +150,28 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
           </a>
         </header>
 
+        {/* Destaque da primeira tela: os jogos. O aviso embaixo mostra que as lojas vêm depois. */}
+        <SecaoJogos navegar={navegar} className="jogos--escolha">
+          <button
+            type="button"
+            className="jogos__rolar"
+            onClick={() => introRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+          >
+            Role para achar a sua loja
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </SecaoJogos>
+
         {aviso && <p className="escolha__aviso" role="status">{aviso}</p>}
 
-        <section className="escolha__intro" aria-labelledby="escolha-titulo">
+        <section className="escolha__intro" aria-labelledby="escolha-titulo" ref={introRef}>
           <h1 id="escolha-titulo" className="escolha__titulo display">
             Tem Sua Coxinha perto de você
           </h1>
           <p className="escolha__sub">
-            {lojasResumo.length} lojas em {cidades.length} cidades. Escolha a sua para ver o cardápio e pedir.
+            {lojasResumo.length} lojas em {cidades.length} cidades. Ache a mais perto de você e fale com ela.
           </p>
           <button type="button" className="escolha__local" onClick={usarLocalizacao} disabled={localizando}>
             <IconeAlvo />
@@ -203,9 +222,17 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
               <h2 className="escolha__flutuante-nome">{loja.apelido}</h2>
               <p className="escolha__flutuante-end">{loja.bairro}</p>
               <div className="escolha__acoes">
-                <a className="escolha__btn escolha__btn--forte" href={`/${loja.slug}`} onClick={abrir(loja.slug)}>
-                  Ver cardápio e pedir
-                </a>
+                {LINK_PARA_LOJA ? (
+                  <a className="escolha__btn escolha__btn--forte" href={`/${loja.slug}`} onClick={abrir(loja.slug)}>
+                    Ver cardápio e pedir
+                  </a>
+                ) : (
+                  loja.whatsapp && (
+                    <a className="escolha__btn escolha__btn--forte" href={linkWhatsapp(loja.whatsapp)} target="_blank" rel="noopener noreferrer">
+                      Falar no WhatsApp
+                    </a>
+                  )
+                )}
                 {loja.maps && (
                   <a className="escolha__icone" href={loja.maps} target="_blank" rel="noopener noreferrer" aria-label={`Como chegar na ${loja.nome}`}>
                     <IconeRota />
@@ -246,7 +273,8 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
                 {g.lojas.map((l, i) => (
                   <li key={l.slug}>
                     <article className={`escolha__card${l.slug === selecionada ? ' escolha__card--ativa' : ''}`}>
-                      <a className="escolha__card-link" href={`/${l.slug}`} onClick={abrir(l.slug)}>
+                      {LINK_PARA_LOJA ? (
+                        <a className="escolha__card-link" href={`/${l.slug}`} onClick={abrir(l.slug)}>
                         <span className="escolha__card-nome">
                           {posicao ? l.unit : l.apelido}
                           {posicao && !cidade && i === 0 && <span className="escolha__selo">Mais perto</span>}
@@ -261,6 +289,17 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
                           </svg>
                         </span>
                       </a>
+                      ) : (
+                        <div className="escolha__card-link escolha__card-link--sem-link">
+                        <span className="escolha__card-nome">
+                          {posicao ? l.unit : l.apelido}
+                          {posicao && !cidade && i === 0 && <span className="escolha__selo">Mais perto</span>}
+                        </span>
+                        <span className="escolha__card-end">
+                          {l.endereco.startsWith('Sua Coxinha') ? l.bairro : `${l.endereco.split(' – ')[0]} · ${l.bairro}`}
+                        </span>
+                        </div>
+                      )}
                       <div className="escolha__card-lado">
                         {l.km != null && <span className="escolha__km">{formatarDistancia(l.km)}</span>}
                         {l.whatsapp && (
@@ -284,7 +323,6 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
 
         <PedirRapido lojas={todasPorDistancia} aoAbrirLoja={() => listaRef.current?.scrollIntoView({ behavior: 'smooth' })} />
 
-        <SecaoJogos navegar={navegar} className="jogos--escolha" />
         <BolinhaJogos navegar={navegar} />
 
         <footer className="escolha__rodape">

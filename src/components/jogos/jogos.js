@@ -1,13 +1,12 @@
-// Os jogos da casa. O Coxinildo é uma rota da SPA (/jogo-coxinha); o Duelo é
-// outro app, copiado já pronto para public/duelo (veja o README), então abre
-// com link normal, sem passar pelo roteador.
+// Os jogos da casa. Os dois são apps à parte, copiados já prontos para public/
+// (fliperama e duelo, veja o README), então abrem com link normal, sem o roteador.
 export const JOGOS = [
   {
     id: 'coxinha',
     nome: 'Coxinildo',
-    chamada: 'Pegue as coxinhas, fuja do brócolis',
-    href: '/jogo-coxinha',
-    spa: true,
+    chamada: 'Pega Pega, Coxinha Ninja e Coxinha Pong',
+    href: '/fliperama',
+    spa: false,
     imagens: ['/assets/produtos/mascote.webp'],
   },
   {
