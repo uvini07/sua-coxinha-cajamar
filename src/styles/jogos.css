@@ -205,18 +205,59 @@
   .jogo-card { transition: none; }
 }
 
-/* Na raiz a seção fica dentro da coluna estreita: vira um cartão. */
+/* Na raiz a seção é o destaque da primeira tela, dentro da coluna estreita. */
 .jogos--escolha {
-  padding: 1.5rem 1.1rem;
+  position: relative;
+  padding: 1.4rem 1.1rem 0.9rem;
   border-radius: var(--radius-lg);
+  box-shadow: 0 0 0 4px rgba(249, 193, 21, 0.25), 0 18px 50px rgba(249, 193, 21, 0.18);
+}
+.jogos--escolha .jogos__olho::before {
+  content: 'NOVO';
+  margin-right: 0.5rem;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--tinta);
+  color: var(--marca);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
 }
 .jogos--escolha .jogos__titulo {
-  font-size: clamp(2rem, 1.4rem + 2.5vw, 2.8rem);
+  font-size: clamp(2.1rem, 1.4rem + 3vw, 3rem);
+}
+.jogos--escolha .jogos__sub {
+  display: none;
 }
 .jogos--escolha .jogos__lista {
   grid-template-columns: 1fr;
+  gap: 0.7rem;
 }
 
+.jogos__rolar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin: 0.8rem auto 0;
+  padding: 0.2rem 0.8rem;
+  border: 0;
+  background: none;
+  color: var(--tinta);
+  font: 700 var(--step--1) / 1.2 var(--font-body);
+  cursor: pointer;
+}
+.jogos__rolar svg {
+  width: 26px;
+  height: 26px;
+  animation: rolar-pula 1.4s var(--ease-in-out) infinite;
+}
+@keyframes rolar-pula {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .jogos__rolar svg { animation: none; }
+}
 /* Placar do Brasil do Duelo, abaixo do "Jogar" */
 .jogo-card__placar {
   grid-column: 1 / -1;

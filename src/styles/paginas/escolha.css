@@ -523,12 +523,12 @@
     grid-template-columns: minmax(380px, 440px) 1fr;
     grid-template-areas:
       'topo mapa'
+      'jogos mapa'
       'aviso mapa'
       'intro mapa'
       'busca mapa'
       'cidades mapa'
       'lista mapa'
-      'jogos mapa'
       'rodape mapa';
     align-content: start;
     column-gap: 32px;

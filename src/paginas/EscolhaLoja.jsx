@@ -55,6 +55,7 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
   const [mapaAberto, setMapaAberto] = useState(false)
   const [foco, setFoco] = useState(() => ({ pontos: lojasNoMapa.map((l) => l.coords) }))
   const mapaRef = useRef(null)
+  const introRef = useRef(null)
 
   const abrir = (slug) => (e) => {
     e.preventDefault()
@@ -149,9 +150,23 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
           </a>
         </header>
 
+        {/* Destaque da primeira tela: os jogos. O aviso embaixo mostra que as lojas vêm depois. */}
+        <SecaoJogos navegar={navegar} className="jogos--escolha">
+          <button
+            type="button"
+            className="jogos__rolar"
+            onClick={() => introRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+          >
+            Role para achar a sua loja
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </SecaoJogos>
+
         {aviso && <p className="escolha__aviso" role="status">{aviso}</p>}
 
-        <section className="escolha__intro" aria-labelledby="escolha-titulo">
+        <section className="escolha__intro" aria-labelledby="escolha-titulo" ref={introRef}>
           <h1 id="escolha-titulo" className="escolha__titulo display">
             Tem Sua Coxinha perto de você
           </h1>
@@ -308,7 +323,6 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
 
         <PedirRapido lojas={todasPorDistancia} aoAbrirLoja={() => listaRef.current?.scrollIntoView({ behavior: 'smooth' })} />
 
-        <SecaoJogos navegar={navegar} className="jogos--escolha" />
         <BolinhaJogos navegar={navegar} />
 
         <footer className="escolha__rodape">
