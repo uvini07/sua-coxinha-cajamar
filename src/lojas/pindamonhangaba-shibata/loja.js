@@ -16,7 +16,7 @@ export default criarUnidade({
   // Posição no mapa da página inicial — estimada: Shibata, R. Dr. Frederico Machado, 67.
   // Para acertar: Google Maps → aperte no ponto da loja → copie os dois números.
   coords: [-22.924, -45.4605],
-  whatsapp: '5512997704296',
+  whatsapp: '5512991619311',
   ifood: 'https://www.ifood.com.br/delivery/pindamonhangaba-sp/sua-coxinha-salgados-premium-pinda-parque-sao-benedito/7c16d19c-85dd-4d84-8bb9-89d1fad18326',
   food99: '',
 })
