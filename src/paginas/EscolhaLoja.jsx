@@ -171,7 +171,7 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
             Tem Sua Coxinha perto de você
           </h1>
           <p className="escolha__sub">
-            {lojasResumo.length} lojas em {cidades.length} cidades. Ache a mais perto de você e fale com ela.
+            Ache a mais perto de você e fale com ela.
           </p>
           <button type="button" className="escolha__local" onClick={usarLocalizacao} disabled={localizando}>
             <IconeAlvo />

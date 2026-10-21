@@ -4,6 +4,7 @@ import { useGSAP } from '@gsap/react'
 import { useStoryContext } from '../../context/StoryContext.js'
 import { useLoja } from '../../context/LojaContext.js'
 import Button from '../Button.jsx'
+import { rastrear } from '../../analytics/ga.js'
 import '../../styles/scenes/hero.css'
 
 /**
@@ -18,6 +19,7 @@ export default function HeroScene() {
   const ref = useRef(null)
   const { linkTo } = useStoryContext()
   const loja = useLoja()
+  const ifood = loja.platforms.find((p) => p.id === 'ifood')
 
   // Única entrada automática do site: as palavras sobem da máscara, o amarelo
   // entra pela direita e os produtos caem na cena.
@@ -57,9 +59,15 @@ export default function HeroScene() {
                   `Da coxinha G de 250g ao copo de mini churros com cobertura. Na loja em ${loja.unit}, no iFood ou no 99Food.`}
               </p>
               <div className="hero__actions">
-                <Button href="#cardapio" onClick={linkTo('cardapio')}>
-                  Ver cardápio
-                </Button>
+                {ifood ? (
+                  <Button href={ifood.url} external onClick={() => rastrear('pedido_ifood', { item: 'hero' })}>
+                    Pedir iFood
+                  </Button>
+                ) : (
+                  <Button href="#cardapio" onClick={linkTo('cardapio')}>
+                    Ver cardápio
+                  </Button>
+                )}
                 <Button href="#pedido" variant="ghost" onClick={linkTo('pedido')}>
                   Fazer pedido
                 </Button>

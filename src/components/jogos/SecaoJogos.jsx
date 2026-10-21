@@ -1,4 +1,4 @@
-import { JOGOS } from './jogos.js'
+import { jogosDa } from './jogos.js'
 import CartaoJogo from './CartaoJogo.jsx'
 import '../../styles/jogos.css'
 
@@ -11,7 +11,7 @@ export default function SecaoJogos({ navegar, loja = null, className = '', child
         <h2 id="jogos-titulo" className="jogos__titulo display">Jogue enquanto ela chega</h2>
         <p className="jogos__sub">Grátis, direto no navegador. Funciona no celular e no computador.</p>
         <ul className="jogos__lista">
-          {JOGOS.map((j) => (
+          {jogosDa(loja).map((j) => (
             <li key={j.id}>
               <CartaoJogo jogo={j} navegar={navegar} loja={loja} />
             </li>
