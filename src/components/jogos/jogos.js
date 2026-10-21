@@ -7,17 +7,22 @@ export const JOGOS = [
     chamada: 'Pega Pega, Coxinha Ninja e Coxinha Pong',
     href: '/fliperama',
     spa: false,
+    // Por enquanto a raiz (página inicial) mostra só o Duelo; nas lojas aparecem os dois.
+    naRaiz: false,
     imagens: ['/assets/produtos/mascote.webp'],
   },
   {
     id: 'duelo',
-    nome: 'Duelo Presidencial',
+    nome: 'Duelo de Titãs: Eleição',
     chamada: 'Luta de plataforma: jogue o rival pra fora da ilha',
     href: '/duelo',
     spa: false,
     imagens: ['/duelo/sprites/bolso-portrait.webp', '/duelo/sprites/lula-portrait.webp'],
   },
 ]
+
+// Os jogos de cada página: na raiz (sem loja) só os marcados para ela.
+export const jogosDa = (loja) => (loja ? JOGOS : JOGOS.filter((j) => j.naRaiz !== false))
 
 // Na página de uma loja, os jogos sabem de onde a pessoa veio (?loja=cajamar):
 // o "voltar" volta para a loja e os pedidos vão para ela. Na raiz, sem nada.

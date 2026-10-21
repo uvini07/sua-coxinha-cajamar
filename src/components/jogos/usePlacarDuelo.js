@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-// Placar do Brasil do Duelo: vitórias de BolsoTudo e Lalulu somadas de todo
+// Placar do Brasil do Duelo: vitórias de Costelonaro e Caipiralu somadas de todo
 // mundo, no Firestore do app (jogos/duelo). Quem grava é o próprio jogo
 // (repo jogo, src/placar.js); aqui só lê, uma vez por página.
 const URL =

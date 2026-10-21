@@ -161,7 +161,7 @@ A raiz e cada loja mostram a seção "Jogue enquanto ela chega" e a bolinha flut
 do mascote (`src/components/jogos/`). A lista de jogos fica em `jogos.js`.
 
 - **Coxinildo** — rota `/jogo-coxinha`, código em `src/paginas/CoxinhaGame/`.
-- **Duelo Presidencial** — vem do repositório `jogo`, já compilado, em `public/duelo/`.
+- **Duelo de Titãs: Eleição** — vem do repositório `jogo`, já compilado, em `public/duelo/`.
   Para atualizar, no repositório do jogo:
   ```bash
   npx vite build --base=/duelo/

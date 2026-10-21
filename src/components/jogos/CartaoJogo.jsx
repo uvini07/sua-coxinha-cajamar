@@ -29,9 +29,9 @@ export default function CartaoJogo({ jogo, navegar, loja = null, compacto = fals
       {placar && (
         <span className="jogo-card__placar">
           <small>Placar do Brasil</small>
-          <span className="jogo-card__placar-bolso">BolsoTudo {numero(placar.bolso)}</span>
+          <span className="jogo-card__placar-bolso">Costelonaro {numero(placar.bolso)}</span>
           <span aria-hidden="true">×</span>
-          <span className="jogo-card__placar-lula">{numero(placar.lula)} Lalulu</span>
+          <span className="jogo-card__placar-lula">{numero(placar.lula)} Caipiralu</span>
         </span>
       )}
     </a>

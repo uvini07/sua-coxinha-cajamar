@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { JOGOS } from './jogos.js'
+import { jogosDa } from './jogos.js'
 import CartaoJogo from './CartaoJogo.jsx'
 import '../../styles/jogos.css'
 
@@ -26,7 +26,7 @@ export default function BolinhaJogos({ navegar, loja = null, acimaDaBarra = fals
       {aberta && (
         <div className="bolinha-jogos__balao" id="bolinha-jogos-balao" role="dialog" aria-label="Jogos da Sua Coxinha">
           <p className="bolinha-jogos__titulo">Bora jogar?</p>
-          {JOGOS.map((j) => (
+          {jogosDa(loja).map((j) => (
             <CartaoJogo key={j.id} jogo={j} navegar={navegar} loja={loja} compacto />
           ))}
         </div>
