@@ -169,7 +169,26 @@ do mascote (`src/components/jogos/`). A lista de jogos fica em `jogos.js`.
   e copie `dist/` para `public/duelo/` aqui, mantendo a linha `<base href="/duelo/" />`
   no `index.html`.
 
+O Duelo tem níveis (vitórias contra a CPU liberam o super especial e o confronto Frangolas VS Pizzérika) e
+outdoors da Sua Coxinha e da Markfy nos quatro mapas. Detalhes e onde trocar as artes dos outdoors: README do
+repositório `jogo` ("Níveis…" e "Outdoors").
+
 ### Fliperama do Coxinildo
 O jogo do Coxinildo (Pega Pega, Coxinha Ninja e Coxinha Pong) vem do projeto `coxinhagame`, já
 compilado, em `public/fliperama/` (`npx vite build --base=/fliperama/` e copiar `dist/`).
 O endereço antigo `/jogo-coxinha` redireciona para `/fliperama` (vercel.json).
+
+**Trilha sonora e outdoors** ficam fora do build do jogo, em `public/fliperama-extras/` (`extras.js` e `extras.css`),
+ligados por duas linhas no `public/fliperama/index.html`. **Ao copiar um build novo do coxinhagame, recoloque essas
+duas linhas** (logo depois do CSS do jogo):
+```html
+<link rel="stylesheet" href="/fliperama-extras/extras.css">
+<script type="module" src="/fliperama-extras/extras.js"></script>
+```
+- Trilha: uma música para cada jogo (baião no Pega Pega, correria na cozinha no Ninja, samba de arena no Pong).
+  Só toca durante a partida; para no menu, na pausa e no fim, e obedece o botão de som do próprio jogo.
+- Outdoors: Pega Pega (dois outdoors atrás da cerca), Coxinha Ninja (quadros na parede e painel de LED no balcão),
+  Coxinha Pong (placas na torcida e logos pintados na quadra).
+- Para trocar a arte de uma placa por uma imagem pronta: salve em `public/fliperama-extras/img/` e escreva o nome do
+  arquivo na placa em `IMAGENS`, no começo do `extras.js` (cada placa tem a proporção indicada ao lado).
+- Para testar a trilha: `/fliperama/?debug` e, no console, `__trilha()` diz o que está tocando.

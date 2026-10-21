@@ -1,0 +1,98 @@
+/* Outdoors do Fliperama (ver extras.js). Tudo é decoração: atrás do que se mexe e sem receber toque. */
+.fx-outdoor, .fx-quadro, .fx-led, .fx-placas, .fx-pintura { pointer-events: none; }
+
+/* ---------- anúncios (cabem em qualquer placa: o texto escala com a altura da placa) ---------- */
+.fx-ad {
+  container-type: size;
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center; gap: 3%;
+  font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 800; line-height: .95;
+  overflow: hidden;
+}
+.fx-ad img { display: block; object-fit: contain; min-width: 0; }
+.fx-ad--amarela { background: #ffd100; }
+.fx-ad--amarela img { width: 84%; height: 70%; }
+.fx-ad--escura { background: linear-gradient(#1d2350, #0b0e26); }
+.fx-ad--escura img { width: 82%; height: 66%; }
+.fx-ad--markfy { flex-direction: column; gap: 4%; background: linear-gradient(135deg, #0a1a5c, #050b2c); }
+.fx-ad--markfy img { width: 72%; height: 48%; }
+.fx-ad--markfy small { color: #cfe0ff; font-size: min(11cqh, 5.6cqw); letter-spacing: .08em; white-space: nowrap; }
+.fx-ad--cardapio { background: linear-gradient(#3a1608, #170804); }
+.fx-ad--cardapio img { width: 30%; height: 92%; }
+.fx-ad--cardapio span { flex: 1; text-align: center; white-space: nowrap; font-size: min(24cqh, 7.5cqw); color: #ffc928; text-shadow: 0 .06em 0 #1a0a02; }
+.fx-ad--frase { background: radial-gradient(circle at 26% 55%, rgba(255,190,60,.45), transparent 60%), #16120e; }
+.fx-ad--frase img { width: 48%; height: 92%; }
+.fx-ad--frase span { flex: 1; text-align: center; white-space: nowrap; font-size: min(19cqh, 7.4cqw); color: #ffd100; }
+.fx-ad--imagem img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- Pega Pega: outdoors de estrada atrás da cerca ---------- */
+.fx-outdoor { position: absolute; bottom: calc(17% + 92px); width: clamp(120px, 15%, 240px); transform: translateX(-50%); }
+.fx-pega-a { left: 63%; }
+.fx-pega-b { left: 82%; }
+.fx-outdoor__placa {
+  position: relative; z-index: 1; aspect-ratio: 27 / 10;
+  border: 4px solid #2a1d10; border-radius: 4px; overflow: hidden;
+  box-shadow: 0 6px 0 rgba(42,29,16,.35);
+}
+.fx-outdoor__poste { position: absolute; top: 100%; width: 7px; height: 96px; background: linear-gradient(90deg, #6d421c, #4a2a10); }
+.fx-outdoor__poste:nth-of-type(3) { left: 22%; }
+.fx-outdoor__poste:nth-of-type(4) { right: 22%; }
+.fx-outdoor__luz { position: absolute; z-index: 2; top: -9px; width: 16px; height: 6px; border-radius: 3px; background: #2a1d10; }
+.fx-outdoor__luz:nth-of-type(1) { left: 24%; }
+.fx-outdoor__luz:nth-of-type(2) { right: 24%; }
+.fx-outdoor__luz::after {
+  content: ''; position: absolute; left: 50%; top: 5px; width: 70px; height: 60px; transform: translateX(-50%);
+  background: linear-gradient(rgba(255,240,190,.45), transparent); clip-path: polygon(44% 0, 56% 0, 100% 100%, 0 100%);
+  opacity: 0; transition: opacity 1s;
+}
+/* de noite as luzes acendem e a placa fica na penumbra */
+.cena[data-fase=noite] .fx-outdoor__placa { filter: brightness(.8); }
+.cena[data-fase=noite] .fx-outdoor__luz::after { opacity: 1; }
+@media (max-width: 600px) { .fx-pega-b { display: none; } .fx-pega-a { left: 70%; } }
+
+/* ---------- Coxinha Ninja: quadros na parede e painel de LED no balcão ---------- */
+.fx-quadro {
+  position: absolute; z-index: 0; top: clamp(58px, 11%, 100px);
+  width: clamp(110px, 15%, 200px); aspect-ratio: 4 / 3;
+  border: 6px solid #6d421c; border-radius: 8px; overflow: hidden;
+  box-shadow: 0 6px 0 rgba(70,35,2,.35), 0 0 0 3px rgba(255,255,255,.25);
+}
+.fx-quadro--esq { left: 10%; transform: rotate(-3deg); }
+.fx-quadro--dir { right: 10%; transform: rotate(3deg); }
+@media (max-width: 760px) { .fx-quadro { display: none; } }
+
+.fx-led {
+  position: absolute; z-index: 0; left: 3%; right: 3%; bottom: 2.6%; height: 9%;
+  border: 3px solid #2a1606; border-radius: 8px; overflow: hidden; background: #0b0d1c;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.35);
+}
+.fx-led__trilho { display: flex; height: 100%; width: max-content; animation: fx-rolar 40s linear infinite; }
+.fx-led__placa { height: 100%; aspect-ratio: 34 / 10; margin-right: 6px; }
+.fx-led::after {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(transparent 0 2px, rgba(0,0,0,.25) 2px 3px), linear-gradient(rgba(255,255,255,.12), transparent 50%);
+}
+@keyframes fx-rolar { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .fx-led__trilho { animation: none; } }
+
+/* ---------- Coxinha Pong: placas na torcida e logos pintados na quadra ---------- */
+.fx-placas {
+  position: absolute; top: 12%; bottom: 12%; width: min(22%, 270px);
+  display: flex; flex-direction: column; justify-content: space-around;
+}
+.fx-placas--esq { left: 6%; }
+.fx-placas--dir { right: 6%; }
+.fx-placas__placa {
+  aspect-ratio: 27 / 10; border: 3px solid var(--marrom, #462302); border-radius: 8px; overflow: hidden;
+  box-shadow: 0 5px 0 var(--marrom, #462302), 0 0 24px rgba(249,193,21,.25);
+}
+.fx-pintura {
+  position: absolute; left: 50%; transform: translate(-50%, -50%);
+  opacity: .2; mix-blend-mode: multiply; white-space: nowrap;
+}
+.fx-pintura--cima { top: 25%; width: 46%; }
+.fx-pintura--cima img { display: block; width: 100%; filter: brightness(0); }
+.fx-pintura--baixo {
+  top: 75%; color: #462302; letter-spacing: .12em;
+  font: 800 min(4vw, 22px) "Bricolage Grotesque", system-ui, sans-serif;
+}
