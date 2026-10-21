@@ -17,7 +17,8 @@ export const JOGOS = [
     chamada: 'Luta de plataforma: jogue o rival pra fora da ilha',
     href: '/duelo',
     spa: false,
-    imagens: ['/duelo/sprites/bolso-portrait.webp', '/duelo/sprites/lula-portrait.webp'],
+    // capa montada com os dois retratos frente a frente (public/assets/jogos)
+    imagens: ['/assets/jogos/duelo-capa.webp'],
   },
 ]
 
