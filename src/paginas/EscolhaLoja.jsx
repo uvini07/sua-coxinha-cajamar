@@ -246,11 +246,11 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
 
         <nav className="escolha__cidades" aria-label="Filtrar por cidade">
           <button type="button" className="escolha__chip" aria-pressed={!cidade} onClick={() => filtrar(null)}>
-            Todas <span>{lojasResumo.length}</span>
+            Todas
           </button>
           {cidades.map((c) => (
             <button key={c.nome} type="button" className="escolha__chip" aria-pressed={cidade === c.nome} onClick={() => filtrar(c.nome)}>
-              {c.nome} <span>{c.total}</span>
+              {c.nome}
             </button>
           ))}
         </nav>
