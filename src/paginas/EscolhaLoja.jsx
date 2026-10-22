@@ -266,7 +266,7 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
             <section key={g.nome ?? 'perto'} aria-label={g.nome ?? 'Lojas mais perto'}>
               {g.nome && (
                 <h2 className="escolha__grupo">
-                  {g.nome} <span>{g.lojas.length === 1 ? '1 loja' : `${g.lojas.length} lojas`}</span>
+                  {g.nome}
                 </h2>
               )}
               <ul>
