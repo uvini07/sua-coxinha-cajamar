@@ -3,14 +3,13 @@ import { formatarDistancia } from './distancia.js'
 import '../../styles/paginas/pedir-rapido.css'
 
 // PEDIR RÁPIDO — a bolinha flutuante da página inicial.
-// Um círculo dividido em três (iFood, 99Food, WhatsApp). Ao tocar, abre uma
+// Um círculo dividido em dois (iFood e WhatsApp). Ao tocar, abre uma
 // folha de baixo para cima: a pessoa escolhe por onde quer pedir e depois a
 // loja (a mais perto primeiro, se ela já deu a localização). Plataforma que
-// nenhuma loja tem ainda (hoje, o 99Food) aparece como "em breve".
+// nenhuma loja tem ainda aparece como "em breve".
 
 const CANAIS = [
   { id: 'ifood', nome: 'iFood', dica: 'Entrega em casa' },
-  { id: 'food99', nome: '99Food', dica: 'Entrega em casa' },
   { id: 'whatsapp', nome: 'WhatsApp', dica: 'Retirada na loja' },
 ]
 
@@ -41,18 +40,14 @@ export default function PedirRapido({ lojas, aoAbrirLoja }) {
 
   return (
     <>
-      <button type="button" className="pedir-bolinha" onClick={abrir} aria-haspopup="dialog" aria-label="Pedir agora: iFood, 99Food ou WhatsApp">
+      <button type="button" className="pedir-bolinha" onClick={abrir} aria-haspopup="dialog" aria-label="Pedir agora: iFood ou WhatsApp">
         <svg viewBox="0 0 64 64" aria-hidden="true">
-          {/* três fatias de 120°, começando no topo */}
-          <path d="M32 32 L32 2 A30 30 0 0 1 57.98 47 Z" fill="#ea1d2c" />
-          <path d="M32 32 L57.98 47 A30 30 0 0 1 6.02 47 Z" fill="#25d366" />
-          <path d="M32 32 L6.02 47 A30 30 0 0 1 32 2 Z" fill="#ffd100" />
-          <g stroke="#131313" strokeWidth="2">
-            <path d="M32 32 L32 2 M32 32 L57.98 47 M32 32 L6.02 47" />
-          </g>
-          <text x="44.5" y="25" className="pedir-bolinha__txt" fill="#fff">iF</text>
-          <text x="19.5" y="25" className="pedir-bolinha__txt" fill="#131313">99</text>
-          <text x="32" y="52" className="pedir-bolinha__txt" fill="#073b1c">Zap</text>
+          {/* duas metades: iFood à esquerda, WhatsApp à direita */}
+          <path d="M32 2 A30 30 0 0 0 32 62 Z" fill="#ea1d2c" />
+          <path d="M32 2 A30 30 0 0 1 32 62 Z" fill="#25d366" />
+          <path d="M32 2 L32 62" stroke="#131313" strokeWidth="2" />
+          <text x="17.5" y="35.5" className="pedir-bolinha__txt" fill="#fff" style={{ fontSize: 9 }}>iFood</text>
+          <text x="46" y="36" className="pedir-bolinha__txt" fill="#073b1c">Zap</text>
         </svg>
         <span className="pedir-bolinha__rotulo">Pedir</span>
       </button>
