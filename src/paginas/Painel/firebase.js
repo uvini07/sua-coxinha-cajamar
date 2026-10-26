@@ -94,8 +94,9 @@ export async function buscarRelatorio({ loja, dias }) {
     if (erro instanceof ErroRelatorio) throw erro
     throw new ErroRelatorio('unavailable', 'Não foi possível ler o cadastro agora. Tente de novo.')
   }
+  // 'raiz' = página inicial do site (não é loja; só o admin vê)
   const escolhida = quem.papel === 'franqueado' ? quem.lojas[0].id
-    : loja === 'todas' || quem.lojas.some((l) => l.id === loja) ? loja : quem.lojas[0]?.id || 'todas'
+    : loja === 'todas' || loja === 'raiz' || quem.lojas.some((l) => l.id === loja) ? loja : quem.lojas[0]?.id || 'todas'
   const ids = escolhida === 'todas' ? quem.lojas.map((l) => l.id) : [escolhida]
 
   const fim = diaISO(new Date())
@@ -152,6 +153,7 @@ export async function buscarRelatorio({ loja, dias }) {
     origens: grupo('src'),
     aparelhos: grupo('dev'),
     itens: grupo('item'),
+    destinos: grupo('loja'),
   }
 }
 

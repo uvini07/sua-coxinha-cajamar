@@ -39,7 +39,9 @@ export default function App() {
   // O painel não conta: é uso interno.
   useEffect(() => {
     if (slug === 'painel') return
-    definirLoja(slug && !ROTAS_FIXAS.includes(slug) && existeLoja(slug) ? slug : null)
+    const loja = slug && !ROTAS_FIXAS.includes(slug) && existeLoja(slug) ? slug : null
+    // a página inicial tem contador próprio no painel ('raiz', só o admin vê)
+    definirLoja(loja, loja || (!slug ? 'raiz' : null))
     rastrearPagina()
   }, [slug])
 

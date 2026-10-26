@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { rastrear } from '../../analytics/ga.js'
 import { formatarDistancia } from './distancia.js'
 import '../../styles/paginas/pedir-rapido.css'
 
@@ -20,6 +21,7 @@ export default function PedirRapido({ lojas, aoAbrirLoja }) {
   const [canal, setCanal] = useState(null)
 
   const abrir = () => {
+    rastrear('abrir_pedir')
     setCanal(null)
     dialogo.current?.showModal()
   }
@@ -90,7 +92,10 @@ export default function PedirRapido({ lojas, aoAbrirLoja }) {
             <ul className="pedir-lojas">
               {disponiveis(canal).map((l) => (
                 <li key={l.slug}>
-                  <a className="pedir-loja" href={linkDo(canal, l)} target="_blank" rel="noopener noreferrer" onClick={fechar}>
+                  <a className="pedir-loja" href={linkDo(canal, l)} target="_blank" rel="noopener noreferrer" onClick={() => {
+                    rastrear(canal === 'whatsapp' ? 'contato_whatsapp' : `pedido_${canal}`, { destino: l.slug, origem: 'bolinha' })
+                    fechar()
+                  }}>
                     <span className="pedir-loja__nome">{l.unit}</span>
                     <span className="pedir-loja__onde">
                       {l.bairro}

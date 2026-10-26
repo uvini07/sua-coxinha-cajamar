@@ -1,5 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { abrirPreferencias } from '../analytics/consentimento.js'
+import { rastrear } from '../analytics/ga.js'
 import { lojasResumo } from '../lojas/carregador.js'
 import Logo from '../components/Logo.jsx'
 import { distanciaKm, formatarDistancia } from './escolha/distancia.js'
@@ -59,6 +60,7 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
 
   const abrir = (slug) => (e) => {
     e.preventDefault()
+    rastrear('abrir_loja', { destino: slug })
     navegar(`/${slug}`)
   }
 
@@ -93,6 +95,7 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
   }
 
   const usarLocalizacao = () => {
+    rastrear('usar_localizacao')
     if (!navigator.geolocation) {
       setErroLocal('Seu navegador não informa a localização. Escolha a cidade abaixo.')
       return
@@ -228,13 +231,13 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
                   </a>
                 ) : (
                   loja.whatsapp && (
-                    <a className="escolha__btn escolha__btn--forte" href={linkWhatsapp(loja.whatsapp)} target="_blank" rel="noopener noreferrer">
+                    <a className="escolha__btn escolha__btn--forte" href={linkWhatsapp(loja.whatsapp)} target="_blank" rel="noopener noreferrer" onClick={() => rastrear('contato_whatsapp', { destino: loja.slug })}>
                       Falar no WhatsApp
                     </a>
                   )
                 )}
                 {loja.maps && (
-                  <a className="escolha__icone" href={loja.maps} target="_blank" rel="noopener noreferrer" aria-label={`Como chegar na ${loja.nome}`}>
+                  <a className="escolha__icone" href={loja.maps} target="_blank" rel="noopener noreferrer" onClick={() => rastrear('contato_mapa', { destino: loja.slug })} aria-label={`Como chegar na ${loja.nome}`}>
                     <IconeRota />
                   </a>
                 )}
@@ -303,7 +306,7 @@ export default function EscolhaLoja({ navegar, aviso = null }) {
                       <div className="escolha__card-lado">
                         {l.km != null && <span className="escolha__km">{formatarDistancia(l.km)}</span>}
                         {l.whatsapp && (
-                          <a className="escolha__icone escolha__icone--wa" href={linkWhatsapp(l.whatsapp)} target="_blank" rel="noopener noreferrer" aria-label={`WhatsApp da ${l.nome}`}>
+                          <a className="escolha__icone escolha__icone--wa" href={linkWhatsapp(l.whatsapp)} target="_blank" rel="noopener noreferrer" onClick={() => rastrear('contato_whatsapp', { destino: l.slug })} aria-label={`WhatsApp da ${l.nome}`}>
                             <IconeWhatsapp />
                           </a>
                         )}

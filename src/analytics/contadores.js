@@ -34,7 +34,7 @@ const umaVez = (chave) => {
   }
 }
 
-// Soma `quanto` ao contador `chave` da loja, no dia de hoje.
+// Soma `quanto` ao contador `chave` da loja (ou da 'raiz', a página inicial), no dia de hoje.
 export function somar(loja, chave, quanto = 1) {
   if (!ATIVO || !loja || ehRobo()) return
   const nome = `${BASE}/sitePorLoja/${loja}/dias/${hoje()}`
@@ -91,8 +91,14 @@ export function contarPagina(loja) {
 }
 
 // Eventos de clique (os mesmos nomes do Google Analytics).
+// Na raiz, `params.destino` é a loja escolhida: soma em `loja__<slug>` na raiz e o
+// clique (pedido no iFood, WhatsApp, mapa) também conta no painel daquela loja.
 export function contarEvento(loja, nome, params = {}) {
   somar(loja, nome)
+  if (params.destino) {
+    somar(loja, `loja__${limpar(params.destino)}`)
+    if (/^(pedido_|contato_)/.test(nome)) somar(params.destino, nome)
+  }
   if (params.item && nome.startsWith('pedido_')) somar(loja, `item__${limpar(params.item)}`)
   if (nome === 'pedido_whatsapp' && params.value > 0) somar(loja, 'valor_whatsapp', params.value * 100)
 }
