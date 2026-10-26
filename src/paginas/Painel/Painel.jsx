@@ -108,7 +108,8 @@ function Relatorio({ usuario }) {
 
   const { carregando, dados, erro } = estado
   const admin = dados?.usuario.papel === 'admin'
-  const nomeLoja = loja === 'todas' ? 'Toda a rede' : dados?.lojas.find((l) => l.id === (loja || dados.loja))?.nome
+  const nomeLoja = loja === 'todas' ? 'Toda a rede' : loja === 'raiz' ? 'Página inicial do site'
+    : dados?.lojas.find((l) => l.id === (loja || dados.loja))?.nome
 
   return (
     <main className="painel">
@@ -129,6 +130,7 @@ function Relatorio({ usuario }) {
             <span>Loja</span>
             <select value={loja} onChange={(e) => setLoja(e.target.value)}>
               <option value="todas">Toda a rede</option>
+              <option value="raiz">Página inicial do site</option>
               {dados.lojas.map((l) => (
                 <option key={l.id} value={l.id}>{l.nome}</option>
               ))}
@@ -165,7 +167,7 @@ function Relatorio({ usuario }) {
 
       {dados && (
         <div className={`painel-corpo${carregando ? ' painel-corpo--atualizando' : ''}`} aria-busy={carregando}>
-          <Conteudo dados={dados} />
+          {dados.loja === 'raiz' ? <ConteudoRaiz dados={dados} /> : <Conteudo dados={dados} />}
         </div>
       )}
     </main>
@@ -248,6 +250,73 @@ function Conteudo({ dados }) {
             { nome: 'Telefone', valor: a.contato_telefone },
           ]}
         />
+      </div>
+    </>
+  )
+}
+
+// Página inicial (www.suacoxinhaloja.com.br): visitas, a bolinha "Pedir", os contatos
+// pela lista de lojas e os jogos. Contagem começou quando o contador 'raiz' entrou no ar.
+function ConteudoRaiz({ dados }) {
+  const a = new Proxy(dados.atual, { get: (o, k) => o[k] || 0 })
+  const aa = new Proxy(dados.anterior, { get: (o, k) => o[k] || 0 })
+  const nomes = Object.fromEntries(dados.lojas.map((l) => [l.id, l.nome]))
+  const semDados = a.visita === 0 && a.pv === 0
+
+  return (
+    <>
+      <p className="painel-nota">
+        Últimos {dados.dias} dias, comparado aos {dados.dias} dias anteriores. Atualizado{' '}
+        {new Date(dados.geradoEm).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}. Só a página inicial
+        (a escolha da loja); as páginas de cada loja estão nas lojas e em "Toda a rede".
+      </p>
+
+      {semDados && (
+        <p className="painel-vazio">Ainda não há visitas registradas neste período. A contagem da página inicial começou agora.</p>
+      )}
+
+      <section aria-labelledby="t-visitas">
+        <h2 id="t-visitas" className="painel-titulo">Visitas à página inicial</h2>
+        <div className="painel-kpis">
+          <Kpi nome="Visitas" valor={inteiro(a.visita)} atual={a.visita} antes={aa.visita} />
+          <Kpi nome="Páginas vistas" valor={inteiro(a.pv)} atual={a.pv} antes={aa.pv} />
+          <Kpi nome="Usaram a localização" valor={inteiro(a.usar_localizacao)} atual={a.usar_localizacao} antes={aa.usar_localizacao} />
+        </div>
+      </section>
+
+      <section aria-labelledby="t-pedir">
+        <h2 id="t-pedir" className="painel-titulo">Bolinha "Pedir" e contatos</h2>
+        <div className="painel-kpis">
+          <Kpi nome="Abriram a bolinha" valor={inteiro(a.abrir_pedir)} atual={a.abrir_pedir} antes={aa.abrir_pedir} />
+          <Kpi nome="Foram para o iFood" valor={inteiro(a.pedido_ifood)} atual={a.pedido_ifood} antes={aa.pedido_ifood} destaque />
+          <Kpi nome="Chamaram no WhatsApp" valor={inteiro(a.contato_whatsapp)} atual={a.contato_whatsapp} antes={aa.contato_whatsapp} />
+          <Kpi nome="Como chegar (mapa)" valor={inteiro(a.contato_mapa)} atual={a.contato_mapa} antes={aa.contato_mapa} />
+        </div>
+        <p className="painel-nota">
+          iFood: pela bolinha "Pedir". WhatsApp: pela bolinha e pelos botões da lista de lojas. Esses cliques também contam
+          no painel da loja escolhida.
+        </p>
+      </section>
+
+      <section aria-labelledby="t-dia">
+        <h2 id="t-dia" className="painel-titulo">Dia a dia</h2>
+        <Grafico dias={dados.diario} />
+      </section>
+
+      <div className="painel-grade">
+        <Lista id="t-destino" titulo="Lojas escolhidas" unidade="cliques" itens={dados.destinos.map((d) => ({ ...d, nome: nomes[d.nome] || d.nome }))} />
+        <Lista
+          id="t-jogos"
+          titulo="Jogos"
+          unidade="vezes"
+          itens={[
+            { nome: 'Abriram o Duelo', valor: a.jogo_duelo },
+            { nome: 'Abriram o Fliperama', valor: a.jogo_coxinha },
+            { nome: 'Pedido no iFood pelo Duelo', valor: a.duelo_ifood },
+          ]}
+        />
+        <Lista id="t-origem" titulo="De onde vêm" itens={dados.origens.map((o) => ({ ...o, nome: ORIGENS[o.nome] || o.nome }))} />
+        <Lista id="t-aparelho" titulo="Aparelho" itens={dados.aparelhos.map((o) => ({ ...o, nome: APARELHOS[o.nome] || o.nome }))} />
       </div>
     </>
   )

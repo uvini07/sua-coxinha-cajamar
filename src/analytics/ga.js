@@ -17,6 +17,7 @@ const ATIVO = Boolean(ID) && !import.meta.env.DEV
 
 let carregado = false
 let lojaAtual = null
+let contadorAtual = null // onde os contadores do painel somam: a loja, ou 'raiz' na página inicial
 const fila = [] // eventos de antes do aceite: só saem se a pessoa aceitar
 
 function gtag() {
@@ -55,13 +56,15 @@ export function iniciarAnalytics() {
 }
 
 // Loja da página aberta agora (null na escolha de loja, no jogo, no painel).
-export function definirLoja(slug) {
+// `contador`: onde somar os contadores do painel (a própria loja, ou 'raiz' na página inicial).
+export function definirLoja(slug, contador = slug) {
   lojaAtual = slug || null
+  contadorAtual = contador || null
 }
 
 export function rastrear(nome, params = {}) {
   // Contadores anônimos do painel: valem sempre, sem cookie (contadores.js).
-  if (lojaAtual && nome !== 'page_view') contarEvento(lojaAtual, nome, params)
+  if (contadorAtual && nome !== 'page_view') contarEvento(contadorAtual, nome, params)
   if (!ATIVO) return
   const completo = { loja: lojaAtual ?? 'rede', ...params }
   const consent = lerConsentimento()
@@ -74,7 +77,7 @@ export function rastrear(nome, params = {}) {
 }
 
 export function rastrearPagina() {
-  if (lojaAtual) contarPagina(lojaAtual)
+  if (contadorAtual) contarPagina(contadorAtual)
   rastrear('page_view', {
     page_location: location.href,
     page_path: location.pathname,

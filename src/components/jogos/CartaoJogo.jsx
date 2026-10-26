@@ -1,3 +1,4 @@
+import { rastrear } from '../../analytics/ga.js'
 import { abrirJogo, linkDoJogo } from './jogos.js'
 
 export default function CartaoJogo({ jogo, navegar, loja = null, compacto = false }) {
@@ -5,7 +6,10 @@ export default function CartaoJogo({ jogo, navegar, loja = null, compacto = fals
     <a
       className={`jogo-card jogo-card--${jogo.id}${compacto ? ' jogo-card--compacto' : ''}`}
       href={linkDoJogo(jogo, loja)}
-      onClick={abrirJogo(jogo, navegar)}
+      onClick={(e) => {
+        rastrear(`jogo_${jogo.id}`)
+        abrirJogo(jogo, navegar)(e)
+      }}
     >
       <span className="jogo-card__arte" aria-hidden="true">
         {jogo.imagens.map((src) => (
