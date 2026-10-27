@@ -78,8 +78,7 @@ async function lerLojas() {
 }
 
 const base = await readFile(resolve(raiz, 'dist/index.html'), 'utf8')
-// MODO TEMPORÁRIO: só Cajamar. Para religar todas, apague o .filter.
-const lojas = (await lerLojas()).filter((l) => l.slug === 'cajamar')
+const lojas = await lerLojas()
 
 for (const loja of lojas) {
   const nome = `${loja.brand} ${loja.unit}`.trim()
