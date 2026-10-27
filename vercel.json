@@ -14,13 +14,12 @@
       "has": [{ "type": "host", "value": "sua-coxinha-cajamar.vercel.app" }],
       "destination": "https://www.suacoxinhaloja.com.br/:caminho*",
       "permanent": true
-    },
-    { "source": "/jogo-coxinha", "destination": "/fliperama", "permanent": false }
+    }
   ],
   "headers": [
     { "source": "/painel", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] }
   ],
   "rewrites": [
-    { "source": "/((?!assets/|duelo|fliperama|pacotes|favicon|apple-touch-icon|compartilhar).*)", "destination": "/" }
+    { "source": "/((?!assets/|pacotes|favicon|apple-touch-icon|compartilhar).*)", "destination": "/" }
   ]
 }
