@@ -49,11 +49,12 @@ export default function LojaPagina({ navegar }) {
           {loja.temSecao('cardapio') && <CatalogSection />}
           {loja.temSecao('molhos') && <MolhosSection />}
           {loja.temSecao('sobre') && <BenefitsSection />}
-          <SecaoJogos navegar={navegar} loja={loja.slug} />
+          {/* DESLIGADO (temporário): jogos. */}
+          {/* <SecaoJogos navegar={navegar} loja={loja.slug} /> */}
           {loja.temSecao('pedido') && <OrderSection />}
         </main>
         <MobileOrderBar />
-        <BolinhaJogos navegar={navegar} loja={loja.slug} acimaDaBarra />
+        {/* <BolinhaJogos navegar={navegar} loja={loja.slug} acimaDaBarra /> */}
       </WhatsAppOrderProvider>
 
     </StoryContext.Provider>
