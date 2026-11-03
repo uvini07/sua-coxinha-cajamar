@@ -1,5 +1,5 @@
 import { lazy, Suspense, useCallback, useEffect } from 'react'
-import { useRota } from './rotas/useRota.js'
+import { useRota, LOJA_UNICA } from './rotas/useRota.js'
 import { existeLoja } from './lojas/carregador.js'
 import { definirLoja, iniciarAnalytics, rastrearPagina } from './analytics/ga.js'
 
@@ -31,7 +31,7 @@ export default function App() {
   const { slug, navegar } = useRota()
 
   const irParaRaiz = useCallback(
-    () => navegar('/'),
+    () => navegar(LOJA_UNICA ? '/' + LOJA_UNICA : '/'),
     [navegar]
   )
 
