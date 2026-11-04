@@ -354,7 +354,7 @@
   width: 96px;
   height: 96px;
   border-radius: 14px;
-  background: var(--amarelo);
+  background: var(--amarelo) center / cover no-repeat;
 }
 
 .wa-item__photo img {
@@ -486,7 +486,7 @@
   height: clamp(160px, 28vh, 240px);
   margin-bottom: 0.5rem;
   border-radius: 18px;
-  background: var(--amarelo);
+  background: var(--amarelo) center / cover no-repeat;
 }
 
 .wa-product__photo img {

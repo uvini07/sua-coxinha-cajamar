@@ -205,7 +205,7 @@
 .product__photo {
   position: relative;
   aspect-ratio: 16 / 11;
-  background: var(--tone);
+  background: var(--tone) center / cover no-repeat;
 }
 
 .product__photo img {

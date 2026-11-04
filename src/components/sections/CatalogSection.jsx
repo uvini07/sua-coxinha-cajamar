@@ -11,7 +11,10 @@ function ProductCard({ item, tone }) {
   return (
     <li className={`product product--${tone}`}>
       <article className="product__card" aria-labelledby={titleId}>
-        <div className={item.foto ? 'product__photo product__photo--foto' : 'product__photo'}>
+        <div
+          className={item.foto ? 'product__photo product__photo--foto' : 'product__photo'}
+          style={item.fundo ? { backgroundImage: `url(${item.fundo})` } : undefined}
+        >
           <img src={item.image} alt={item.alt} loading="lazy" decoding="async" style={item.foco ? { objectPosition: item.foco } : undefined} />
         </div>
 
