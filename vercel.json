@@ -15,7 +15,6 @@
       "destination": "https://www.suacoxinhaloja.com.br/:caminho*",
       "permanent": true
     },
-    { "source": "/", "destination": "/cajamar", "permanent": false },
     { "source": "/jogo-coxinha", "destination": "/fliperama", "permanent": false }
   ],
   "headers": [
