@@ -365,6 +365,20 @@
   object-fit: contain;
 }
 
+/* Foto de verdade (com fundo): ocupa o quadro inteiro. */
+.wa-item__photo--foto,
+.wa-product__photo--foto {
+  overflow: hidden;
+}
+
+.wa-item__photo--foto img,
+.wa-product__photo--foto img {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 @media (hover: hover) {
   .wa-item:hover .wa-item__name {
     text-decoration: underline;

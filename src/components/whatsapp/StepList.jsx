@@ -66,8 +66,8 @@ export default function StepList({ step, summary, dispatch, onOpenItem, onNext, 
                         </span>
                         {qty > 0 && <span className="wa-item__badge">{qty} no pedido</span>}
                       </span>
-                      <span className="wa-item__photo">
-                        <img src={item.image} alt="" loading="lazy" decoding="async" />
+                      <span className={item.foto ? 'wa-item__photo wa-item__photo--foto' : 'wa-item__photo'}>
+                        <img src={item.image} alt="" loading="lazy" decoding="async" style={item.foco ? { objectPosition: item.foco } : undefined} />
                       </span>
                     </button>
                   </li>

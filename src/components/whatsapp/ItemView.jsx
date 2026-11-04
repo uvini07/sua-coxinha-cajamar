@@ -61,8 +61,8 @@ export default function ItemView({ item, onAdd }) {
     <>
       <div className="wa-body wa-body--item" data-lenis-prevent>
         <div className="wa-product">
-          <div className="wa-product__photo">
-            <img src={item.image} alt={item.alt} decoding="async" />
+          <div className={item.foto ? 'wa-product__photo wa-product__photo--foto' : 'wa-product__photo'}>
+            <img src={item.image} alt={item.alt} decoding="async" style={item.foco ? { objectPosition: item.foco } : undefined} />
           </div>
           <h3 className="wa-product__name">{item.name}</h3>
           <p className="wa-product__desc">{item.description}</p>

@@ -217,6 +217,15 @@
   filter: drop-shadow(0 12px 14px rgba(0, 0, 0, 0.25));
 }
 
+/* Foto de verdade (com fundo): ocupa o quadro inteiro, sem sombra. */
+.product__photo--foto img {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: none;
+}
+
 .product__body {
   flex: 1;
   display: flex;
