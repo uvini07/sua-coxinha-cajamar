@@ -21,6 +21,6 @@
     { "source": "/painel", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] }
   ],
   "rewrites": [
-    { "source": "/((?!assets/|duelo|fliperama|pacotes|favicon|apple-touch-icon|compartilhar).*)", "destination": "/" }
+    { "source": "/((?!assets/|duelo|fliperama|pacotes|favicon|apple-touch-icon|compartilhar|robots\\.txt|sitemap\\.xml).*)", "destination": "/" }
   ]
 }

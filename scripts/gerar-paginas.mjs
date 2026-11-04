@@ -77,6 +77,77 @@ async function lerLojas() {
   return lojas
 }
 
+
+// ---------- SEO (Google) ----------
+// O site é um app React: o conteúdo só aparece depois do JavaScript. Para o Google
+// entender cada página logo de cara, cada HTML leva:
+//   1. dados estruturados (JSON-LD) da loja: nome, endereço, telefone, horário;
+//   2. um texto simples dentro de #root (o React apaga ao abrir, o visitante nem vê).
+// No fim do build saem também robots.txt e sitemap.xml.
+const DIAS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+const hora = (h) => `${String(Math.floor(h)).padStart(2, '0')}:${String(Math.round((h % 1) * 60)).padStart(2, '0')}`
+
+function jsonLdDaLoja(loja, url) {
+  const nome = `${loja.brand} ${loja.unit}`.trim()
+  const a = loja.address ?? {}
+  const [cidade, uf] = String(a.city ?? '').split(/\s*[–-]\s*/)
+  const dados = {
+    '@context': 'https://schema.org',
+    '@type': 'Restaurant',
+    '@id': `${url}#loja`,
+    name: nome,
+    alternateName: [`${loja.brand} Loja ${loja.unit}`, `Coxinha ${loja.unit}`, loja.brand],
+    url,
+    image: `${SITE}${loja.seo?.shareImage ?? IMAGEM_COMPARTILHAR}`,
+    logo: `${SITE}/favicon-512.png`,
+    description: loja.seo?.description ?? '',
+    servesCuisine: ['Salgados', 'Coxinha', 'Churros'],
+    priceRange: '$',
+    telephone: loja.phone ? `+${loja.whatsapp || loja.phone.replace(/\D/g, '')}` : undefined,
+    address: a.street
+      ? {
+          '@type': 'PostalAddress',
+          streetAddress: a.street,
+          addressLocality: cidade || a.city,
+          addressRegion: uf || 'SP',
+          postalCode: a.cep,
+          addressCountry: 'BR',
+        }
+      : undefined,
+    geo: loja.coords ? { '@type': 'GeoCoordinates', latitude: loja.coords[0], longitude: loja.coords[1] } : undefined,
+    hasMap: loja.links?.maps || undefined,
+    sameAs: [loja.links?.instagram, loja.links?.ifood].filter(Boolean),
+    parentOrganization: { '@id': `${SITE}/#organizacao` },
+  }
+  if (loja.openingHours) {
+    dados.openingHoursSpecification = Object.entries(loja.openingHours)
+      .filter(([, h]) => Array.isArray(h))
+      .map(([d, [abre, fecha]]) => ({ '@type': 'OpeningHoursSpecification', dayOfWeek: DIAS[d], opens: hora(abre), closes: hora(fecha) }))
+  }
+  return dados
+}
+
+const ORGANIZACAO = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${SITE}/#organizacao`,
+      name: 'Sua Coxinha',
+      alternateName: ['Sua Coxinha Loja', 'Sua Coxinha Franquia'],
+      url: `${SITE}/`,
+      logo: `${SITE}/favicon-512.png`,
+    },
+    { '@type': 'WebSite', '@id': `${SITE}/#site`, name: 'Sua Coxinha', alternateName: 'Sua Coxinha Loja', url: `${SITE}/`, inLanguage: 'pt-BR' },
+  ],
+}
+
+const scriptJsonLd = (dados) =>
+  `<script type="application/ld+json">${JSON.stringify(dados).replace(/</g, '\\u003c')}</script>`
+
+const comJsonLd = (html, dados) => html.replace('</head>', `  ${scriptJsonLd(dados)}\n  </head>`)
+const comConteudo = (html, conteudo) => html.replace('<div id="root"></div>', `<div id="root">${conteudo}</div>`)
+
 const base = await readFile(resolve(raiz, 'dist/index.html'), 'utf8')
 const lojas = await lerLojas()
 
@@ -103,6 +174,19 @@ for (const loja of lojas) {
   html = trocarMeta(html, 'name', 'theme-color', loja.tema?.tinta ?? '#131313')
   html = trocarMeta(html, 'name', 'apple-mobile-web-app-title', nome)
 
+  // SEO: dados da loja para o Google e um texto que ele lê sem JavaScript.
+  html = comJsonLd(html, jsonLdDaLoja(loja, url))
+  const a = loja.address ?? {}
+  const endereco = [a.street, a.district, a.city, a.cep].filter(Boolean).join(', ')
+  html = comConteudo(
+    html,
+    `<h1>${escapar(nome)}</h1><p>${escapar(descricao)}</p>` +
+      (endereco ? `<p>Endereço: ${escapar(endereco)}</p>` : '') +
+      (loja.phone ? `<p>WhatsApp: ${escapar(loja.phone)}</p>` : '') +
+      (loja.hours ?? []).map((h) => `<p>${escapar(h.days)}: ${escapar(h.time)}</p>`).join('') +
+      `<p><a href="/">Ver todas as lojas Sua Coxinha</a></p>`,
+  )
+
   const destino = resolve(raiz, 'dist', loja.slug)
   await mkdir(destino, { recursive: true })
   await writeFile(resolve(destino, 'index.html'), html, 'utf8')
@@ -111,6 +195,32 @@ for (const loja of lojas) {
 }
 
 console.log(`${lojas.length} loja(s) no ar.`)
+
+// Página inicial (rede): dados da marca + links para todas as lojas, para o
+// Google achar cada uma a partir da raiz.
+{
+  let html = comJsonLd(base, ORGANIZACAO)
+  html = comConteudo(
+    html,
+    '<h1>Sua Coxinha</h1><p>Coxinhas de 9g a 250g, churros gourmet e kits para festa. Escolha a sua loja Sua Coxinha:</p><ul>' +
+      lojas.map((l) => `<li><a href="/${l.slug}">${escapar(`${l.brand} ${l.unit}`.trim())}</a></li>`).join('') +
+      '</ul>',
+  )
+  await writeFile(resolve(raiz, 'dist/index.html'), html, 'utf8')
+}
+
+// robots.txt e sitemap.xml: dizem ao Google o que indexar.
+const hoje = new Date().toISOString().slice(0, 10)
+const urls = [`${SITE}/`, ...lojas.map((l) => `${SITE}/${l.slug}`)]
+await writeFile(
+  resolve(raiz, 'dist/sitemap.xml'),
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+    urls.map((u) => `  <url><loc>${u}</loc><lastmod>${hoje}</lastmod></url>`).join('\n') +
+    '\n</urlset>\n',
+  'utf8',
+)
+await writeFile(resolve(raiz, 'dist/robots.txt'), `User-agent: *\nAllow: /\nDisallow: /painel\n\nSitemap: ${SITE}/sitemap.xml\n`, 'utf8')
+console.log(`sitemap.xml: ${urls.length} endereço(s)`)
 
 // Rotas que não são loja: um HTML de verdade em cada uma. Sem isso, a Vercel
 // devolve o 404 dela antes de o app abrir (só existiam /, /cajamar e /jundiai).
