@@ -31,6 +31,13 @@
   padding: 0;
   list-style: none;
 }
+/* Cartões da mesma linha ficam com a mesma altura. */
+.jogos__lista > li {
+  display: flex;
+}
+.jogos__lista > li > .jogo-card {
+  flex: 1;
+}
 
 .jogo-card {
   display: grid;
@@ -55,6 +62,7 @@
 }
 .jogo-card__arte {
   display: flex;
+  flex-shrink: 0;
   width: 76px;
   height: 76px;
   border-radius: 14px;
@@ -82,12 +90,16 @@
 .jogo-card__nome {
   font-family: var(--font-display);
   font-size: var(--step-1);
+  line-height: 1.1;
+  text-wrap: balance;
 }
 .jogo-card__chamada {
   font-size: var(--step--1);
+  line-height: 1.35;
   opacity: 0.85;
 }
 .jogo-card__jogar {
+  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
