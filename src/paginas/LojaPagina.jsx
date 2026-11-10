@@ -12,6 +12,7 @@ import ProductScene from '../components/scenes/ProductScene.jsx'
 import CoxinhaScene from '../components/scenes/CoxinhaScene.jsx'
 import ChurrosScene from '../components/scenes/ChurrosScene.jsx'
 import CatalogSection from '../components/sections/CatalogSection.jsx'
+import Cardapio3DSection from '../components/sections/Cardapio3DSection.jsx'
 import MolhosSection from '../components/sections/MolhosSection.jsx'
 import BenefitsSection from '../components/sections/BenefitsSection.jsx'
 import OrderSection from '../components/sections/OrderSection.jsx'
@@ -47,6 +48,7 @@ export default function LojaPagina({ navegar }) {
             </div>
           )}
           {loja.temSecao('cardapio') && <CatalogSection />}
+          {loja.temSecao('cardapio') && <Cardapio3DSection />}
           {loja.temSecao('molhos') && <MolhosSection />}
           {loja.temSecao('sobre') && <BenefitsSection />}
           <SecaoJogos navegar={navegar} loja={loja.slug} />

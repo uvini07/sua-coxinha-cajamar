@@ -1,0 +1,24 @@
+/* Chamada do cardápio 3D: faixa amarela entre o cardápio e os molhos. */
+.c3d {
+  position: relative;
+  z-index: 5;
+  background: var(--amarelo);
+  color: var(--preto);
+}
+.c3d__inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: clamp(3rem, 7vw, 5rem) var(--pad-x);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+}
+.c3d__icone svg { width: clamp(72px, 9vw, 120px); height: auto; }
+.c3d__titulo { font-size: clamp(2rem, 1.2rem + 3.2vw, 4rem); line-height: 1; }
+.c3d__sub { margin-top: 0.6rem; font-size: var(--step-1); font-weight: 700; }
+
+@media (max-width: 899.98px) {
+  .c3d__inner { grid-template-columns: 1fr; justify-items: start; }
+  .c3d__icone svg { width: 64px; }
+}

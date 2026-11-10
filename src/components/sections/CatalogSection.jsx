@@ -2,6 +2,7 @@ import { useStoryContext } from '../../context/StoryContext.js'
 import { useLoja } from '../../context/LojaContext.js'
 import { priceText } from '../../lib/preco.js'
 import OrderButtons from '../OrderButtons.jsx'
+import Ver3D from '../ver3d/Ver3D.jsx'
 import GallerySection from './GallerySection.jsx'
 import '../../styles/sections/catalog.css'
 
@@ -16,6 +17,7 @@ function ProductCard({ item, tone }) {
           style={item.fundo ? { backgroundImage: `url(${item.fundo})` } : undefined}
         >
           <img src={item.image} alt={item.alt} loading="lazy" decoding="async" style={item.foco ? { objectPosition: item.foco } : undefined} />
+          <Ver3D nome={item.name} modelo={item.model3d} className="product__ver3d" />
         </div>
 
         <div className="product__body">

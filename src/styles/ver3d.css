@@ -1,0 +1,74 @@
+/* Botão "Ver em 3D na sua mesa" e a janela do visualizador. */
+.ver3d {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  min-height: 44px;
+  padding: 0.55em 0.95em;
+  border: 2px solid var(--preto);
+  border-radius: 12px;
+  background: var(--branco);
+  color: var(--preto);
+  font: 800 0.95rem/1.1 var(--font-body);
+  cursor: pointer;
+  box-shadow: 0 3px 0 var(--preto);
+  transition: transform 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out);
+}
+.ver3d:hover { transform: translateY(-1px); box-shadow: 0 4px 0 var(--preto); }
+.ver3d:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--preto); }
+.ver3d:focus-visible { outline: 3px solid var(--amarelo); outline-offset: 2px; }
+
+.ver3d__cubo { width: 1.25em; height: 1.25em; flex: none; }
+.ver3d__cubo--grande { width: 64px; height: 64px; color: var(--amarelo); }
+
+.ver3d--grande {
+  min-height: 56px;
+  padding: 0.8em 1.4em;
+  border-radius: var(--radius-pill);
+  font-size: var(--step-1);
+}
+
+.ver3d__janela {
+  width: min(560px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: var(--preto);
+  color: var(--branco);
+}
+.ver3d__janela::backdrop { background: rgba(0, 0, 0, 0.7); }
+
+.ver3d__conteudo { position: relative; display: grid; gap: 0.75rem; padding: 1.5rem; }
+.ver3d__kicker { color: var(--amarelo); font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; font-size: var(--step--1); }
+.ver3d__titulo { font-size: var(--step-2); font-weight: 900; line-height: 1.15; padding-right: 2.5rem; }
+
+.ver3d__fechar {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--preto-2);
+  color: var(--branco);
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.ver3d__palco {
+  display: grid;
+  place-items: center;
+  gap: 1rem;
+  aspect-ratio: 1;
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  background: radial-gradient(circle at 50% 40%, var(--preto-2), var(--preto));
+  border: 1px dashed rgba(255, 255, 255, 0.25);
+  text-align: center;
+  line-height: 1.5;
+}
+.ver3d__palco p { max-width: 32ch; }
+.ver3d__dica { font-size: var(--step--1); opacity: 0.8; line-height: 1.5; }

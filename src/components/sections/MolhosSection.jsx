@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useLoja } from '../../context/LojaContext.js'
 import { priceText } from '../../lib/preco.js'
+import Ver3D from '../ver3d/Ver3D.jsx'
 import '../../styles/sections/molhos.css'
 
 // As quatro garrafas ficam sempre na tela, lado a lado. A que recebe o mouse,
@@ -66,6 +67,7 @@ export default function MolhosSection() {
             <span>250g</span>
             {priceText(molhoPrice)}
           </p>
+          <Ver3D nome={`${molho.name} ${molho.highlight}`} modelo={molho.model3d} className="molhos__ver3d" />
         </div>
       </div>
     </section>

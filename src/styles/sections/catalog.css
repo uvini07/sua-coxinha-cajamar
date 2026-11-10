@@ -226,6 +226,13 @@
   filter: none;
 }
 
+.product__ver3d {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 1;
+}
+
 .product__body {
   flex: 1;
   display: flex;
