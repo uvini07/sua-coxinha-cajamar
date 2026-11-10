@@ -2,28 +2,31 @@
 .ver3d {
   display: inline-flex;
   align-items: center;
-  gap: 0.45em;
-  min-height: 44px;
-  padding: 0.55em 0.95em;
-  border: 2px solid var(--preto);
-  border-radius: 12px;
-  background: var(--branco);
+  gap: 0.35em;
+  min-height: 32px;
+  padding: 0.35em 0.7em;
+  border: 1.5px solid var(--preto);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
   color: var(--preto);
-  font: 800 0.95rem/1.1 var(--font-body);
+  font: 800 0.78rem/1 var(--font-body);
   cursor: pointer;
-  box-shadow: 0 3px 0 var(--preto);
+  box-shadow: 0 2px 0 var(--preto);
   transition: transform 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out);
 }
 .ver3d:hover { transform: translateY(-1px); box-shadow: 0 4px 0 var(--preto); }
 .ver3d:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--preto); }
 .ver3d:focus-visible { outline: 3px solid var(--amarelo); outline-offset: 2px; }
 
-.ver3d__cubo { width: 1.25em; height: 1.25em; flex: none; }
+.ver3d__cubo { width: 1.15em; height: 1.15em; flex: none; }
 .ver3d__cubo--grande { width: 64px; height: 64px; color: var(--amarelo); }
 
 .ver3d--grande {
   min-height: 56px;
   padding: 0.8em 1.4em;
+  border-width: 2px;
+  background: var(--branco);
+  box-shadow: 0 3px 0 var(--preto);
   border-radius: var(--radius-pill);
   font-size: var(--step-1);
 }

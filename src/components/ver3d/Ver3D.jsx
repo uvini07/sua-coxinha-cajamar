@@ -19,7 +19,7 @@ export default function Ver3D({ nome, modelo, className = '', children }) {
     <>
       <button type="button" className={`ver3d ${className}`} onClick={abrir}>
         <Cubo />
-        <span>{children ?? 'Ver em 3D na sua mesa'}</span>
+        <span>{children ?? "Ver em 3D"}</span>
       </button>
 
       <dialog
