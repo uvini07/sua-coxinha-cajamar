@@ -56,7 +56,7 @@ export default function LojaProvider({ slug, children, aoFalhar }) {
       }
       aplicarTema(dados.tema)
       aplicarSeo(dados)
-      // Os jogos (Coxinildo e Duelo) mostram os pacotes desta loja na pausa.
+      // O jogo do Coxinildo mostra os pacotes desta loja na pausa.
       try {
         localStorage.setItem('sua-coxinha:loja', dados.slug)
       } catch {

@@ -161,17 +161,8 @@ A raiz e cada loja mostram a seção "Jogue enquanto ela chega" e a bolinha flut
 do mascote (`src/components/jogos/`). A lista de jogos fica em `jogos.js`.
 
 - **Coxinildo** — rota `/jogo-coxinha`, código em `src/paginas/CoxinhaGame/`.
-- **Duelo de Titãs: Eleição** — vem do repositório `jogo`, já compilado, em `public/duelo/`.
-  Para atualizar, no repositório do jogo:
-  ```bash
-  npx vite build --base=/duelo/
-  ```
-  e copie `dist/` para `public/duelo/` aqui, mantendo a linha `<base href="/duelo/" />`
-  no `index.html`.
 
-O Duelo tem níveis (vitórias contra a CPU liberam o super especial e o confronto Frangolas VS Pizzérika) e
-outdoors da Sua Coxinha e da Markfy nos quatro mapas. Detalhes e onde trocar as artes dos outdoors: README do
-repositório `jogo` ("Níveis…" e "Outdoors").
+O Duelo de Titãs: Eleição saiu do site; o endereço `/duelo` leva para a página inicial (vercel.json).
 
 ### Fliperama do Coxinildo
 O jogo do Coxinildo (Pega Pega, Coxinha Ninja e Coxinha Pong) vem do projeto `coxinhagame`, já

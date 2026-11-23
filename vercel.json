@@ -16,12 +16,13 @@
       "permanent": true
     },
     { "source": "/", "destination": "/cajamar", "permanent": false },
-    { "source": "/jogo-coxinha", "destination": "/fliperama", "permanent": false }
+    { "source": "/jogo-coxinha", "destination": "/fliperama", "permanent": false },
+    { "source": "/duelo/:caminho*", "destination": "/", "permanent": false }
   ],
   "headers": [
     { "source": "/painel", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] }
   ],
   "rewrites": [
-    { "source": "/((?!assets/|duelo|fliperama|pacotes|favicon|apple-touch-icon|compartilhar).*)", "destination": "/" }
+    { "source": "/((?!assets/|fliperama|pacotes|favicon|apple-touch-icon|compartilhar).*)", "destination": "/" }
   ]
 }

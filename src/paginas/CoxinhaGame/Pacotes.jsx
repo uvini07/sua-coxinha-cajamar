@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 /* Pacotes da loja na tela de pausa: Coxinha M, combos, churros… com botão para
    o iFood e o WhatsApp. Os dados vêm de /pacotes.json (gerado no build por
-   scripts/gerar-paginas.mjs), o mesmo arquivo que o Duelo usa em /duelo.
+   scripts/gerar-paginas.mjs).
    A loja é a última que a pessoa abriu no site; dá para trocar ali mesmo. */
 
 const CHAVE_LOJA = 'sua-coxinha:loja'

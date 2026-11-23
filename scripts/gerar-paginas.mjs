@@ -131,7 +131,7 @@ for (const [rota, { titulo, robots }] of Object.entries(ROTAS_FIXAS)) {
   console.log(`página gerada: /${rota}`)
 }
 
-// Pacotes que os jogos mostram na pausa (Coxinildo e Duelo, em /duelo).
+// Pacotes que o jogo do Coxinildo mostra na pausa.
 // Um arquivo só, com os links de pedido de cada loja; o jogo usa a loja que a
 // pessoa abriu por último (localStorage 'sua-coxinha:loja') ou a que ela escolher.
 const PACOTES = ['combo-casal', 'combo-dupla-fome', 'combo-pra-voce', 'coxinha-m', 'coxinha-g', 'churros-gourmet', 'copo-doce']

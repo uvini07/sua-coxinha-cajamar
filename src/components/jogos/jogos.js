@@ -1,5 +1,6 @@
-// Os jogos da casa. Os dois são apps à parte, copiados já prontos para public/
-// (fliperama e duelo, veja o README), então abrem com link normal, sem o roteador.
+// Os jogos da casa. O fliperama é um app à parte, copiado já pronto para public/
+// (veja o README), então abre com link normal, sem o roteador.
+// `naRaiz: false` esconde um jogo da página inicial (sem loja) e o mantém nas lojas.
 export const JOGOS = [
   {
     id: 'coxinha',
@@ -7,18 +8,7 @@ export const JOGOS = [
     chamada: 'Pega Pega, Coxinha Ninja e Coxinha Pong',
     href: '/fliperama',
     spa: false,
-    // Por enquanto a raiz (página inicial) mostra só o Duelo; nas lojas aparecem os dois.
-    naRaiz: false,
     imagens: ['/assets/produtos/mascote.webp'],
-  },
-  {
-    id: 'duelo',
-    nome: 'Duelo de Titãs: Eleição',
-    chamada: 'Luta de plataforma: jogue o rival pra fora da ilha',
-    href: '/duelo',
-    spa: false,
-    // capa montada com os dois retratos frente a frente (public/assets/jogos)
-    imagens: ['/assets/jogos/duelo-capa.webp'],
   },
 ]
 

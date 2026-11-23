@@ -69,9 +69,6 @@
   overflow: hidden;
   background: var(--marca-clara);
 }
-.jogo-card--duelo .jogo-card__arte {
-  background: #0e1240;
-}
 .jogo-card__arte img {
   flex: 1;
   min-width: 0;
