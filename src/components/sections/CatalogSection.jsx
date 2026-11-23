@@ -1,6 +1,6 @@
 import { useStoryContext } from '../../context/StoryContext.js'
 import { useLoja } from '../../context/LojaContext.js'
-import { priceText } from '../../lib/preco.js'
+import { cadaText, priceText } from '../../lib/preco.js'
 import OrderButtons from '../OrderButtons.jsx'
 import GallerySection from './GallerySection.jsx'
 import '../../styles/sections/catalog.css'
@@ -34,7 +34,10 @@ function ProductCard({ item, tone }) {
               ))}
             </dl>
           ) : (
-            <p className="product__price">{priceText(item.price)}</p>
+            <p className="product__price">
+              {priceText(item.price)}
+              {item.unidades && <span className="preco-cada">{cadaText(item)}</span>}
+            </p>
           )}
 
           {item.options && (

@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef } from 'react'
-import { priceText } from '../../lib/preco.js'
+import { cadaText, priceText } from '../../lib/preco.js'
 import Stepper from './Stepper.jsx'
 
 // Lista de produtos de uma etapa (Salgados, Doces ou Bebidas).
@@ -63,6 +63,7 @@ export default function StepList({ step, summary, dispatch, onOpenItem, onNext, 
                         <span className="wa-item__price">
                           {item.from && <span className="wa-item__from">A partir de </span>}
                           {priceText(item.price)}
+                          {item.unidades && <span className="preco-cada">{cadaText(item)}</span>}
                         </span>
                         {qty > 0 && <span className="wa-item__badge">{qty} no pedido</span>}
                       </span>

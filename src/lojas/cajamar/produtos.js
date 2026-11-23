@@ -78,6 +78,9 @@ export const churrosSteps = [
 ]
 
 // `price` em centavos. `from: true` mostra "a partir de".
+// `unidades`: o preço é de cada unidade e o pacote vem com essa quantidade. O cardápio
+// mostra só o preço da unidade ("R$ 2,50 cada"); no pedido pelo WhatsApp o pacote soma
+// preço × unidades.
 // `variants` lista quantidades com preços diferentes.
 // `options` lista sabores ou escolhas (aparecem abertos, sem precisar tocar).
 export const catalog = [
@@ -114,6 +117,7 @@ export const catalog = [
         name: 'Coxinha Gourmet',
         description: '3 coxinhas de 40g.',
         price: 250,
+        unidades: 3,
         image: img('coxinha-gourmet'),
         alt: 'Embalagem com três coxinhas gourmet',
         ifood: '',

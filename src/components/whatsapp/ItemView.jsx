@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { priceText } from '../../lib/preco.js'
+import { cadaText, priceText } from '../../lib/preco.js'
 import { groupMax, lineKey, missingGroups, unitPrice } from './orderLogic.js'
 import Stepper from './Stepper.jsx'
 
@@ -69,7 +69,12 @@ export default function ItemView({ item, onAdd }) {
           </div>
           <h3 className="wa-product__name">{item.name}</h3>
           <p className="wa-product__desc">{item.description}</p>
-          {!item.variants && <p className="wa-product__price">{priceText(item.price)}</p>}
+          {!item.variants && (
+            <p className="wa-product__price">
+              {priceText(item.price)}
+              {item.unidades && <span className="preco-cada">{cadaText(item)}</span>}
+            </p>
+          )}
         </div>
 
         {item.variants && (

@@ -5,3 +5,6 @@ export const formatPrice = (cents) => {
 }
 
 export const priceText = (cents) => `R$ ${(cents / 100).toFixed(2).replace('.', ',')}`
+
+// Produto vendido por unidade em pacote (`unidades` no produtos.js): o preço mostrado é o de cada uma.
+export const cadaText = (item) => (item.unidades ? ' cada' : '')

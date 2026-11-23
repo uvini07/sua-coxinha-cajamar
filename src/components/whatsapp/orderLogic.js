@@ -10,8 +10,10 @@ export function groupMax(group, variant) {
   return group.choices.length
 }
 
+// Preço de um pacote no pedido. Produto com `unidades` tem o preço de cada unidade
+// no cardápio, então o pacote soma todas (3 coxinhas de R$ 2,50 = R$ 7,50).
 export function unitPrice(item, variantIndex, selections) {
-  const base = item.variants ? item.variants[variantIndex]?.price ?? item.price : item.price
+  const base = item.variants ? item.variants[variantIndex]?.price ?? item.price : item.price * (item.unidades ?? 1)
   const extras = (item.order ?? []).reduce(
     (sum, g) => sum + (g.price && selections[g.id]?.length ? g.price : 0),
     0,
